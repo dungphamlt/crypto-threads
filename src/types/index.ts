@@ -1,0 +1,54 @@
+export interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  message?: string;
+  error?: string;
+  status?: number;
+}
+
+export interface Creator {
+  email: string;
+  id: string;
+  penName: string;
+  avatarUrl: string;
+}
+
+export enum POST_STATUS {
+  DRAFT = "draft",
+  PUBLISHED = "published",
+  TRASH = "trash",
+  SCHEDULE = "schedule",
+}
+
+export interface Post {
+  _id: string;
+  id: string;
+  category: {
+    id: string;
+    key: string;
+  };
+  subCategory?: {
+    id: string;
+    key: string;
+  };
+  title: string;
+  content: string;
+  metaDescription: string;
+  excerpt: string;
+  creator: Creator;
+  views: number;
+  tags: string[];
+  coverUrl?: string;
+  status: POST_STATUS;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+  publishTime: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  key: string;
+  description?: string;
+}
