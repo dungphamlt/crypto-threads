@@ -3,7 +3,6 @@ import { Footer } from "@/components/footer";
 import Header from "@/components/header";
 import {
   ArticleListSection,
-  ArticleCategoryColumnsSection,
 } from "@/components/articles";
 import { CoinListsSection } from "@/components/coins";
 import { BreakStrip } from "@/components/break-strip";
