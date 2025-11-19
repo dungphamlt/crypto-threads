@@ -1,28 +1,5 @@
-import { Post, POST_STATUS } from "@/types";
+import { Post, POST_STATUS, PostListParams, PostListResponse } from "@/types";
 import { get } from "./api";
-
-export interface PostListParams {
-  page?: number;
-  pageSize?: number;
-  startDate?: string;
-  endDate?: string;
-  category?: string;
-  subCategory?: string;
-  search?: string;
-  creator?: string;
-  status?: string;
-  slug?: string;
-}
-
-export interface PostListResponse {
-  data: Post[];
-  pagination: {
-    currentPage: number;
-    pageSize: number;
-    totalItems: number;
-    totalPages: number;
-  };
-}
 
 const cacheConfig = {
   featured: { next: { revalidate: 300 } },
@@ -53,9 +30,26 @@ export const postService = {
       cacheConfig.latest
     );
 
-    console.log("response", response);
-
+    console.log("getPosts response", response); 
     if (response.data) {
+      if (typeof response.data === 'object' && 'data' in response.data && 'pagination' in response.data) {
+        return response.data as PostListResponse;
+      }
+      if (Array.isArray(response.data)) {
+        const dataArray = response.data as Post[];
+        return {
+          data: dataArray,
+          pagination: {
+            currentPage: Number(defaultParams.page) || 1,
+            pageSize: Number(defaultParams.pageSize) || 10,
+            totalItems: dataArray.length,
+            totalPages: 1,
+          },
+        };
+      }
+    }
+
+    if ((response as any).data && Array.isArray((response as any).data) && (response as any).pagination) {
       return response as unknown as PostListResponse;
     }
 
@@ -76,16 +70,44 @@ export const postService = {
       cacheConfig.featured
     );
 
-    return response.data?.data || [];
+    if (response.data) {
+      if (Array.isArray(response.data)) {
+        return response.data;
+      }
+      if (response.data.data && Array.isArray(response.data.data)) {
+        return response.data.data;
+      }
+    }
+    
+    if (Array.isArray((response as any).data)) {
+      return (response as any).data;
+    }
+
+    return [];
   },
 
   getLatestPosts: async (limit: number = 12): Promise<Post[]> => {
     const response = await get<PostListResponse>(
       `/content-management/articles?page=1&pageSize=${limit}&status=${POST_STATUS.PUBLISHED}`,
       cacheConfig.latest
-    );
+    ); 
+    
+    // Case 1: response.data is PostListResponse object
+    if (response.data && typeof response.data === 'object' && 'data' in response.data && 'pagination' in response.data) {
+      return (response.data as PostListResponse).data;
+    }
+    
+    // Case 2: response.data is array directly
+    if (response.data && Array.isArray(response.data)) {
+      return response.data as Post[];
+    }
 
-    return response.data?.data || [];
+    // Case 3: response itself is PostListResponse (direct return from API)
+    if ((response as any).data && Array.isArray((response as any).data) && (response as any).pagination) {
+      return (response as any).data as Post[];
+    }
+
+    return [];
   },
 
   getPostsByCategory: async (

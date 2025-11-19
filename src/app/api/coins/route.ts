@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     order: searchParams.get("order") ?? "market_cap_desc",
     per_page: searchParams.get("per_page") ?? "10",
     page: searchParams.get("page") ?? "1",
-    sparkline: searchParams.get("sparkline") ?? "false",
+    sparkline: searchParams.get("sparkline") ?? "true",
     price_change_percentage:
       searchParams.get("price_change_percentage") ?? "24h",
   });

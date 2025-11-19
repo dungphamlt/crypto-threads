@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Tailwind v4 dark mode configuration - REQUIRED for v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --green: 156 71% 67%;
@@ -86,9 +89,9 @@
   }
 }
 
-@layer components {
+@layer {
   .container {
-    @apply max-w-6xl mx-auto px-6 md:px-10 lg:px-14 w-full;
+    @apply max-w-7xl mx-auto px-4 py-8 md:px-10 lg:px-14 w-full;
   }
 
   .pulled {
@@ -206,20 +209,4 @@ strong {
 /* Docs */
 h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
   font-size: inherit !important;
-}
-
-.prose pre {
-  background: hsl(var(--background-dark));
-  border: 1px solid hsl(var(--background-light));
-  padding: 10px 15px;
-  border-radius: 10px;
-  font-size: 12px;
-}
-
-.prose pre code {
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
-  font-size: inherit;
-  border: none;
 }

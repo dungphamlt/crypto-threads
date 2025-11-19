@@ -10,7 +10,6 @@ import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -22,12 +21,7 @@ const Navbar = () => {
     const dropdownPanelRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
     const router = useRouter();
-
-    useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+ 
 
     // Outside click / mousedown handler (uses specific refs)
     useEffect(() => {
@@ -103,8 +97,7 @@ const Navbar = () => {
                         <div className="flex items-center flex-shrink-0">
                             <Link href="/" className="flex items-center gap-2 font-medium">
                                 <Logo className={cn(
-                                    "h-8 w-8",
-                                    theme === 'light' ? "text-black" : "text-white"
+                                    "h-8 w-8 text-black dark:text-white"
                                 )} />
                                 <span className="hidden sm:inline text-xl font-semibold text-foreground">
                                     {baseOptions.nav?.title}

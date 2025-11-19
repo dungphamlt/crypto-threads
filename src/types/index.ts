@@ -52,3 +52,26 @@ export interface Category {
   key: string;
   description?: string;
 }
+
+export interface PostListParams {
+  page?: number;
+  pageSize?: number;
+  startDate?: string;
+  endDate?: string;
+  category?: string;
+  subCategory?: string;
+  search?: string;
+  creator?: string;
+  status?: string;
+  slug?: string;
+}
+
+export interface PostListResponse {
+  data: Post[];
+  pagination: {
+    currentPage: number;
+    pageSize: number;
+    totalItems: number;
+    totalPages: number;
+  };
+}
