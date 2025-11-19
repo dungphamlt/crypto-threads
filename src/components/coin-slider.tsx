@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { useCoins } from "@/hooks/use-coins";
 import type { Coin } from "@/services/coins-service";
+import { CoinSliderSkeleton } from "@/components/skeletons";
 
 const numberFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -111,7 +112,7 @@ export default function CoinSlider() {
       dots: false,
       arrows: false,
       infinite: true,
-      
+
       // Autoplay settings
       autoplay: true,
       autoplaySpeed: 3000,
@@ -181,11 +182,7 @@ export default function CoinSlider() {
 
   const renderContent = () => {
     if (isLoading) {
-      return (
-        <div className="flex items-center justify-center py-3 text-sm text-gray-400">
-          Loading coin data...
-        </div>
-      );
+      return <CoinSliderSkeleton />;
     }
 
     if (isError) {
@@ -243,14 +240,14 @@ export default function CoinSlider() {
                       className="w-4 h-4 rounded-full"
                     />
                   </div>
-                  <span className="text-sm font-semibold dark:text-white uppercase">
+                  <span className="text-sm font-semibold text-gray-900 dark:text-white uppercase">
                     {coin.symbol}
                   </span>
                 </div>
 
                 {/* Price and Change: Vertical on mobile, Horizontal on desktop */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between gap-2 mb-4">
-                  <span className="text-sm font-semibold dark:text-white">
+                  <span className="text-sm font-semibold text-gray-900 dark:text-white">
                     {numberFormatter.format(coin.current_price)}
                   </span>
                   <div className="flex items-center gap-0.5">
@@ -284,10 +281,8 @@ export default function CoinSlider() {
   };
 
   return (
-    <div className="py-4 mt-12">
-      <div className="container mx-auto px-1 sm:px-4">
-        {renderContent()}
-      </div>
+    <div className="mt-18">
+      {renderContent()}
     </div>
   );
 }
