@@ -19,7 +19,7 @@ export function ArticleListItem({ post }: ArticleListItemProps) {
         className="flex gap-4 hover:opacity-80 transition-opacity"
       >
         {/* Image */}
-        <div className="relative w-64 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+        <div className="relative w-48 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
           {post.coverUrl ? (
             <Image
               src={post.coverUrl}
