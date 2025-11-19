@@ -1,8 +1,12 @@
 import CoinSlider from "@/components/coins/coin-slider";
 import { Footer } from "@/components/footer";
 import Header from "@/components/header";
-import { ArticleListSection } from "@/components/articles";
+import {
+  ArticleListSection,
+  ArticleCategoryColumnsSection,
+} from "@/components/articles";
 import { CoinListsSection } from "@/components/coins";
+import { BreakStrip } from "@/components/break-strip";
 
 export default async function LandingPage() {
   return (
@@ -12,6 +16,7 @@ export default async function LandingPage() {
         <CoinSlider />
         <ArticleListSection mainPostLimit={1} sidePostsLimit={4} />
         <CoinListsSection />
+        <BreakStrip />
       </main>
       <Footer />
     </div>
