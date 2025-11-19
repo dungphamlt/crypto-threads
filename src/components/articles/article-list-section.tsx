@@ -1,35 +1,40 @@
-"use client";
+// "use client";
 
 import { useLatestPosts } from "@/hooks/use-posts";
 import { ArticleListLayout } from "./article-list-layout";
 import { ArticleListLayoutSkeleton } from "@/components/skeletons";
+import { postService } from "@/services/posts-service";
 
 interface ArticleListSectionProps {
   mainPostLimit?: number;
   sidePostsLimit?: number;
 }
 
-export function ArticleListSection({
+export async function ArticleListSection({
   mainPostLimit = 1,
   sidePostsLimit = 4,
 }: ArticleListSectionProps) {
-  const { data: posts = [], isLoading, isError, error } = useLatestPosts(
+  // const { data: posts = [], isLoading, isError, error } = useLatestPosts(
+  //   mainPostLimit + sidePostsLimit
+  // );
+
+  const posts = await postService.getLatestPosts(
     mainPostLimit + sidePostsLimit
   );
 
-  if (isLoading) {
-    return <ArticleListLayoutSkeleton sidePostsCount={sidePostsLimit} />;
-  }
+  // if (isLoading) {
+  //   return <ArticleListLayoutSkeleton sidePostsCount={sidePostsLimit} />;
+  // }
 
-  if (isError) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-red-500">
-          Error loading articles: {error?.message || "Unknown error"}
-        </div>
-      </div>
-    );
-  }
+  // if (isError) {
+  //   return (
+  //     <div className="flex items-center justify-center py-12">
+  //       <div className="text-red-500">
+  //         Error loading articles: {error?.message || "Unknown error"}
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (posts.length === 0) {
     return (
@@ -48,4 +53,3 @@ export function ArticleListSection({
 
   return <ArticleListLayout mainPost={mainPost} sidePosts={sidePosts} />;
 }
-
