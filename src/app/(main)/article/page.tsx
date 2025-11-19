@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container">
       <Header />
       <main className="flex-1">
         <section className="container mx-auto px-4 py-16">
