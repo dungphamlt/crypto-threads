@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 
-
 export default async function Page({
     params,
 }: {
@@ -12,7 +11,7 @@ export default async function Page({
 }) {
     const { articleSlug } = await params;
     const Body = {}
-    const goBackUrl = '/articles';
+    const goBackUrl = '/';
 
     if (!Body) {
         return notFound();
