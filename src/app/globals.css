@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Tailwind v4 dark mode configuration - REQUIRED for v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --green: 156 71% 67%;
