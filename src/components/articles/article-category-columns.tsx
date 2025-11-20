@@ -1,5 +1,3 @@
-"use client";
-
 import { ArticleCategoryColumn } from "./article-category-column";
 
 const DEFAULT_CATEGORIES = [
@@ -10,12 +8,12 @@ const DEFAULT_CATEGORIES = [
   },
   {
     title: "TRADING",
-    categoryKey: "Trading",
+    categoryKey: "68bfd7ac7d326e44f8d9ade6",
     viewMoreHref: "/trading",
   },
   {
     title: "INSIGHT",
-    categoryKey: "68bfd7ac7d326e44f8d9ade6",
+    categoryKey: "68bfd3487d326e44f8d9ad60",
     viewMoreHref: "/insight",
   },
 ];
@@ -25,7 +23,7 @@ interface ArticleCategoryColumnsSectionProps {
   limit?: number;
 }
 
-export function ArticleCategoryColumnsSection({
+export async function ArticleCategoryColumnsSection({
   categories = DEFAULT_CATEGORIES,
   limit = 3,
 }: ArticleCategoryColumnsSectionProps) {
