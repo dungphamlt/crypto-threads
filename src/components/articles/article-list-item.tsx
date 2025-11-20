@@ -5,13 +5,15 @@ import { ArticleMeta } from "./article-meta";
 
 interface ArticleListItemProps {
   post: Post;
+  isShowExcerpt?: boolean;
 }
 
-export function ArticleListItem({ post }: ArticleListItemProps) {
+export function ArticleListItem({ post, isShowExcerpt = false }: ArticleListItemProps) {
   const publishDate = post.publishTime
     ? new Date(post.publishTime)
     : new Date(post.createdAt);
 
+  const excerpt = post.excerpt || post.metaDescription || "";
   return (
     <article className="group">
       <Link
@@ -41,6 +43,10 @@ export function ArticleListItem({ post }: ArticleListItemProps) {
           <h3 className="text-base sm:text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
             {post.title}
           </h3>
+
+          {isShowExcerpt && <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
+            {excerpt}
+          </p>}
 
           <ArticleMeta
             author={post.creator?.penName}
