@@ -1,13 +1,10 @@
-"use client";
-
 import Link from "next/link";
 import type { Post } from "@/types";
-import { usePostsByCategory } from "@/hooks/use-posts";
+import { postService } from "@/services/posts-service";
 import {
   CategoryArticleCard,
   CategoryArticleListItem,
 } from "./category-article-card";
-import { ArticleCategoryColumnSkeleton } from "@/components/skeletons/article-category-column-skeleton";
 import { SimpleLine } from "../line";
 
 interface ArticleCategoryColumnProps {
@@ -17,22 +14,15 @@ interface ArticleCategoryColumnProps {
   limit?: number;
 }
 
-export function ArticleCategoryColumn({
+export async function ArticleCategoryColumn({
   title,
   categoryKey,
   viewMoreHref = "#",
   limit = 3,
 }: ArticleCategoryColumnProps) {
-  const { data: posts = [], isLoading, isError } = usePostsByCategory(
-    categoryKey,
-    limit
-  );
+  const posts = await postService.getPostsByCategory(categoryKey, limit);
 
-  if (isLoading) {
-    return <ArticleCategoryColumnSkeleton title={title} />;
-  }
-
-  if (isError || posts.length === 0) {
+  if (posts.length === 0) {
     return (
       <div className="rounded-2xl border p-4">
         <div className="flex items-center justify-between mb-4">
