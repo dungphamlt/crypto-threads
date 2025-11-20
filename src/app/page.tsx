@@ -4,6 +4,8 @@ import Header from "@/components/header";
 import {
   ArticleListSection,
   ArticleCategoryColumnsSection,
+  HotTopicSection,
+  ArticleListWithSidebar,
 } from "@/components/articles";
 import { CoinListsSection } from "@/components/coins";
 import { BreakStrip } from "@/components/break-strip";
@@ -18,6 +20,8 @@ export default async function LandingPage() {
         <CoinListsSection />
         <BreakStrip />
         <ArticleCategoryColumnsSection />
+        <HotTopicSection limit={3} />
+        <ArticleListWithSidebar limit={10} />
       </main>
       <Footer />
     </div>
