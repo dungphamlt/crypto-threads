@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Post } from "@/types";
-import { formatDate } from "@/lib/utils";
+import { ArticleMeta } from "./article-meta";
 
 interface ArticleListItemProps {
   post: Post;
@@ -42,14 +42,12 @@ export function ArticleListItem({ post }: ArticleListItemProps) {
             {post.title}
           </h3>
 
-          {/* Author and Date */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-sm">
-            <span className="text-muted-foreground/60">
-              By <span className="font-semibold text-foreground">{post.creator?.penName || "Unknown Author"}</span>
-            </span>
-            <span className="hidden sm:inline text-muted-foreground">·</span>
-            <span className="text-muted-foreground opacity-80">{formatDate(publishDate)}</span>
-          </div>
+          <ArticleMeta
+            author={post.creator?.penName}
+            avatarUrl={post.creator?.avatarUrl}
+            isShowAvatar={false}
+            date={publishDate}
+          />
         </div>
       </Link>
     </article>
