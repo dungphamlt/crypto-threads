@@ -3,6 +3,7 @@ import { Footer } from "@/components/footer";
 import Header from "@/components/header";
 import {
   ArticleListSection,
+  ArticleCategoryColumnsSection,
 } from "@/components/articles";
 import { CoinListsSection } from "@/components/coins";
 import { BreakStrip } from "@/components/break-strip";
@@ -16,6 +17,7 @@ export default async function LandingPage() {
         <ArticleListSection mainPostLimit={1} sidePostsLimit={4} />
         <CoinListsSection />
         <BreakStrip />
+        <ArticleCategoryColumnsSection />
       </main>
       <Footer />
     </div>
