@@ -35,7 +35,7 @@ export function MainArticleCard({ post }: MainArticleCardProps) {
         {/* Content */}
         <div className="relative">
           {/* Title */}
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors line-clamp-2">
+          <h2 className="text-2xl sm:text-xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors line-clamp-2">
             {post.title}
           </h2>
 

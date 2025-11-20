@@ -9,13 +9,7 @@ import { ArrowUp, ArrowDown } from "lucide-react";
 import { useCoins } from "@/hooks/use-coins";
 import type { Coin } from "@/services/coins-service";
 import { CoinSliderSkeleton } from "@/components/skeletons";
-
-const numberFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-});
+import { formatCoinPrice } from "@/lib/utils";
 
 // Mini Chart Component
 function MiniChart({
@@ -248,7 +242,7 @@ export default function CoinSlider() {
                 {/* Price and Change: Vertical on mobile, Horizontal on desktop */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between gap-2 mb-4">
                   <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                    {numberFormatter.format(coin.current_price)}
+                    {formatCoinPrice(coin.current_price)}
                   </span>
                   <div className="flex items-center gap-0.5">
                     {isPositive ? (

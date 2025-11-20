@@ -1,8 +1,4 @@
-// "use client";
-
-import { useLatestPosts } from "@/hooks/use-posts";
 import { ArticleListLayout } from "./article-list-layout";
-import { ArticleListLayoutSkeleton } from "@/components/skeletons";
 import { postService } from "@/services/posts-service";
 
 interface ArticleListSectionProps {

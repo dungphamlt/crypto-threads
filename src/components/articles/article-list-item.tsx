@@ -1,17 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Post } from "@/types";
-import { formatDate } from "@/lib/utils";
+import { ArticleMeta } from "./article-meta";
 
 interface ArticleListItemProps {
   post: Post;
+  isShowExcerpt?: boolean;
 }
 
-export function ArticleListItem({ post }: ArticleListItemProps) {
+export function ArticleListItem({ post, isShowExcerpt = false }: ArticleListItemProps) {
   const publishDate = post.publishTime
     ? new Date(post.publishTime)
     : new Date(post.createdAt);
 
+  const excerpt = post.excerpt || post.metaDescription || "";
   return (
     <article className="group">
       <Link
@@ -19,7 +21,7 @@ export function ArticleListItem({ post }: ArticleListItemProps) {
         className="flex gap-4 hover:opacity-80 transition-opacity"
       >
         {/* Image */}
-        <div className="relative w-64 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+        <div className="relative w-48 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
           {post.coverUrl ? (
             <Image
               src={post.coverUrl}
@@ -42,14 +44,16 @@ export function ArticleListItem({ post }: ArticleListItemProps) {
             {post.title}
           </h3>
 
-          {/* Author and Date */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-sm">
-            <span className="text-muted-foreground/60">
-              By <span className="font-semibold text-foreground">{post.creator?.penName || "Unknown Author"}</span>
-            </span>
-            <span className="hidden sm:inline text-muted-foreground">·</span>
-            <span className="text-muted-foreground opacity-80">{formatDate(publishDate)}</span>
-          </div>
+          {isShowExcerpt && <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
+            {excerpt}
+          </p>}
+
+          <ArticleMeta
+            author={post.creator?.penName}
+            avatarUrl={post.creator?.avatarUrl}
+            isShowAvatar={false}
+            date={publishDate}
+          />
         </div>
       </Link>
     </article>
