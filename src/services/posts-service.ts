@@ -119,7 +119,32 @@ export const postService = {
       cacheConfig.category
     );
 
-    return response.data?.data || [];
+    // Case 1: response.data.posts
+    if (response.data && typeof response.data === 'object' && 'posts' in response.data && Array.isArray((response.data as any).posts)) {
+      return (response.data as any).posts as Post[];
+    }
+
+    // Case 2: response.posts
+    if ((response as any).posts && Array.isArray((response as any).posts)) {
+      return (response as any).posts as Post[];
+    }
+
+    // Case 3: response.data is PostListResponse object
+    if (response.data && typeof response.data === 'object' && 'data' in response.data && 'pagination' in response.data) {
+      return (response.data as PostListResponse).data;
+    }
+    
+    // Case 4: response.data is array directly
+    if (response.data && Array.isArray(response.data)) {
+      return response.data as Post[];
+    }
+
+    // Case 5: response itself is PostListResponse
+    if ((response as any).data && Array.isArray((response as any).data) && (response as any).pagination) {
+      return (response as any).data as Post[];
+    }
+
+    return [];
   },
 
   getPostBySlug: async (slug: string): Promise<Post | null> => {
