@@ -1,9 +1,9 @@
-import Header from '@/components/header';
-import { Footer } from '@/components/footer';
-import type { Metadata } from 'next';
+import Header from "@/components/header";
+import { Footer } from "@/components/footer";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Article',
+  title: "Article",
 };
 
 export default function ArticlePage() {
@@ -19,4 +19,3 @@ export default function ArticlePage() {
     </div>
   );
 }
-

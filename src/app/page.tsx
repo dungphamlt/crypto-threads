@@ -9,10 +9,11 @@ import {
 } from "@/components/articles";
 import { CoinListsSection } from "@/components/coins";
 import { BreakStrip } from "@/components/break-strip";
+import { BtnGoToTop } from "@/components/btn-go-to-top";
 
 export default async function LandingPage() {
   return (
-    <div className="container">
+    <div className="container relative">
       <Header />
       <main className="space-y-12">
         <CoinSlider />
@@ -24,6 +25,7 @@ export default async function LandingPage() {
         <ArticleListWithSidebar limit={10} />
       </main>
       <Footer />
+      <BtnGoToTop />
     </div>
   );
 }
