@@ -51,6 +51,7 @@ export function ArticleListItem({ post, isShowExcerpt = false }: ArticleListItem
           <ArticleMeta
             author={post.creator?.penName}
             avatarUrl={post.creator?.avatarUrl}
+            authorId={post.creator?.id}
             isShowAvatar={false}
             date={publishDate}
           />
