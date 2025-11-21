@@ -1,16 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Post } from "@/types";
-import { formatDate } from "@/lib/utils";
+import { ArticleMeta } from "./article-meta";
 
 interface MainArticleCardProps {
   post: Post;
 }
 
 export function MainArticleCard({ post }: MainArticleCardProps) {
-  const publishDate = post.publishTime
-    ? new Date(post.publishTime)
-    : new Date(post.createdAt);
+  const publishDate = post.publishTime || post.createdAt;
 
   return (
     <article className="group">
@@ -40,33 +38,13 @@ export function MainArticleCard({ post }: MainArticleCardProps) {
           </h2>
 
           {/* Author Info */}
-          <div className="flex items-center gap-3">
-            {/* Author Avatar */}
-            <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex-shrink-0">
-              {post.creator?.avatarUrl ? (
-                <Image
-                  src={post.creator.avatarUrl}
-                  alt={post.creator.penName || "Author"}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
-                  {post.creator?.penName?.[0]?.toUpperCase() || "A"}
-                </div>
-              )}
-            </div>
-
-            {/* Author Name and Date */}
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-foreground">
-                By {post.creator?.penName || "Unknown Author"}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                {formatDate(publishDate)}
-              </span>
-            </div>
-          </div>
+          <ArticleMeta
+            author={post.creator?.penName}
+            avatarUrl={post.creator?.avatarUrl}
+            authorId={post.creator?.id}
+            date={publishDate}
+            isShowAvatar={true}
+          />
         </div>
       </Link>
     </article>

@@ -44,6 +44,7 @@ export function CategoryArticleCard({
         <ArticleMeta 
           author={post.creator?.penName} 
           avatarUrl={post.creator?.avatarUrl}
+          authorId={post.creator?.id}
           date={publishDate} 
         />
       </div>
@@ -73,6 +74,7 @@ export function CategoryArticleListItem({
       <ArticleMeta
         author={post.creator?.penName}
         avatarUrl={post.creator?.avatarUrl}
+        authorId={post.creator?.id}
         date={publishDate}
         className="mt-1 text-xs"
       />
