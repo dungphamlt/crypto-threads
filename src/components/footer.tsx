@@ -6,8 +6,8 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <div className="mt-10">
-      <footer className="pt-32 text-sm relative overflow-hidden">
+    <div className="mt-8">
+      <footer className="pt-10 text-sm relative overflow-hidden">
         {/* Large faint logo in the background */}
         <div className="absolute -bottom-20 md:-bottom-32 left-0 right-0 flex items-center justify-center opacity-5 pointer-events-none">
           <Logo className="w-[900px] shrink-0" />
