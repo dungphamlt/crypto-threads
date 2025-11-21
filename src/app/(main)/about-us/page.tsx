@@ -255,7 +255,7 @@ export default function AboutPage() {
             </div>
 
             {/* guideline card */}
-            <div className="flex items-center justify-center self-center bg-gray-200 rounded-xl">
+            <div className="flex items-center justify-center self-center bg-gray-200 dark:bg-gray-800 rounded-xl">
               <div className="w-full max-w-sm rounded-xl bg-muted px-8 py-10 text-center space-y-4">
                 <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.18em]">
                   Our guideline
