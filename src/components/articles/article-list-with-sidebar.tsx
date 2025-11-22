@@ -2,7 +2,7 @@ import Link from "next/link";
 import { postService } from "@/services/posts-service";
 import { SubscriptionCard } from "../subscription";
 import { StudioIntroCard } from "../studio/studio-intro-card";
-import { ArticleListItem } from "./article-list-item";
+import { ArticleListWithViewAll } from "./article-list-with-view-all";
 
 interface ArticleListWithSidebarProps {
   limit?: number;
@@ -20,25 +20,15 @@ export async function ArticleListWithSidebar({
   }
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      {/* Left Column - Article List */}
-      <div className="lg:col-span-2 space-y-6 rounded-2xl border border-border/60 bg-white dark:bg-gray-950/50 p-6 shadow-sm">
-        {posts.map((post) => (
-          <ArticleListItem key={post._id || post.id} post={post} isShowExcerpt={true} />
-        ))}
+    <section className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 md:gap-12 my-12">
+      {/* Article List */}
+      <ArticleListWithViewAll
+        posts={posts}
+        viewAllHref={`/articles`}
+        limit={7}
+      />
 
-        {/* View More Button */}
-        <div className="flex justify-center pt-4">
-          <Link
-            href={viewMoreHref}
-            className="px-6 py-2 bg-primary text-white dark:text-black font-semibold rounded-lg hover:bg-primary/90 transition-colors"
-          >
-            VIEW MORE
-          </Link>
-        </div>
-      </div>
-
-      {/* Right Column - Sidebar */}
+      {/* Sidebar */}
       <div className="lg:col-span-1 space-y-6">
         <SubscriptionCard />
         <StudioIntroCard />
