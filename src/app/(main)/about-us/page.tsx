@@ -1,14 +1,7 @@
 import Header from '@/components/header';
 import { Footer } from '@/components/footer';
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { IntroImageSlider } from '@/components/about/intro-image-slider';
-
-export const metadata: Metadata = {
-  title: 'About Us',
-  description:
-    'Learn more about Crypto Threads – our mission, team and how we empower the community with trustworthy crypto insights.',
-};
 
 const achievementsStats = [
   { value: '20+', label: 'Lorem ipsum' },
