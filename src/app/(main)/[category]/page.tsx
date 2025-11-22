@@ -44,12 +44,12 @@ interface CategoryPageProps {
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const category = params.category.toLowerCase();
-  
+
   // Validate category
   if (!validCategories.includes(category)) {
     notFound();
   }
-  
+
   const categoryInfo = categoryInfoMap[category];
 
   // Fetch posts for different sections
@@ -90,13 +90,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           {/* Bottom Section: Article List + Sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 md:gap-12 my-12">
             {/* Left: Article List with View All */}
-            <div>
-              <ArticleListWithViewAll
-                posts={listPosts}
-                viewAllHref={`/${category}?view=all`}
-                limit={7}
-              />
-            </div>
+            <ArticleListWithViewAll
+              posts={listPosts}
+              viewAllHref={`/${category}?view=all`}
+              limit={7}
+            />
 
             {/* Exclusive Read + Studio Intro */}
             <div className="space-y-12">
