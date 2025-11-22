@@ -88,6 +88,7 @@ export const authors = [
     {
         name: 'The20 Team',
         url: 'https://the20.sg/',
+        email: 'the20hr@the20.sg'
     },
 ];
 

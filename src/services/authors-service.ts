@@ -15,11 +15,13 @@ export interface Author {
   role: string;
 }
 
-export interface OtherAuthor {
+export interface AuthorShort {
   id: string;
   name: string;
   avatarUrl: string;
 }
+
+export interface OtherAuthor extends AuthorShort { };
 
 export interface AuthorResponse {
   author: Author;
@@ -29,17 +31,53 @@ export interface AuthorResponse {
 
 const cacheConfig = {
   author: { next: { revalidate: 3600 } },
+  listAuthors: { next: { revalidate: 3600 } },
 };
 
+export interface AuthorsListResponse {
+  data: AuthorShort[];
+  pagination?: {
+    currentPage: number;
+    pageSize: number;
+    totalItems: number;
+    totalPages: number;
+  };
+}
+
 export const authorService = {
+  getListAuthors: async (): Promise<AuthorShort[]> => {
+    try {
+      const response = await get<AuthorsListResponse>(
+        '/content-management/authors?offset=0&limit=9&role=writer',
+        cacheConfig.listAuthors
+      );
+
+      if (response.data) {
+        if (Array.isArray(response.data)) {
+          return response.data;
+        }
+        if (typeof response.data === 'object' && 'data' in response.data && Array.isArray(response.data.data)) {
+          return response.data.data;
+        }
+      }
+
+      if (Array.isArray(response)) {
+        return response as unknown as AuthorShort[];
+      }
+
+      return [];
+    } catch (error) {
+      console.error('Error fetching authors list:', error);
+      return [];
+    }
+  },
+
   getAuthorById: async (id: string): Promise<AuthorResponse | null> => {
     try {
       const response = await get<AuthorResponse>(
         `/content-management/authors/${id}`,
         cacheConfig.author
       );
-      
-      console.log("res", response)
 
       // Case 1: response.data contains the AuthorResponse
       if (response.data && (response.data as any).author) {

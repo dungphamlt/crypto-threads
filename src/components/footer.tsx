@@ -63,6 +63,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/our-team" className="hover:underline">
+                  Our team
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="hover:underline">
                   Contact
                 </Link>
@@ -70,11 +75,6 @@ export function Footer() {
               <li>
                 <Link href="/disclaimer" className="hover:underline">
                   Disclaimer
-                </Link>
-              </li>
-              <li>
-                <Link href="/trading" className="hover:underline">
-                  Trading
                 </Link>
               </li>
             </ul>
@@ -116,7 +116,7 @@ export function Footer() {
               Copyright © {year} THE20. All rights reserved.
             </div>
             <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
-              <Link href="/privacy" className="hover:underline">
+              <Link href="/privacy-policy" className="hover:underline">
                 Privacy Policy
               </Link>
               <Link href="/terms" className="hover:underline">
