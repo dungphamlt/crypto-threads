@@ -69,7 +69,7 @@ export default function DisclaimerPage() {
           {/* Privacy Policy link */}
           <div className="mb-12">
             <Link
-              href="/privacy"
+              href="/privacy-policy"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-foreground font-semibold uppercase"
             >
               PRIVACY POLICY
