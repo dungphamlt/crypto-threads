@@ -1,16 +1,11 @@
 import Header from '@/components/header';
 import { Footer } from '@/components/footer';
-import type { Metadata } from 'next';
 import { TeamIntroSlider } from '@/components/team/team-intro-slider';
 import Image from 'next/image';
 import Link from 'next/link';
 import { authorService } from '@/services/authors-service';
 import { getAuthor } from '@/app/layout.config';
 
-export const metadata: Metadata = {
-  title: 'Our Team',
-  description: 'Meet the talented team behind Crypto Threads',
-};
 
 const teamIntroImages = [
   {
