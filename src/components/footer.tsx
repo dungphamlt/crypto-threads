@@ -63,6 +63,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/our-team" className="hover:underline">
+                  Our team
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="hover:underline">
                   Contact
                 </Link>
@@ -70,11 +75,6 @@ export function Footer() {
               <li>
                 <Link href="/disclaimer" className="hover:underline">
                   Disclaimer
-                </Link>
-              </li>
-              <li>
-                <Link href="/trading" className="hover:underline">
-                  Trading
                 </Link>
               </li>
             </ul>
