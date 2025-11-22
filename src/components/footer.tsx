@@ -116,7 +116,7 @@ export function Footer() {
               Copyright © {year} THE20. All rights reserved.
             </div>
             <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
-              <Link href="/privacy" className="hover:underline">
+              <Link href="/privacy-policy" className="hover:underline">
                 Privacy Policy
               </Link>
               <Link href="/terms" className="hover:underline">
