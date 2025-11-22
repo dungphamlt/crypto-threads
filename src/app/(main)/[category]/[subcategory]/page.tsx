@@ -99,17 +99,18 @@ export async function generateStaticParams() {
 }
 
 interface CategorySubcategoryPageProps {
-  params: {
+  params: Promise<{
     category: string;
     subcategory: string;
-  };
+  }>;
 }
 
 export default async function SubcategoryPage({
   params,
 }: CategorySubcategoryPageProps) {
-  const category = params.category.toLowerCase();
-  const subcategory = params.subcategory.toLowerCase();
+  const { category: categoryParam, subcategory: subcategoryParam } = await params;
+  const category = categoryParam.toLowerCase();
+  const subcategory = subcategoryParam.toLowerCase();
 
   // Validate category and subcategory
   const config = categoryConfig[category];

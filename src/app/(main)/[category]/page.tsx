@@ -37,13 +37,14 @@ export async function generateStaticParams() {
 }
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     category: string;
-  };
+  }>;
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const category = params.category.toLowerCase();
+  const { category: categoryParam } = await params;
+  const category = categoryParam.toLowerCase();
 
   // Validate category
   if (!validCategories.includes(category)) {
