@@ -203,6 +203,13 @@ export default function ContactPage() {
                 >
                   <Instagram className="w-5 h-5 text-foreground group-hover:text-white transition-colors" />
                 </a>
+                <a
+                  href="#"
+                  className="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-600 flex items-center justify-center hover:bg-pink-500 hover:border-pink-500 transition-colors group"
+                  aria-label="Instagram"
+                >
+                  <Send className="w-5 h-5 text-foreground group-hover:text-white transition-colors" />
+                </a>
               </div>
             </div>
           </div>
