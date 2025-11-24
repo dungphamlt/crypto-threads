@@ -1,86 +1,102 @@
-import Header from '@/components/header';
-import { Footer } from '@/components/footer';
-import { CategoryNewsLayout } from '@/components/articles/category-news-layout';
-import { ArticleListWithViewAll } from '@/components/articles/article-list-with-view-all';
-import { postService } from '@/services/posts-service';
-import { notFound } from 'next/navigation';
-import { CoinListsSection } from '@/components/coins';
-import { HotTopicSection } from '@/components/articles';
+import Header from "@/components/header";
+import { Footer } from "@/components/footer";
+import { CategoryNewsLayout } from "@/components/articles/category-news-layout";
+import { ArticleListWithViewAll } from "@/components/articles/article-list-with-view-all";
+import { postService } from "@/services/posts-service";
+import { notFound } from "next/navigation";
+import { CoinListsSection } from "@/components/coins";
+import { HotTopicSection } from "@/components/articles";
 
 // Define valid categories and their subcategories
-const categoryConfig: Record<string, {
-  validSubcategories: string[];
-  categoryInfoMap: Record<string, { title: string; description: string }>;
-}> = {
-  'daily-news': {
-    validSubcategories: ['tradfi', 'releases', 'regulations', 'markets'],
+const categoryConfig: Record<
+  string,
+  {
+    validSubcategories: string[];
+    categoryInfoMap: Record<string, { title: string; description: string }>;
+  }
+> = {
+  "daily-news": {
+    validSubcategories: ["tradfi", "releases", "regulations", "markets"],
     categoryInfoMap: {
       tradfi: {
         title: "DAILY NEWS - TRADFI",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
       releases: {
         title: "DAILY NEWS - RELEASES",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
       regulations: {
         title: "DAILY NEWS - REGULATIONS",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
       markets: {
         title: "DAILY NEWS - MARKETS",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
     },
   },
-  'insight': {
-    validSubcategories: ['tradfi', 'regulations', 'markets'],
+  insight: {
+    validSubcategories: ["tradfi", "regulations", "markets"],
     categoryInfoMap: {
       tradfi: {
         title: "INSIGHT - TRADFI",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
       regulations: {
         title: "INSIGHT - REGULATIONS",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
       markets: {
         title: "INSIGHT - MARKETS",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
     },
   },
-  'learn': {
-    validSubcategories: ['hidden-gems', 'crypto-fundamental', 'market'],
+  learn: {
+    validSubcategories: ["hidden-gems", "crypto-fundamental", "market"],
     categoryInfoMap: {
-      'hidden-gems': {
+      "hidden-gems": {
         title: "LEARN - HIDDEN GEMS",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
-      'crypto-fundamental': {
+      "crypto-fundamental": {
         title: "LEARN - CRYPTO FUNDAMENTAL",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
       market: {
         title: "LEARN - MARKET",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
     },
   },
-  'trading': {
-    validSubcategories: ['strategy', 'crypto-analysis', 'dummies'],
+  trading: {
+    validSubcategories: ["strategy", "crypto-analysis", "dummies"],
     categoryInfoMap: {
       strategy: {
         title: "TRADING - STRATEGY",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
-      'crypto-analysis': {
+      "crypto-analysis": {
         title: "TRADING - CRYPTO ANALYSIS",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
       dummies: {
         title: "TRADING - DUMMIES",
-        description: "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
+        description:
+          "Powered by the community, for the community. Explore daily highlights and on-chain narratives defining the next chapter of crypto.",
       },
     },
   },
@@ -108,7 +124,8 @@ interface CategorySubcategoryPageProps {
 export default async function SubcategoryPage({
   params,
 }: CategorySubcategoryPageProps) {
-  const { category: categoryParam, subcategory: subcategoryParam } = await params;
+  const { category: categoryParam, subcategory: subcategoryParam } =
+    await params;
   const category = categoryParam.toLowerCase();
   const subcategory = subcategoryParam.toLowerCase();
 
@@ -124,24 +141,25 @@ export default async function SubcategoryPage({
   }
 
   // Capitalize first letter for API
-  const subcategoryKey = subcategory
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join('-');
+  // const subcategoryKey = subcategory
+  //   .split('-')
+  //   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+  //   .join('-');
 
   // Fetch posts filtered by subcategory
-  const [featuredPosts, middlePosts, bottomPosts, gridPosts, listPosts] = await Promise.all([
-    // postService.getPosts({ subCategory: subcategoryKey, pageSize: 1 }),
-    // postService.getPosts({ subCategory: subcategoryKey, pageSize: 3 }),
-    // postService.getPosts({ subCategory: subcategoryKey, pageSize: 5 }),
-    // postService.getPosts({ subCategory: subcategoryKey, pageSize: 10 }),
-    // postService.getPosts({ subCategory: subcategoryKey, pageSize: 7 }),
-    postService.getFeaturedPosts(1), // 1 featured post
-    postService.getLatestPosts(3), // 3 posts for middle row
-    postService.getLatestPosts(5), // 5 posts, take 2 for bottom
-    postService.getLatestPosts(10), // 10 posts for grid
-    postService.getLatestPosts(7), // 7 posts for article list
-  ]);
+  const [featuredPosts, middlePosts, bottomPosts, gridPosts, listPosts] =
+    await Promise.all([
+      // postService.getPosts({ subCategory: subcategoryKey, pageSize: 1 }),
+      // postService.getPosts({ subCategory: subcategoryKey, pageSize: 3 }),
+      // postService.getPosts({ subCategory: subcategoryKey, pageSize: 5 }),
+      // postService.getPosts({ subCategory: subcategoryKey, pageSize: 10 }),
+      // postService.getPosts({ subCategory: subcategoryKey, pageSize: 7 }),
+      postService.getFeaturedPosts(1), // 1 featured post
+      postService.getLatestPosts(3), // 3 posts for middle row
+      postService.getLatestPosts(5), // 5 posts, take 2 for bottom
+      postService.getLatestPosts(10), // 10 posts for grid
+      postService.getLatestPosts(7), // 7 posts for article list
+    ]);
 
   const featuredPost = featuredPosts?.[0] || null;
   const middleRowPosts = middlePosts || [];
@@ -181,4 +199,3 @@ export default async function SubcategoryPage({
     </div>
   );
 }
-

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { postService } from "@/services/posts-service";
 import { SubscriptionCard } from "../subscription";
 import { StudioIntroCard } from "../studio/studio-intro-card";
@@ -19,6 +18,8 @@ export async function ArticleListWithSidebar({
     return null;
   }
 
+  console.log(viewMoreHref, "viewMoreHref");
+
   return (
     <section className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 md:gap-12 my-12">
       {/* Article List */}
@@ -36,4 +37,3 @@ export async function ArticleListWithSidebar({
     </section>
   );
 }
-
