@@ -73,11 +73,12 @@ export default function ContactPage() {
 
                 <div className="space-y-4">
                   <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                    Got a question? We'd love to hear from you. Send us a message and our team will
-                    respond as soon as possible.
+                    Got a question? We&apos;d love to hear from you. Send us a
+                    message and our team will respond as soon as possible.
                   </p>
                   <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                    For any issues or inquiries related to Crypto Threads, please reach out to{" "}
+                    For any issues or inquiries related to Crypto Threads,
+                    please reach out to{" "}
                     <Link
                       href={`mailto:${contactEmail}`}
                       className="text-foreground hover:underline font-medium"
@@ -142,7 +143,6 @@ export default function ContactPage() {
                   </button>
                 </form>
               </div>
-
             </div>
 
             {/* logo */}

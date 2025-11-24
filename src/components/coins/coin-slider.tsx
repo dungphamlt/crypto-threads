@@ -7,9 +7,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { useCoins } from "@/hooks/use-coins";
-import type { Coin } from "@/services/coins-service";
+// import type { Coin } from "@/services/coins-service";
 import { CoinSliderSkeleton } from "@/components/skeletons";
 import { formatCoinPrice } from "@/lib/utils";
+import Image from "next/image";
 
 // Mini Chart Component
 function MiniChart({
@@ -35,7 +36,8 @@ function MiniChart({
   const priceRange = maxPrice - minPrice || 1;
 
   const points = prices.map((price, index) => {
-    const x = padding + (index / (prices.length - 1 || 1)) * (width - padding * 2);
+    const x =
+      padding + (index / (prices.length - 1 || 1)) * (width - padding * 2);
     const normalizedPrice = (price - minPrice) / priceRange;
     const y = height - padding - normalizedPrice * (height - padding * 2);
     return `${x},${y}`;
@@ -44,7 +46,9 @@ function MiniChart({
   const pathData = `M ${points.join(" L ")}`;
 
   // Create area path for fill
-  const areaPath = `${pathData} L ${width - padding},${height} L ${padding},${height} Z`;
+  const areaPath = `${pathData} L ${
+    width - padding
+  },${height} L ${padding},${height} Z`;
 
   // Colors optimized for dark background
   const lineColor = isPositive
@@ -69,10 +73,7 @@ function MiniChart({
           <stop offset="100%" stopColor="transparent" />
         </linearGradient>
       </defs>
-      <path
-        d={areaPath}
-        fill={`url(#${gradientId})`}
-      />
+      <path d={areaPath} fill={`url(#${gradientId})`} />
       <path
         d={pathData}
         fill="none"
@@ -182,7 +183,8 @@ export default function CoinSlider() {
     if (isError) {
       return (
         <div className="flex items-center justify-center py-3 text-sm text-red-400">
-          Failed to load coin data. {error?.message || "Please try again later."}
+          Failed to load coin data.{" "}
+          {error?.message || "Please try again later."}
         </div>
       );
     }
@@ -208,12 +210,13 @@ export default function CoinSlider() {
                 onClick={() => router.push(`/coin/${coin.id}`)}
                 className={`
                   relative rounded-xl px-4 py-2 overflow-hidden border cursor-pointer transition-all hover:shadow-lg hover:scale-[1.02]
-                  ${isPositive
-                    ? `
+                  ${
+                    isPositive
+                      ? `
                       dark:bg-gradient-to-b dark:from-green-900/40 dark:via-green-900/30 dark:to-gray-900 dark:border-green-800/50
                       bg-gradient-to-b from-green-200 via-green-100 to-white border-green-300
                     `
-                    : `
+                      : `
                       dark:bg-gradient-to-b dark:from-red-900/40 dark:via-red-900/30 dark:to-gray-900 dark:border-red-800/50
                       bg-gradient-to-b from-red-200 via-red-100 to-white border-red-300
                     `
@@ -225,12 +228,12 @@ export default function CoinSlider() {
               >
                 {/* Header: Icon + Symbol */}
                 <div className="flex items-center gap-2 mb-1">
-                  <div
-                    className="flex items-center justify-center w-6 h-6  rounded-full bg-gray-500"
-                  >
-                    <img
+                  <div className="flex items-center justify-center w-6 h-6  rounded-full bg-gray-500">
+                    <Image
                       src={coin.image}
                       alt={coin.name}
+                      width={16}
+                      height={16}
                       className="w-4 h-4 rounded-full"
                     />
                   </div>
@@ -251,8 +254,9 @@ export default function CoinSlider() {
                       <ArrowDown className="w-3 h-3 text-red-400" />
                     )}
                     <span
-                      className={`text-xs sm:text-sm font-medium ${isPositive ? "text-green-400" : "text-red-400"
-                        }`}
+                      className={`text-xs sm:text-sm font-medium ${
+                        isPositive ? "text-green-400" : "text-red-400"
+                      }`}
                     >
                       {isPositive ? "+" : ""}
                       {priceChange.toFixed(2)}%
@@ -263,7 +267,11 @@ export default function CoinSlider() {
                 {/* Mini Chart */}
                 {sparklinePrices.length > 0 && (
                   <div className="relative h-8 w-full">
-                    <MiniChart prices={sparklinePrices} isPositive={isPositive} coinId={coin.id} />
+                    <MiniChart
+                      prices={sparklinePrices}
+                      isPositive={isPositive}
+                      coinId={coin.id}
+                    />
                   </div>
                 )}
               </div>
@@ -274,9 +282,5 @@ export default function CoinSlider() {
     );
   };
 
-  return (
-    <div className="mt-18">
-      {renderContent()}
-    </div>
-  );
+  return <div className="mt-18">{renderContent()}</div>;
 }

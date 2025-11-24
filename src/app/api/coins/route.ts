@@ -5,6 +5,30 @@ const COINGECKO_MARKETS_ENDPOINT =
 const COINGECKO_TRENDING_ENDPOINT =
   "https://api.coingecko.com/api/v3/search/trending";
 
+interface TrendingCoinItem {
+  id: string;
+  name?: string;
+  symbol?: string;
+}
+
+interface TrendingCoin {
+  item: TrendingCoinItem;
+}
+
+interface TrendingResponse {
+  coins?: TrendingCoin[];
+}
+
+interface MarketData {
+  id: string;
+  symbol: string;
+  name: string;
+  current_price: number;
+  price_change_percentage_24h?: number;
+  price_change_percentage_24h_in_currency?: number;
+  [key: string]: unknown;
+}
+
 async function fetchMarkets(params: URLSearchParams) {
   const response = await fetch(
     `${COINGECKO_MARKETS_ENDPOINT}?${params.toString()}`,
@@ -25,18 +49,23 @@ async function fetchMarkets(params: URLSearchParams) {
   return Response.json(data, { status: 200 });
 }
 
-async function fetchMarketsData(params: URLSearchParams) {
-  const res = await fetch(`${COINGECKO_MARKETS_ENDPOINT}?${params.toString()}`, {
-    headers: { Accept: "application/json" },
-    next: { revalidate: 60 },
-  });
+async function fetchMarketsData(
+  params: URLSearchParams
+): Promise<MarketData[]> {
+  const res = await fetch(
+    `${COINGECKO_MARKETS_ENDPOINT}?${params.toString()}`,
+    {
+      headers: { Accept: "application/json" },
+      next: { revalidate: 60 },
+    }
+  );
 
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     throw new Error(`CoinGecko error: ${res.status} ${text}`);
   }
 
-  return res.json();
+  return res.json() as Promise<MarketData[]>;
 }
 
 async function handleTrending(per_page: string) {
@@ -53,10 +82,10 @@ async function handleTrending(per_page: string) {
       );
     }
 
-    const trendingData = await trendingResponse.json();
+    const trendingData = (await trendingResponse.json()) as TrendingResponse;
     const ids: string[] =
       trendingData?.coins
-        ?.map((coin: any) => coin?.item?.id)
+        ?.map((coin: TrendingCoin) => coin?.item?.id)
         .filter(Boolean) ?? [];
 
     const limit = Number(per_page ?? "7") || 7;
@@ -115,19 +144,20 @@ export async function GET(req: NextRequest) {
       params.set("sparkline", "false");
       params.set("price_change_percentage", "24h");
 
-      const data: any[] = await fetchMarketsData(params);
+      const data = await fetchMarketsData(params);
 
       const sorted = data
         .map((d) => ({
           ...d,
           _pct:
-            (d.price_change_percentage_24h_in_currency ??
-              d.price_change_percentage_24h ??
-              0),
+            d.price_change_percentage_24h_in_currency ??
+            d.price_change_percentage_24h ??
+            0,
         }))
         .sort((a, b) => (b._pct ?? 0) - (a._pct ?? 0));
 
       const limit = Number(perPageParam) || 10;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const top = sorted.slice(0, limit).map(({ _pct, ...rest }) => rest);
 
       return Response.json(top, { status: 200 });

@@ -39,7 +39,6 @@ export function ArticleMeta({
   };
 
   const handleAuthorClick = (e: React.MouseEvent) => {
-    e.preventDefault();
     e.stopPropagation();
     if (authorId) {
       router.push(`/author/${authorId}`);
@@ -48,8 +47,8 @@ export function ArticleMeta({
 
   const AuthorContent = () => (
     <div className="flex items-center gap-2">
-      {
-        isShowAvatar && <div className="relative w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+      {isShowAvatar && (
+        <div className="relative w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
           {avatarUrl ? (
             <Image
               src={avatarUrl}
@@ -64,7 +63,7 @@ export function ArticleMeta({
             </span>
           )}
         </div>
-      }
+      )}
       <span className="text-muted-foreground/70">
         <span className="uppercase tracking-wide text-[10px] sm:text-[11px]">
           By{" "}
@@ -76,19 +75,27 @@ export function ArticleMeta({
 
   return (
     <div className={clsx(layoutClasses, "text-xs sm:text-sm", className)}>
-      {author && (
-        authorId ? (
-          <a
-            href={`/author/${authorId}`}
+      {author &&
+        (authorId ? (
+          <div
             onClick={handleAuthorClick}
             className="hover:opacity-80 transition-opacity inline-block cursor-pointer"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                handleAuthorClick(
+                  e as unknown as React.MouseEvent<HTMLDivElement>
+                );
+              }
+            }}
           >
             <AuthorContent />
-          </a>
+          </div>
         ) : (
           <AuthorContent />
-        )
-      )}
+        ))}
       {dateValue && (
         <>
           {orientation === "row" && (
@@ -102,5 +109,3 @@ export function ArticleMeta({
     </div>
   );
 }
-
-
