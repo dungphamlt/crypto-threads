@@ -95,3 +95,106 @@ export async function fetchNewCoins(limit: number = 5): Promise<Coin[]> {
   });
 }
 
+export interface CoinDetail {
+  id: string;
+  symbol: string;
+  name: string;
+  image: {
+    large: string;
+    small: string;
+    thumb: string;
+  };
+  description: {
+    en: string;
+  };
+  market_data: {
+    current_price: {
+      usd: number;
+    };
+    price_change_percentage_24h: number;
+    market_cap: {
+      usd: number;
+    };
+    total_volume: {
+      usd: number;
+    };
+    circulating_supply: number;
+    total_supply: number;
+    high_24h: {
+      usd: number;
+    };
+    low_24h: {
+      usd: number;
+    };
+    high_52w: {
+      usd: number;
+    };
+    low_52w: {
+      usd: number;
+    };
+    ath: {
+      usd: number;
+    };
+    ath_date: {
+      usd: string;
+    };
+  };
+}
+
+export interface MarketChartData {
+  prices: [number, number][];
+  market_caps: [number, number][];
+  total_volumes: [number, number][];
+}
+
+// Helper function to get base URL for API calls
+function getApiBaseUrl(): string {
+  if (typeof window !== "undefined") {
+    // Client-side: use current origin
+    return window.location.origin;
+  }
+  // Server-side: use environment variable or default
+  if (process.env.NEXT_PUBLIC_BASE_URL) {
+    return process.env.NEXT_PUBLIC_BASE_URL;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return "http://localhost:3000";
+}
+
+export async function fetchCoinDetail(id: string): Promise<CoinDetail> {
+  const baseUrl = getApiBaseUrl();
+  const response = await fetch(`${baseUrl}/api/coins/${id}?market_data=true`, {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch coin detail: ${response.statusText}`);
+  }
+
+  const data: CoinDetail = await response.json();
+  return data;
+}
+
+export async function fetchCoinMarketChart(
+  id: string,
+  days: number = 7,
+  vs_currency: string = "usd"
+): Promise<MarketChartData> {
+  const baseUrl = getApiBaseUrl();
+  const response = await fetch(
+    `${baseUrl}/api/coins/${id}/market-chart?days=${days}&vs_currency=${vs_currency}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch market chart: ${response.statusText}`);
+  }
+
+  const data: MarketChartData = await response.json();
+  return data;
+}
+
