@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Menu as MenuIcon, Search as SearchIcon, Sun, Moon, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { Logo } from './logo';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
@@ -21,6 +22,7 @@ const Navbar = () => {
     const dropdownPanelRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
     const router = useRouter();
+    const pathname = usePathname();
  
 
     // Outside click / mousedown handler (uses specific refs)
@@ -132,6 +134,15 @@ const Navbar = () => {
                                         <>
                                             {mainLinks.map((link, idx) => {
                                                 const hasDropdown = !!(link.dropdown && link.dropdown.length > 0);
+                                                const isLinkActive =
+                                                    !hasDropdown && link.url
+                                                        ? pathname === link.url || pathname?.startsWith(`${link.url}/`)
+                                                        : false;
+                                                const isDropdownActive =
+                                                    hasDropdown &&
+                                                    link.dropdown?.some((item) =>
+                                                        pathname === item.url || pathname?.startsWith(`${item.url}/`)
+                                                    );
                                                 return (
                                                     <div key={link.url ?? idx} className="relative">
                                                         {hasDropdown ? (
@@ -141,7 +152,12 @@ const Navbar = () => {
                                                                     dropdownButtonRefs.current[link.text] = el;
                                                                 }}
                                                                 onClick={() => toggleDropdown(link.text)}
-                                                                className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+                                                                className={cn(
+                                                                    "flex items-center gap-1 px-3 py-1 text-sm font-medium transition-colors",
+                                                                    isDropdownActive
+                                                                        ? "text-foreground font-semibold"
+                                                                        : "text-foreground/80 hover:text-foreground"
+                                                                )}
                                                                 aria-expanded={openDropdown === link.text}
                                                                 aria-controls={`dropdown-${link.text}`}
                                                             >
@@ -154,7 +170,12 @@ const Navbar = () => {
                                                         ) : (
                                                             <Link
                                                                 href={link.url ?? '/'}
-                                                                className="block px-3 py-1 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+                                                                className={cn(
+                                                                    "block px-3 py-1 text-sm font-medium transition-colors",
+                                                                    isLinkActive
+                                                                        ? "text-foreground font-semibold"
+                                                                        : "text-foreground/80 hover:text-foreground"
+                                                                )}
                                                             >
                                                                 {link.text}
                                                             </Link>
@@ -171,7 +192,12 @@ const Navbar = () => {
                                                                     <Link
                                                                         key={itemIdx}
                                                                         href={item.url}
-                                                                        className="block px-4 py-2 text-sm text-foreground/80 hover:text-foreground hover:bg-background-dark transition-colors"
+                                                                        className={cn(
+                                                                            "block px-4 py-2 text-sm transition-colors rounded-md",
+                                                                            pathname?.startsWith(item.url)
+                                                                                ? "text-foreground font-medium bg-background-dark/50"
+                                                                                : "text-foreground/80 hover:text-foreground hover:bg-background-dark"
+                                                                        )}
                                                                         onClick={() => setOpenDropdown(null)}
                                                                     >
                                                                         {item.text}
@@ -246,6 +272,15 @@ const Navbar = () => {
                                         {mainLinks.map((link) => {
                                             const hasDropdown = !!(link.dropdown && link.dropdown.length > 0);
                                             const isDropdownOpen = openDropdown === link.text;
+                                            const isDropdownActive =
+                                                hasDropdown &&
+                                                link.dropdown?.some(
+                                                    (item) => pathname === item.url || pathname?.startsWith(`${item.url}/`)
+                                                );
+                                            const isLinkActive =
+                                                !hasDropdown && link.url
+                                                    ? pathname === link.url || pathname?.startsWith(`${link.url}/`)
+                                                    : false;
                                             return (
                                                 <div key={link.url}>
                                                     {hasDropdown ? (
@@ -255,7 +290,12 @@ const Navbar = () => {
                                                                     dropdownButtonRefs.current[link.text] = el
                                                                 }}
                                                                 onClick={() => toggleDropdown(link.text)}
-                                                                className="w-full flex items-center justify-between text-foreground/80 hover:text-foreground text-base font-medium p-3 rounded-lg hover:bg-background-dark transition-colors"
+                                                                className={cn(
+                                                                    "w-full flex items-center justify-between text-base font-medium p-3 rounded-lg transition-colors",
+                                                                    isDropdownActive
+                                                                        ? "text-foreground font-semibold bg-background-dark/40"
+                                                                        : "text-foreground/80 hover:text-foreground hover:bg-background-dark"
+                                                                )}
                                                             >
                                                                 <span>{link.text}</span>
                                                                 <ChevronDown className={cn(
@@ -274,7 +314,12 @@ const Navbar = () => {
                                                                         <Link
                                                                             key={itemIdx}
                                                                             href={item.url}
-                                                                            className="block text-foreground/70 hover:text-foreground text-sm font-medium p-2 rounded-lg hover:bg-background-dark transition-colors"
+                                                                            className={cn(
+                                                                                "block text-sm font-medium p-2 rounded-lg transition-colors",
+                                                                                pathname?.startsWith(item.url)
+                                                                                    ? "text-foreground font-semibold bg-background-dark/40"
+                                                                                    : "text-foreground/70 hover:text-foreground hover:bg-background-dark"
+                                                                            )}
                                                                             onClick={() => {
                                                                                 setIsMobileMenuOpen(false);
                                                                                 setOpenDropdown(null);
@@ -289,7 +334,12 @@ const Navbar = () => {
                                                     ) : (
                                                         <Link
                                                             href={link.url ?? '/'}
-                                                            className="block text-foreground/80 hover:text-foreground text-base font-medium p-3 rounded-lg hover:bg-background-dark transition-colors"
+                                                            className={cn(
+                                                                "block text-base font-medium p-3 rounded-lg transition-colors",
+                                                                isLinkActive
+                                                                    ? "text-foreground font-semibold bg-background-dark/40"
+                                                                    : "text-foreground/80 hover:text-foreground hover:bg-background-dark"
+                                                            )}
                                                             onClick={() => setIsMobileMenuOpen(false)}
                                                         >
                                                             {link.text}
