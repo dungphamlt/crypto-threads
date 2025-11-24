@@ -46,13 +46,12 @@ function MiniChart({
   // Create area path for fill
   const areaPath = `${pathData} L ${width - padding},${height} L ${padding},${height} Z`;
 
-  // Colors optimized for dark background
   const lineColor = isPositive
-    ? "#4ade80" // green-400
-    : "#f87171"; // red-400
+    ? "#4ade80"
+    : "#f87171";
   const fillColor = isPositive
-    ? "rgba(74, 222, 128, 0.2)" // green-400 with opacity
-    : "rgba(248, 113, 113, 0.2)"; // red-400 with opacity
+    ? "rgba(74, 222, 128, 0.2)"
+    : "rgba(248, 113, 113, 0.2)";
   const gradientId = `gradient-${coinId}-${isPositive ? "green" : "red"}`;
 
   return (
@@ -205,7 +204,7 @@ export default function CoinSlider() {
           return (
             <div key={coin.id} className="px-1 sm:px-3">
               <div
-                onClick={() => router.push(`/coin/${coin.id}`)}
+                onClick={() => router.push(`/coins/${coin.id}`)}
                 className={`
                   relative rounded-xl px-4 py-2 overflow-hidden border cursor-pointer transition-all hover:shadow-lg hover:scale-[1.02]
                   ${isPositive
