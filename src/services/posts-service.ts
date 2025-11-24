@@ -1,26 +1,6 @@
 import { Post, POST_STATUS, PostListParams, PostListResponse } from "@/types";
 import { get } from "./api";
 
-// Type guards
-const isPostListResponse = (obj: unknown): obj is PostListResponse => {
-  return (
-    typeof obj === "object" &&
-    obj !== null &&
-    "data" in obj &&
-    "pagination" in obj &&
-    Array.isArray((obj as { data: unknown }).data)
-  );
-};
-
-const hasPostsProperty = (obj: unknown): obj is { posts: Post[] } => {
-  return (
-    typeof obj === "object" &&
-    obj !== null &&
-    "posts" in obj &&
-    Array.isArray((obj as { posts: unknown }).posts)
-  );
-};
-
 const cacheConfig = {
   featured: { next: { revalidate: 300 } },
   latest: { next: { revalidate: 600 } },
@@ -73,8 +53,12 @@ export const postService = {
       }
     }
 
-    if (isPostListResponse(response)) {
-      return response;
+    if (
+      (response as unknown as PostListResponse).data &&
+      Array.isArray((response as unknown as PostListResponse).data) &&
+      (response as unknown as PostListResponse).pagination
+    ) {
+      return response as unknown as PostListResponse;
     }
 
     return {
@@ -103,8 +87,8 @@ export const postService = {
       }
     }
 
-    if (isPostListResponse(response) && Array.isArray(response.data)) {
-      return response.data;
+    if (Array.isArray((response as unknown as PostListResponse).data)) {
+      return response as unknown as Post[];
     }
 
     return [];
@@ -132,8 +116,12 @@ export const postService = {
     }
 
     // Case 3: response itself is PostListResponse (direct return from API)
-    if (isPostListResponse(response)) {
-      return response.data;
+    if (
+      (response as unknown as PostListResponse).data &&
+      Array.isArray((response as unknown as PostListResponse).data) &&
+      (response as unknown as PostListResponse).pagination
+    ) {
+      return response as unknown as Post[];
     }
 
     return [];
@@ -147,16 +135,6 @@ export const postService = {
       `/content-management/articles?category=${categoryKey}&page=1&pageSize=${limit}&status=${POST_STATUS.PUBLISHED}`,
       cacheConfig.category
     );
-
-    // Case 1: response.data.posts
-    if (response.data && hasPostsProperty(response.data)) {
-      return response.data.posts;
-    }
-
-    // Case 2: response.posts
-    if (hasPostsProperty(response)) {
-      return response.posts;
-    }
 
     // Case 3: response.data is PostListResponse object
     if (
@@ -174,8 +152,12 @@ export const postService = {
     }
 
     // Case 5: response itself is PostListResponse
-    if (isPostListResponse(response)) {
-      return response.data;
+    if (
+      (response as unknown as PostListResponse).data &&
+      Array.isArray((response as unknown as PostListResponse).data) &&
+      (response as unknown as PostListResponse).pagination
+    ) {
+      return response as unknown as Post[];
     }
 
     return [];
@@ -188,7 +170,7 @@ export const postService = {
         cacheConfig.detail
       );
       console.log("response", response);
-      return response.data || null;
+      return response as unknown as Post | null;
     } catch (error) {
       console.error(`Error fetching post ${slug}:`, error);
       return null;
@@ -239,16 +221,6 @@ export const postService = {
       cacheConfig.featured
     );
 
-    // Case 1: response.data.posts
-    if (response.data && hasPostsProperty(response.data)) {
-      return response.data.posts;
-    }
-
-    // Case 2: response.posts
-    if (hasPostsProperty(response)) {
-      return response.posts;
-    }
-
     // Case 3: response.data is PostListResponse object
     if (
       response.data &&
@@ -265,8 +237,12 @@ export const postService = {
     }
 
     // Case 5: response itself is PostListResponse (direct return from API)
-    if (isPostListResponse(response)) {
-      return response.data;
+    if (
+      (response as unknown as PostListResponse).data &&
+      Array.isArray((response as unknown as PostListResponse).data) &&
+      (response as unknown as PostListResponse).pagination
+    ) {
+      return response as unknown as Post[];
     }
 
     return [];
@@ -280,27 +256,6 @@ export const postService = {
       `/content-management/articles?creator=${author_id}&page=1&pageSize=${limit}&status=${POST_STATUS.PUBLISHED}`,
       cacheConfig.latest
     );
-
-    // Case 1: response.data is PostListResponse object
-    if (
-      response.data &&
-      typeof response.data === "object" &&
-      "data" in response.data &&
-      "pagination" in response.data
-    ) {
-      return (response.data as PostListResponse).data;
-    }
-
-    // Case 2: response.data is array directly
-    if (response.data && Array.isArray(response.data)) {
-      return response.data as Post[];
-    }
-
-    // Case 3: response itself is PostListResponse
-    if (isPostListResponse(response)) {
-      return response.data;
-    }
-
-    return [];
+    return (response.data as unknown as Post[]) || [];
   },
 };
