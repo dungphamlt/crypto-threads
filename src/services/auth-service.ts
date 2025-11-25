@@ -187,14 +187,18 @@ export const authService = {
     }
   },
 
-  resetPassword: async (token: string, newPassword: string): Promise<{ success: boolean; message: string; user?: AuthUser }> => {
+  resetPassword: async (
+    email: string,
+    otp: string,
+    newPassword: string
+  ): Promise<{ success: boolean; message: string; user?: AuthUser }> => {
     try {
-      const payload = { token, password: newPassword };
+      const payload = { email, otp, newPassword };
       const response = await post<{ message: string; user?: { id: string; username: string; email: string; isEmailVerified: boolean } }>(
         `/auth/user/reset-password`,
         payload
       ) as any;
- 
+
 
       if (response?.user.id) {
         return {
