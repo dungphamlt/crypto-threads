@@ -1,7 +1,8 @@
+import Link from "next/link";
 import type { Post } from "@/types";
 import { CategoryNewsHeroSection } from "./category-news-hero-section";
 import { MainArticleCard } from "./main-article-card";
-import { CategoryArticleCard } from "./category-article-card"; 
+import { CategoryArticleCard } from "./category-article-card";
 
 interface CategoryNewsLayoutProps {
   featuredPost: Post | null;
@@ -11,7 +12,7 @@ interface CategoryNewsLayoutProps {
   };
   middlePosts?: Post[]; // 3 posts for middle row
   bottomPosts?: Post[]; // 2 posts for bottom row
-  gridPosts?: Post[]; // Posts for grid layout
+  gridPosts?: Post[];
   showViewMore?: boolean;
   viewMoreHref?: string;
   onViewMore?: () => void;
@@ -47,6 +48,37 @@ export function CategoryNewsLayout({
           {bottomPosts.slice(0, 2).map((post) => (
             <MainArticleCard key={post.id} post={post} />
           ))}
+        </div>
+      )}
+
+      {/* Additional Grid Posts */}
+      {gridPosts.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {gridPosts.map((post) => (
+            <CategoryArticleCard key={post.id} post={post} />
+          ))}
+        </div>
+      )}
+
+      {/* View more */}
+      {showViewMore && (
+        <div className="flex justify-center">
+          {viewMoreHref ? (
+            <Link
+              href={viewMoreHref}
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            >
+              View more
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={onViewMore}
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            >
+              View more
+            </button>
+          )}
         </div>
       )}
     </div>

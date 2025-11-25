@@ -2,17 +2,14 @@
 
 import Link from "next/link";
 import { AuthToggle, LoginForm, RegisterForm } from "@/components/auth";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type AuthType = "login" | "register";
 
-interface AuthPageProps {
-  searchParams: { type?: string };
-}
-
-export default function AuthPage({ searchParams }: AuthPageProps) {
-  const typeParam = searchParams?.type === "register" ? "register" : "login";
+function AuthPageContent() {
+  const searchParams = useSearchParams();
+  const typeParam = searchParams.get("type") === "register" ? "register" : "login";
 
   const router = useRouter();
   const [authType, setAuthType] = useState<AuthType>(typeParam);
@@ -50,7 +47,10 @@ export default function AuthPage({ searchParams }: AuthPageProps) {
               </p>
             </div>
 
-            <AuthToggle activeTab={authType === "login" ? "login" : "signup"} onTabChange={(tab) => handleTabChange(tab === "signup" ? "register" : "login")} />
+            <AuthToggle
+              activeTab={authType === "login" ? "login" : "signup"}
+              onTabChange={(tab) => handleTabChange(tab === "signup" ? "register" : "login")}
+            />
 
             <div className="mt-6 max-h-[70vh] overflow-visible">
               {authType === "login" ? <LoginForm /> : <RegisterForm />}
@@ -59,6 +59,20 @@ export default function AuthPage({ searchParams }: AuthPageProps) {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+          <div className="text-gray-500 dark:text-gray-400">Loading...</div>
+        </div>
+      }
+    >
+      <AuthPageContent />
+    </Suspense>
   );
 }
 
