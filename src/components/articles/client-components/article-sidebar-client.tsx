@@ -53,7 +53,7 @@ export function ArticleSidebarClient({
 
   return (
     <div className="sticky top-14">
-      <div className="flex items-center justify-between gap-4 mb-4">
+      <div className="flex items-center justify-between gap-4 mb-6">
         <button
           onClick={() => setIsLatest(true)}
           className={`flex-1 py-2 px-4 rounded-xl font-bold border transition-all duration-300 ${
@@ -77,13 +77,13 @@ export function ArticleSidebarClient({
       </div>
       <div className="space-y-4">
         {isLatest ? (
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             {latestPosts.map((post) => (
               <ArticleCard key={post._id || post.id} post={post} />
             ))}
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             {popularPosts.map((post) => (
               <ArticleCard key={post._id || post.id} post={post} />
             ))}

@@ -21,7 +21,7 @@ export interface AuthorShort {
   avatarUrl: string;
 }
 
-export interface OtherAuthor extends AuthorShort { };
+export type OtherAuthor = AuthorShort;
 
 export interface AuthorResponse {
   author: Author;
@@ -48,7 +48,7 @@ export const authorService = {
   getListAuthors: async (): Promise<AuthorShort[]> => {
     try {
       const response = await get<AuthorsListResponse>(
-        '/content-management/authors?offset=0&limit=9&role=writer',
+        "/content-management/authors?offset=0&limit=9&role=writer",
         cacheConfig.listAuthors
       );
 
@@ -56,7 +56,11 @@ export const authorService = {
         if (Array.isArray(response.data)) {
           return response.data;
         }
-        if (typeof response.data === 'object' && 'data' in response.data && Array.isArray(response.data.data)) {
+        if (
+          typeof response.data === "object" &&
+          "data" in response.data &&
+          Array.isArray(response.data.data)
+        ) {
           return response.data.data;
         }
       }
@@ -67,7 +71,7 @@ export const authorService = {
 
       return [];
     } catch (error) {
-      console.error('Error fetching authors list:', error);
+      console.error("Error fetching authors list:", error);
       return [];
     }
   },
@@ -79,14 +83,24 @@ export const authorService = {
         cacheConfig.author
       );
 
+      // Type guard to check if object has author property
+      const hasAuthor = (obj: unknown): obj is AuthorResponse => {
+        return (
+          typeof obj === "object" &&
+          obj !== null &&
+          "author" in obj &&
+          typeof (obj as { author: unknown }).author === "object"
+        );
+      };
+
       // Case 1: response.data contains the AuthorResponse
-      if (response.data && (response.data as any).author) {
+      if (response.data && hasAuthor(response.data)) {
         return response.data;
       }
 
       // Case 2: response itself is the AuthorResponse (direct return from API)
-      if ((response as any).author) {
-        return response as unknown as AuthorResponse;
+      if (hasAuthor(response)) {
+        return response as AuthorResponse;
       }
 
       return null;
@@ -96,4 +110,3 @@ export const authorService = {
     }
   },
 };
-

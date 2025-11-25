@@ -1,6 +1,7 @@
 "use client";
 
 export function ArticleCategoryColumnSkeleton({ title }: { title: string }) {
+  console.log("title", title);
   return (
     <div className="rounded-3xl border border-border/60 bg-white dark:bg-gray-950/50 p-4 shadow-sm animate-pulse">
       <div className="flex items-center justify-between mb-4">
@@ -27,5 +28,3 @@ export function ArticleCategoryColumnSkeleton({ title }: { title: string }) {
     </div>
   );
 }
-
-

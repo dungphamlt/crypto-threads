@@ -30,9 +30,13 @@ export const postService = {
       cacheConfig.latest
     );
 
-    console.log("getPosts response", response); 
+    console.log("getPosts response", response);
     if (response.data) {
-      if (typeof response.data === 'object' && 'data' in response.data && 'pagination' in response.data) {
+      if (
+        typeof response.data === "object" &&
+        "data" in response.data &&
+        "pagination" in response.data
+      ) {
         return response.data as PostListResponse;
       }
       if (Array.isArray(response.data)) {
@@ -49,7 +53,11 @@ export const postService = {
       }
     }
 
-    if ((response as any).data && Array.isArray((response as any).data) && (response as any).pagination) {
+    if (
+      (response as unknown as PostListResponse).data &&
+      Array.isArray((response as unknown as PostListResponse).data) &&
+      (response as unknown as PostListResponse).pagination
+    ) {
       return response as unknown as PostListResponse;
     }
 
@@ -78,9 +86,9 @@ export const postService = {
         return response.data.data;
       }
     }
-    
-    if (Array.isArray((response as any).data)) {
-      return (response as any).data;
+
+    if (Array.isArray((response as unknown as PostListResponse).data)) {
+      return response as unknown as Post[];
     }
 
     return [];
@@ -90,21 +98,30 @@ export const postService = {
     const response = await get<PostListResponse>(
       `/content-management/articles?page=1&pageSize=${limit}&status=${POST_STATUS.PUBLISHED}`,
       cacheConfig.latest
-    ); 
-    
+    );
+
     // Case 1: response.data is PostListResponse object
-    if (response.data && typeof response.data === 'object' && 'data' in response.data && 'pagination' in response.data) {
+    if (
+      response.data &&
+      typeof response.data === "object" &&
+      "data" in response.data &&
+      "pagination" in response.data
+    ) {
       return (response.data as PostListResponse).data;
     }
-    
+
     // Case 2: response.data is array directly
     if (response.data && Array.isArray(response.data)) {
       return response.data as Post[];
     }
 
     // Case 3: response itself is PostListResponse (direct return from API)
-    if ((response as any).data && Array.isArray((response as any).data) && (response as any).pagination) {
-      return (response as any).data as Post[];
+    if (
+      (response as unknown as PostListResponse).data &&
+      Array.isArray((response as unknown as PostListResponse).data) &&
+      (response as unknown as PostListResponse).pagination
+    ) {
+      return response as unknown as Post[];
     }
 
     return [];
@@ -119,29 +136,28 @@ export const postService = {
       cacheConfig.category
     );
 
-    // Case 1: response.data.posts
-    if (response.data && typeof response.data === 'object' && 'posts' in response.data && Array.isArray((response.data as any).posts)) {
-      return (response.data as any).posts as Post[];
-    }
-
-    // Case 2: response.posts
-    if ((response as any).posts && Array.isArray((response as any).posts)) {
-      return (response as any).posts as Post[];
-    }
-
     // Case 3: response.data is PostListResponse object
-    if (response.data && typeof response.data === 'object' && 'data' in response.data && 'pagination' in response.data) {
+    if (
+      response.data &&
+      typeof response.data === "object" &&
+      "data" in response.data &&
+      "pagination" in response.data
+    ) {
       return (response.data as PostListResponse).data;
     }
-    
+
     // Case 4: response.data is array directly
     if (response.data && Array.isArray(response.data)) {
       return response.data as Post[];
     }
 
     // Case 5: response itself is PostListResponse
-    if ((response as any).data && Array.isArray((response as any).data) && (response as any).pagination) {
-      return (response as any).data as Post[];
+    if (
+      (response as unknown as PostListResponse).data &&
+      Array.isArray((response as unknown as PostListResponse).data) &&
+      (response as unknown as PostListResponse).pagination
+    ) {
+      return response as unknown as Post[];
     }
 
     return [];
@@ -205,31 +221,41 @@ export const postService = {
       cacheConfig.featured
     );
 
-    // Case 1: response.data.posts
-    if (response.data && typeof response.data === 'object' && 'posts' in response.data && Array.isArray((response.data as any).posts)) {
-      return (response.data as any).posts as Post[];
-    }
-
-    // Case 2: response.posts
-    if ((response as any).posts && Array.isArray((response as any).posts)) {
-      return (response as any).posts as Post[];
-    }
-
     // Case 3: response.data is PostListResponse object
-    if (response.data && typeof response.data === 'object' && 'data' in response.data && 'pagination' in response.data) {
+    if (
+      response.data &&
+      typeof response.data === "object" &&
+      "data" in response.data &&
+      "pagination" in response.data
+    ) {
       return (response.data as PostListResponse).data;
     }
-    
+
     // Case 4: response.data is array directly
     if (response.data && Array.isArray(response.data)) {
       return response.data as Post[];
     }
 
     // Case 5: response itself is PostListResponse (direct return from API)
-    if ((response as any).data && Array.isArray((response as any).data) && (response as any).pagination) {
-      return (response as any).data as Post[];
+    if (
+      (response as unknown as PostListResponse).data &&
+      Array.isArray((response as unknown as PostListResponse).data) &&
+      (response as unknown as PostListResponse).pagination
+    ) {
+      return response as unknown as Post[];
     }
 
     return [];
+  },
+
+  getPostsByAuthor: async (
+    author_id: string,
+    limit: number = 10
+  ): Promise<Post[]> => {
+    const response = await get<PostListResponse>(
+      `/content-management/articles?creator=${author_id}&page=1&pageSize=${limit}&status=${POST_STATUS.PUBLISHED}`,
+      cacheConfig.latest
+    );
+    return (response.data as unknown as Post[]) || [];
   },
 };

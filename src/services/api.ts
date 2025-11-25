@@ -13,7 +13,7 @@ interface RequestOptions extends RequestInit {
   };
 }
 
-export async function get<T = any>(
+export async function get<T>(
   url: string,
   options: RequestOptions = {}
 ): Promise<{ data?: T; success: boolean; message?: string }> {
@@ -39,9 +39,9 @@ export async function get<T = any>(
   }
 }
 
-export async function post<T = any>(
+export async function post<T>(
   url: string,
-  body: any,
+  body: Record<string, unknown>,
   options: RequestOptions = {}
 ): Promise<{ data?: T; success: boolean; message?: string }> {
   try {
@@ -67,9 +67,9 @@ export async function post<T = any>(
   }
 }
 
-export async function patch<T = any>(
+export async function patch<T>(
   url: string,
-  body: any,
+  body: Record<string, unknown>,
   options: RequestOptions = {}
 ): Promise<{ data?: T; success: boolean; message?: string }> {
   try {
@@ -95,7 +95,7 @@ export async function patch<T = any>(
   }
 }
 
-export async function del<T = any>(
+export async function del<T>(
   url: string,
   options: RequestOptions = {}
 ): Promise<{ data?: T; success: boolean; message?: string }> {
