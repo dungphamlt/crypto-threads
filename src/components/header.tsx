@@ -16,6 +16,7 @@ const Navbar = () => {
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
+    const closeDropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const navbarRef = useRef<HTMLDivElement>(null);
 
     // Refs for dropdown buttons and panels (robust outside-click detection)
@@ -77,6 +78,14 @@ const Navbar = () => {
         else document.documentElement.classList.remove('dark');
     };
 
+    useEffect(() => {
+        return () => {
+            if (closeDropdownTimeout.current) {
+                clearTimeout(closeDropdownTimeout.current);
+            }
+        };
+    }, []);
+
     const handleSearchSubmit = (e?: React.FormEvent) => {
         e?.preventDefault();
         const q = query.trim();
@@ -86,6 +95,19 @@ const Navbar = () => {
     };
 
     const mainLinks = (baseOptions.links ?? []).filter((l) => l.type === 'main') as NavLinkWithDropdown[];
+
+    const handleDropdownEnter = (linkText: string) => {
+        if (closeDropdownTimeout.current) {
+            clearTimeout(closeDropdownTimeout.current);
+            closeDropdownTimeout.current = null;
+        }
+        setHoveredDropdown(linkText);
+    };
+
+    const handleDropdownLeave = () => {
+        if (closeDropdownTimeout.current) clearTimeout(closeDropdownTimeout.current);
+        closeDropdownTimeout.current = setTimeout(() => setHoveredDropdown(null), 120);
+    };
 
     const toggleDropdown = (linkText: string) => {
         setOpenDropdown((prev) => (prev === linkText ? null : linkText));
@@ -155,8 +177,8 @@ const Navbar = () => {
                                                     <div 
                                                         key={link.url ?? idx} 
                                                         className="relative"
-                                                        onMouseEnter={() => hasDropdown && setHoveredDropdown(link.text)}
-                                                        onMouseLeave={() => setHoveredDropdown(null)}
+                                                        onMouseEnter={() => hasDropdown && handleDropdownEnter(link.text)}
+                                                        onMouseLeave={() => hasDropdown && handleDropdownLeave()}
                                                     >
                                                         {hasDropdown ? (
                                                             <Link
@@ -196,8 +218,8 @@ const Navbar = () => {
                                                                 id={`dropdown-${link.text}`}
                                                                 ref={(el) => { dropdownPanelRefs.current[link.text] = el; }}
                                                                 className="absolute top-full left-0 mt-1 w-48 bg-background rounded-lg shadow-lg border border-foreground/10 py-2 z-50"
-                                                                onMouseEnter={() => setHoveredDropdown(link.text)}
-                                                                onMouseLeave={() => setHoveredDropdown(null)}
+                                                                onMouseEnter={() => handleDropdownEnter(link.text)}
+                                                                onMouseLeave={handleDropdownLeave}
                                                             >
                                                                 {link.dropdown.map((item, itemIdx) => (
                                                                     <Link
