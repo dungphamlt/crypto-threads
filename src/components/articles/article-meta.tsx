@@ -30,8 +30,8 @@ export function ArticleMeta({
 
   const layoutClasses =
     orientation === "column"
-      ? "flex flex-col gap-1"
-      : "flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2";
+      ? "flex flex-col gap-1 leading-none"
+      : "flex items-center gap-1 sm:gap-2 leading-none";
 
   const getInitial = (name?: string) => {
     if (!name) return "?";
@@ -46,7 +46,7 @@ export function ArticleMeta({
   };
 
   const AuthorContent = () => (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 leading-none">
       {isShowAvatar && (
         <div className="relative w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
           {avatarUrl ? (
@@ -64,11 +64,13 @@ export function ArticleMeta({
           )}
         </div>
       )}
-      <span className="text-muted-foreground/70">
-        <span className="uppercase tracking-wide text-[10px] sm:text-[11px]">
+      <span className="text-muted-foreground/70 leading-none flex items-center gap-1">
+        <span className="uppercase tracking-wide text-[10px] sm:text-[11px] leading-none">
           By{" "}
         </span>
-        <span className="font-semibold text-foreground">{author}</span>
+        <span className="text-[10px] sm:text-[11px] font-semibold text-foreground leading-none">
+          {author}
+        </span>
       </span>
     </div>
   );
@@ -101,7 +103,7 @@ export function ArticleMeta({
           {orientation === "row" && (
             <span className="hidden sm:inline text-muted-foreground/60">·</span>
           )}
-          <span className="text-muted-foreground opacity-80">
+          <span className="text-[10px] sm:text-[11px] text-muted-foreground opacity-80 leading-none flex items-center">
             {formatDate(dateValue)}
           </span>
         </>

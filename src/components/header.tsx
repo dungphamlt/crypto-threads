@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Menu as MenuIcon, Search as SearchIcon, Sun, Moon, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { Logo } from './logo';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
@@ -14,6 +15,8 @@ const Navbar = () => {
     const [query, setQuery] = useState('');
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+    const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
+    const closeDropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const navbarRef = useRef<HTMLDivElement>(null);
 
     // Refs for dropdown buttons and panels (robust outside-click detection)
@@ -21,6 +24,7 @@ const Navbar = () => {
     const dropdownPanelRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
     const router = useRouter();
+    const pathname = usePathname();
  
 
     // Outside click / mousedown handler (uses specific refs)
@@ -34,7 +38,7 @@ const Navbar = () => {
                 setIsMobileMenuOpen(false);
             }
 
-            // If a dropdown is open, only keep it open when click is inside its button or panel
+            // If a dropdown is open (mobile), only keep it open when click is inside its button or panel
             if (openDropdown) {
                 const btn = dropdownButtonRefs.current[openDropdown];
                 const panel = dropdownPanelRefs.current[openDropdown];
@@ -74,6 +78,14 @@ const Navbar = () => {
         else document.documentElement.classList.remove('dark');
     };
 
+    useEffect(() => {
+        return () => {
+            if (closeDropdownTimeout.current) {
+                clearTimeout(closeDropdownTimeout.current);
+            }
+        };
+    }, []);
+
     const handleSearchSubmit = (e?: React.FormEvent) => {
         e?.preventDefault();
         const q = query.trim();
@@ -83,6 +95,19 @@ const Navbar = () => {
     };
 
     const mainLinks = (baseOptions.links ?? []).filter((l) => l.type === 'main') as NavLinkWithDropdown[];
+
+    const handleDropdownEnter = (linkText: string) => {
+        if (closeDropdownTimeout.current) {
+            clearTimeout(closeDropdownTimeout.current);
+            closeDropdownTimeout.current = null;
+        }
+        setHoveredDropdown(linkText);
+    };
+
+    const handleDropdownLeave = () => {
+        if (closeDropdownTimeout.current) clearTimeout(closeDropdownTimeout.current);
+        closeDropdownTimeout.current = setTimeout(() => setHoveredDropdown(null), 120);
+    };
 
     const toggleDropdown = (linkText: string) => {
         setOpenDropdown((prev) => (prev === linkText ? null : linkText));
@@ -132,47 +157,80 @@ const Navbar = () => {
                                         <>
                                             {mainLinks.map((link, idx) => {
                                                 const hasDropdown = !!(link.dropdown && link.dropdown.length > 0);
+                                                const isLinkActive =
+                                                    !hasDropdown && link.url
+                                                        ? pathname === link.url || pathname?.startsWith(`${link.url}/`)
+                                                        : false;
+                                                const isMainNavActive =
+                                                    hasDropdown && link.url
+                                                        ? pathname === link.url || pathname?.startsWith(`${link.url}/`)
+                                                        : false;
+                                                const isDropdownActive =
+                                                    hasDropdown &&
+                                                    link.dropdown?.some((item) =>
+                                                        pathname === item.url || pathname?.startsWith(`${item.url}/`)
+                                                    );
+                                                const isNavHighlighted = hasDropdown 
+                                                    ? (isMainNavActive || isDropdownActive || hoveredDropdown === link.text)
+                                                    : (isLinkActive || hoveredDropdown === link.text);
                                                 return (
-                                                    <div key={link.url ?? idx} className="relative">
+                                                    <div 
+                                                        key={link.url ?? idx} 
+                                                        className="relative"
+                                                        onMouseEnter={() => hasDropdown && handleDropdownEnter(link.text)}
+                                                        onMouseLeave={() => hasDropdown && handleDropdownLeave()}
+                                                    >
                                                         {hasDropdown ? (
-                                                            <button
-                                                                type="button"
-                                                                ref={(el) => {
-                                                                    dropdownButtonRefs.current[link.text] = el;
-                                                                }}
-                                                                onClick={() => toggleDropdown(link.text)}
-                                                                className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
-                                                                aria-expanded={openDropdown === link.text}
+                                                            <Link
+                                                                href={link.url ?? '/'}
+                                                                className={cn(
+                                                                    "flex items-center gap-1 px-3 py-1 text-sm font-medium transition-colors",
+                                                                    isNavHighlighted
+                                                                        ? "text-foreground font-semibold"
+                                                                        : "text-foreground/80 hover:text-foreground"
+                                                                )}
+                                                                aria-expanded={hoveredDropdown === link.text}
                                                                 aria-controls={`dropdown-${link.text}`}
                                                             >
                                                                 <span>{link.text}</span>
                                                                 <ChevronDown className={cn(
                                                                     'w-3 h-3 transition-transform',
-                                                                    openDropdown === link.text && 'rotate-180'
+                                                                    hoveredDropdown === link.text && 'rotate-180'
                                                                 )} />
-                                                            </button>
+                                                            </Link>
                                                         ) : (
                                                             <Link
                                                                 href={link.url ?? '/'}
-                                                                className="block px-3 py-1 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+                                                                className={cn(
+                                                                    "block px-3 py-1 text-sm font-medium transition-colors",
+                                                                    isLinkActive
+                                                                        ? "text-foreground font-semibold"
+                                                                        : "text-foreground/80 hover:text-foreground"
+                                                                )}
                                                             >
                                                                 {link.text}
                                                             </Link>
                                                         )}
 
-                                                        {/* Dropdown Menu */}
-                                                        {hasDropdown && openDropdown === link.text && link.dropdown && (
+                                                        {/* Dropdown Menu - Show on hover */}
+                                                        {hasDropdown && hoveredDropdown === link.text && link.dropdown && (
                                                             <div
                                                                 id={`dropdown-${link.text}`}
                                                                 ref={(el) => { dropdownPanelRefs.current[link.text] = el; }}
                                                                 className="absolute top-full left-0 mt-1 w-48 bg-background rounded-lg shadow-lg border border-foreground/10 py-2 z-50"
+                                                                onMouseEnter={() => handleDropdownEnter(link.text)}
+                                                                onMouseLeave={handleDropdownLeave}
                                                             >
                                                                 {link.dropdown.map((item, itemIdx) => (
                                                                     <Link
                                                                         key={itemIdx}
                                                                         href={item.url}
-                                                                        className="block px-4 py-2 text-sm text-foreground/80 hover:text-foreground hover:bg-background-dark transition-colors"
-                                                                        onClick={() => setOpenDropdown(null)}
+                                                                        className={cn(
+                                                                            "block px-4 py-2 text-sm transition-colors rounded-md",
+                                                                            pathname?.startsWith(item.url)
+                                                                                ? "text-foreground font-medium bg-background-dark/50"
+                                                                                : "text-foreground/80 hover:text-foreground hover:bg-background-dark"
+                                                                        )}
                                                                     >
                                                                         {item.text}
                                                                     </Link>
@@ -246,23 +304,64 @@ const Navbar = () => {
                                         {mainLinks.map((link) => {
                                             const hasDropdown = !!(link.dropdown && link.dropdown.length > 0);
                                             const isDropdownOpen = openDropdown === link.text;
+                                            const isMainNavActive =
+                                                hasDropdown && link.url
+                                                    ? pathname === link.url || pathname?.startsWith(`${link.url}/`)
+                                                    : false;
+                                            const isDropdownActive =
+                                                hasDropdown &&
+                                                link.dropdown?.some(
+                                                    (item) => pathname === item.url || pathname?.startsWith(`${item.url}/`)
+                                                );
+                                            const isLinkActive =
+                                                !hasDropdown && link.url
+                                                    ? pathname === link.url || pathname?.startsWith(`${link.url}/`)
+                                                    : false;
+                                            const isNavHighlighted = hasDropdown 
+                                                ? (isMainNavActive || isDropdownActive)
+                                                : isLinkActive;
                                             return (
                                                 <div key={link.url}>
                                                     {hasDropdown ? (
                                                         <>
-                                                            <button
-                                                                ref={(el) => {
-                                                                    dropdownButtonRefs.current[link.text] = el
-                                                                }}
-                                                                onClick={() => toggleDropdown(link.text)}
-                                                                className="w-full flex items-center justify-between text-foreground/80 hover:text-foreground text-base font-medium p-3 rounded-lg hover:bg-background-dark transition-colors"
-                                                            >
-                                                                <span>{link.text}</span>
-                                                                <ChevronDown className={cn(
-                                                                    'w-4 h-4 transition-transform',
-                                                                    isDropdownOpen && 'rotate-180'
-                                                                )} />
-                                                            </button>
+                                                            <div className="w-full flex items-center justify-between">
+                                                                <Link
+                                                                    href={link.url ?? '/'}
+                                                                    className={cn(
+                                                                        "flex-1 text-base font-medium p-3 rounded-lg transition-colors",
+                                                                        isNavHighlighted
+                                                                            ? "text-foreground font-semibold bg-background-dark/40"
+                                                                            : "text-foreground/80 hover:text-foreground hover:bg-background-dark"
+                                                                    )}
+                                                                    onClick={() => {
+                                                                        setIsMobileMenuOpen(false);
+                                                                        setOpenDropdown(null);
+                                                                    }}
+                                                                >
+                                                                    {link.text}
+                                                                </Link>
+                                                                <button
+                                                                    ref={(el) => {
+                                                                        dropdownButtonRefs.current[link.text] = el
+                                                                    }}
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        toggleDropdown(link.text);
+                                                                    }}
+                                                                    className={cn(
+                                                                        "p-3 rounded-lg transition-colors",
+                                                                        isNavHighlighted
+                                                                            ? "text-foreground hover:bg-background-dark/60"
+                                                                            : "text-foreground/80 hover:text-foreground hover:bg-background-dark"
+                                                                    )}
+                                                                    aria-label="Toggle dropdown"
+                                                                >
+                                                                    <ChevronDown className={cn(
+                                                                        'w-4 h-4 transition-transform',
+                                                                        isDropdownOpen && 'rotate-180'
+                                                                    )} />
+                                                                </button>
+                                                            </div>
                                                             {isDropdownOpen && link.dropdown && (
                                                                 <div
                                                                     ref={(el) => {
@@ -274,7 +373,12 @@ const Navbar = () => {
                                                                         <Link
                                                                             key={itemIdx}
                                                                             href={item.url}
-                                                                            className="block text-foreground/70 hover:text-foreground text-sm font-medium p-2 rounded-lg hover:bg-background-dark transition-colors"
+                                                                            className={cn(
+                                                                                "block text-sm font-medium p-2 rounded-lg transition-colors",
+                                                                                pathname?.startsWith(item.url)
+                                                                                    ? "text-foreground font-semibold bg-background-dark/40"
+                                                                                    : "text-foreground/70 hover:text-foreground hover:bg-background-dark"
+                                                                            )}
                                                                             onClick={() => {
                                                                                 setIsMobileMenuOpen(false);
                                                                                 setOpenDropdown(null);
@@ -289,7 +393,12 @@ const Navbar = () => {
                                                     ) : (
                                                         <Link
                                                             href={link.url ?? '/'}
-                                                            className="block text-foreground/80 hover:text-foreground text-base font-medium p-3 rounded-lg hover:bg-background-dark transition-colors"
+                                                            className={cn(
+                                                                "block text-base font-medium p-3 rounded-lg transition-colors",
+                                                                isLinkActive
+                                                                    ? "text-foreground font-semibold bg-background-dark/40"
+                                                                    : "text-foreground/80 hover:text-foreground hover:bg-background-dark"
+                                                            )}
                                                             onClick={() => setIsMobileMenuOpen(false)}
                                                         >
                                                             {link.text}
