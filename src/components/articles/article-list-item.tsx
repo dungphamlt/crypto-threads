@@ -18,10 +18,10 @@ export function ArticleListItem({ post, isShowExcerpt = false }: ArticleListItem
     <article className="group">
       <Link
         href={`/article/${post.slug}`}
-        className="flex gap-4 hover:opacity-80 transition-opacity"
+        className="flex gap-3 sm:gap-4 hover:opacity-80 transition-opacity"
       >
         {/* Image */}
-        <div className="relative w-48 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+        <div className="relative w-28 h-20 sm:w-36 sm:h-24 md:w-48 md:h-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
           {post.coverUrl ? (
             <Image
               src={post.coverUrl}
@@ -40,11 +40,11 @@ export function ArticleListItem({ post, isShowExcerpt = false }: ArticleListItem
         {/* Content */}
         <div className="flex-1 min-w-0">
           {/* Title */}
-          <h3 className="text-base sm:text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+          <h3 className="text-sm sm:text-base md:text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
             {post.title}
           </h3>
 
-          {isShowExcerpt && <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
+          {isShowExcerpt && <p className="text-[10px] sm:text-sm text-muted-foreground mb-2 line-clamp-2">
             {excerpt}
           </p>}
 
