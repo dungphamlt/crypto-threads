@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { MarketChartData } from "@/services/coins-service";
 import { formatCoinPrice } from "@/lib/utils";
 
@@ -15,6 +15,18 @@ interface PricePoint {
   price: number;
 }
 
+const convertToPricePoints = (prices: [number, number][]): PricePoint[] => {
+  if (!prices || prices.length === 0) return [];
+
+  return prices
+    .filter((point) => point && point.length >= 2 && typeof point[0] === "number" && typeof point[1] === "number")
+    .map(([time, price]) => ({
+      time,
+      price: typeof price === "number" && !isNaN(price) ? price : 0,
+    }))
+    .filter((point) => point.time && !isNaN(point.time) && point.price > 0);
+};
+
 export function CoinPriceChart({
   data,
   width = 800,
@@ -28,29 +40,14 @@ export function CoinPriceChart({
     price: string;
   } | null>(null);
 
-  // Validate data
-  if (!data || !data.prices || !Array.isArray(data.prices) || data.prices.length === 0) {
-    return (
-      <div className="w-full h-96 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-center">
-        <p className="text-muted-foreground">No chart data available</p>
-      </div>
-    );
-  }
+  const hasValidData = Boolean(data?.prices && Array.isArray(data.prices) && data.prices.length);
 
-  // Convert price data to points for smooth line chart
-  const convertToPricePoints = (prices: [number, number][]): PricePoint[] => {
-    if (!prices || prices.length === 0) return [];
-
-    return prices
-      .filter((point) => point && point.length >= 2 && typeof point[0] === "number" && typeof point[1] === "number")
-      .map(([time, price]) => ({
-        time,
-        price: typeof price === "number" && !isNaN(price) ? price : 0,
-      }))
-      .filter((point) => point.time && !isNaN(point.time) && point.price > 0);
-  };
-
-  const pricePoints = convertToPricePoints(data.prices);
+  const pricePoints = useMemo(() => {
+    if (!hasValidData || !data?.prices) {
+      return [];
+    }
+    return convertToPricePoints(data.prices);
+  }, [hasValidData, data]);
 
   // Helper function to create smooth curve using quadratic curves
   const drawSmoothLine = (
@@ -163,10 +160,10 @@ export function CoinPriceChart({
     // Draw key data points (first, last, min, max)
     const firstPoint = chartPoints[0];
     const lastPoint = chartPoints[chartPoints.length - 1];
-    const minPoint = chartPoints.reduce((min, p) => 
+    const minPoint = chartPoints.reduce((min, p) =>
       p.price < min.price ? p : min
     );
-    const maxPoint = chartPoints.reduce((max, p) => 
+    const maxPoint = chartPoints.reduce((max, p) =>
       p.price > max.price ? p : max
     );
 
@@ -185,12 +182,12 @@ export function CoinPriceChart({
       ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
       ctx.fill();
 
-      // Draw price label
+      // Draw label + price
       ctx.fillStyle = "#1f2937";
       ctx.font = "10px sans-serif";
       ctx.textAlign = "center";
       const labelY = point.y - 12;
-      ctx.fillText(formatPrice(point.price), point.x, labelY);
+      ctx.fillText(`${label}: ${formatPrice(point.price)}`, point.x, labelY);
     });
   }, [pricePoints, width, height]);
 
@@ -212,7 +209,6 @@ export function CoinPriceChart({
 
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
 
     const padding = { top: 30, right: 30, bottom: 50, left: 80 };
     const chartWidth = width - padding.left - padding.right;
@@ -244,7 +240,7 @@ export function CoinPriceChart({
     setTooltip(null);
   };
 
-  if (pricePoints.length === 0) {
+  if (!hasValidData || pricePoints.length === 0) {
     return (
       <div className="w-full h-96 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-center">
         <p className="text-muted-foreground">No chart data available</p>

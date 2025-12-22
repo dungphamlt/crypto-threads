@@ -65,6 +65,16 @@ interface LoginApiResponse {
   expiresIn: number | string;
 }
 
+interface ResetPasswordResponse { 
+  message: string; 
+  user?: { 
+    id: string;
+    username: string;
+    email: string;
+    isEmailVerified: boolean
+  }
+};
+
 interface MessageOnlyResponse {
   message: string;
 }
@@ -78,7 +88,7 @@ export const authService = {
         rememberMe: credentials.rememberMe ?? false,
       };
 
-      const response = await post<LoginApiResponse>(`/auth/user/login`, payload) as any;
+      const response = await post<LoginApiResponse>(`/auth/user/login`, payload) as unknown as LoginApiResponse;
 
       if (response?.userId) {
         const token = response.access_token;
@@ -99,26 +109,26 @@ export const authService = {
         };
       }
 
-      return { success: false, message: "Unexpected login response" };
-    } catch (error: any) {
+      return { success: false, message: "Login failed!" };
+    } catch (error) {
       console.error("Error during login:", error);
-      return { success: false, message: error?.message ?? "Login failed" };
+      const message = error instanceof Error ? error.message : "Login failed";
+      return { success: false, message };
     }
   },
 
-  register: async (data: RegisterData): Promise<OTPResponse> => {
+  register: async (registerData: RegisterData): Promise<OTPResponse> => {
     try {
       const payload = {
-        email: data.email,
-        username: data.email,
-        password: data.password,
-        firstName: data.firstName,
-        lastName: data.lastName,
+        email: registerData.email,
+        username: registerData.email,
+        password: registerData.password,
+        firstName: registerData.firstName,
+        lastName: registerData.lastName,
       };
+      const response = await post<RegisterApiResponse>(`/auth/user/register`, payload) as unknown as RegisterApiResponse;
 
-      const response = await post<RegisterApiResponse>(`/auth/user/register`, payload) as any;
-
-      if (response && response.user) {
+      if (response?.user) {
         return {
           success: true,
           message: response.message ?? "Registration successful. Please check your email for verification.",
@@ -133,70 +143,78 @@ export const authService = {
 
       return {
         success: false,
-        message: (response && response.message) ?? "Unexpected register response",
+        message: response.message ?? "Register failed!",
       };
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error during register:", error);
-      return { success: false, message: error?.message ?? "Registration failed" };
+      const message = error instanceof Error ? error.message : "Registration failed";
+      return { success: false, message };
     }
   },
 
   verifyOTP: async (email: string, otp: string): Promise<{ success: boolean, message: string }> => {
     try {
       const payload = { email, otp };
-      const response = await post<VerifyEmailResponse>(`/auth/user/verify-email`, payload) as any;
+      const response = await post<VerifyEmailResponse>(`/auth/user/verify-email`, payload) as unknown as VerifyEmailResponse;
 
-      if (response && response.user) {
+      if (response?.user) {
         return {
           success: true,
           message: response.message ?? "Email verified successfully",
         };
       }
 
-      return { success: false, message: (response && response.message) ?? "OTP verification failed" };
-    } catch (error: any) {
+      return { success: false, message: response.message ?? "OTP verification failed" };
+    } catch (error) {
       console.error("Error verifying OTP:", error);
-      return { success: false, message: error?.message ?? "OTP verification failed" };
+      const message = error instanceof Error ? error.message : "OTP verification failed";
+      return { success: false, message };
     }
   },
 
   resendOTP: async (email: string): Promise<OTPResponse> => {
     try {
       const payload = { email };
-      const response = await post<MessageOnlyResponse>(`/auth/user/resend-otp`, payload) as any;
+      const response = await post<MessageOnlyResponse>(`/auth/user/resend-otp`, payload);
 
       return {
         success: true,
         message: response?.message ?? "OTP resend requested",
       };
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error resending OTP:", error);
-      return { success: false, message: error?.message ?? "Failed to resend OTP" };
+      const message = error instanceof Error ? error.message : "Failed to resend OTP";
+      return { success: false, message };
     }
   },
 
   forgotPassword: async (email: string): Promise<{ success: boolean; message: string }> => {
     try {
       const payload = { email };
-      const response = await post<MessageOnlyResponse>(`/auth/user/request-reset-password`, payload) as any;
+      const response = await post<MessageOnlyResponse>(`/auth/user/request-reset-password`, payload);
 
       return { success: true, message: response?.message ?? "Password reset email requested" };
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error in forgotPassword:", error);
-      return { success: false, message: error?.message ?? "Failed to send reset email" };
+      const message = error instanceof Error ? error.message : "Failed to send reset email";
+      return { success: false, message };
     }
   },
 
-  resetPassword: async (token: string, newPassword: string): Promise<{ success: boolean; message: string; user?: AuthUser }> => {
+  resetPassword: async (
+    email: string,
+    otp: string,
+    newPassword: string
+  ): Promise<{ success: boolean; message: string; user?: AuthUser }> => {
     try {
-      const payload = { token, password: newPassword };
-      const response = await post<{ message: string; user?: { id: string; username: string; email: string; isEmailVerified: boolean } }>(
+      const payload = { email, otp, newPassword };
+      const response = await post<ResetPasswordResponse>(
         `/auth/user/reset-password`,
         payload
-      ) as any;
- 
+      ) as unknown as ResetPasswordResponse;
 
-      if (response?.user.id) {
+
+      if (response?.user?.id) {
         return {
           success: true,
           message: response.message ?? "Password reset successfully",
@@ -211,10 +229,11 @@ export const authService = {
         };
       }
 
-      return { success: false, message: "Unexpected reset-password response" };
-    } catch (error: any) {
+      return { success: false, message: response.message ?? "Reset password failed!" };
+    } catch (error) {
       console.error("Error in resetPassword:", error);
-      return { success: false, message: error?.message ?? "Failed to reset password" };
+      const message = error instanceof Error ? error.message : "Failed to reset password";
+      return { success: false, message };
     }
   },
 

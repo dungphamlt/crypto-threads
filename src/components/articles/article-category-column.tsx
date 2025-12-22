@@ -14,14 +14,17 @@ interface ArticleCategoryColumnProps {
   limit?: number;
 }
 
-export async function ArticleCategoryColumn({
-  title,
-  categoryKey,
-  viewMoreHref = "#",
-  limit = 3,
-}: ArticleCategoryColumnProps) {
-  const posts = await postService.getPostsByCategory(categoryKey, limit);
+interface ArticleCategoryColumnContentProps {
+  title: string;
+  viewMoreHref?: string;
+  posts: Post[];
+}
 
+export function ArticleCategoryColumnContent({
+  title,
+  viewMoreHref = "#",
+  posts,
+}: ArticleCategoryColumnContentProps) {
   if (posts.length === 0) {
     return (
       <div className="rounded-2xl border p-4">
@@ -74,4 +77,19 @@ export async function ArticleCategoryColumn({
   );
 }
 
+export async function ArticleCategoryColumn({
+  title,
+  categoryKey,
+  viewMoreHref = "#",
+  limit = 3,
+}: ArticleCategoryColumnProps) {
+  const posts = await postService.getPostsByCategory(categoryKey, limit);
+  return (
+    <ArticleCategoryColumnContent
+      title={title}
+      viewMoreHref={viewMoreHref}
+      posts={posts as Post[]}
+    />
+  );
+}
 

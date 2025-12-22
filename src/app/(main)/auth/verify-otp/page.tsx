@@ -138,7 +138,7 @@ function VerifyOTPContent() {
 
               <div className="text-left">
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Didn't receive the email?{" "}
+                  Didn&apos;t receive the email?{" "}
                   <button
                     onClick={handleResend}
                     disabled={isResending}

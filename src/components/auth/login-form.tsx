@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import authService, { type LoginCredentials } from "@/services/auth-service";
 import { SocialLoginButtons } from "./social-login-buttons";
 import { AuthInput } from "./auth-input";
@@ -119,12 +120,12 @@ export function LoginForm() {
           />
           <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Remember me</span>
         </label>
-        <a
+        <Link
           href="/auth/forgot-password"
           className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
         >
           Forgot Password?
-        </a>
+        </Link>
       </div>
 
       {/* Submit button */}
