@@ -1,9 +1,9 @@
 import React from "react";
 import { authorService } from "@/services/authors-service";
 import Image from "next/image";
-import Telegram from "@/assets/icons/Telegram.svg";
-import X from "@/assets/icons/X.svg";
-import Facebook from "@/assets/icons/Facebook.svg";
+import Telegram from "@/assets/icons/Telegram1.svg";
+import X from "@/assets/icons/X1.svg";
+import Facebook from "@/assets/icons/Facebook1.svg";
 import InstagramIcon from "@/assets/icons/instagram.svg";
 import Link from "next/link";
 

@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import TwitterIcon from "@/assets/icons/X.svg";
-import FacebookIcon from "@/assets/icons/Facebook.svg";
-import TelegramIcon from "@/assets/icons/Telegram.svg";
+import TwitterIcon from "@/assets/icons/X1.svg";
+import FacebookIcon from "@/assets/icons/Facebook1.svg";
+import TelegramIcon from "@/assets/icons/Telegram1.svg";
 import DiscordIcon from "@/assets/icons/Discord.svg";
 import ThreadIcon from "@/assets/icons/Threads.svg";
 import MessengerIcon from "@/assets/icons/Messenger.svg";
