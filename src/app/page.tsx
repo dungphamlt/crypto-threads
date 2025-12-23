@@ -13,9 +13,9 @@ import { BtnGoToTop } from "@/components/btn-go-to-top";
 
 export default async function LandingPage() {
   return (
-    <div className="container relative">
+    <div className="relative">
       <Header />
-      <main className="space-y-12">
+      <main className="space-y-12 container">
         <CoinSlider />
         <ArticleListSection mainPostLimit={1} sidePostsLimit={4} />
         <CoinListsSection />

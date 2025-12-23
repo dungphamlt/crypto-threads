@@ -17,7 +17,7 @@
     --card-foreground: 0 0% 9%;
     --popover: 0 0% 98%;
     --popover-foreground: 0 0% 9%;
-    --primary: 13 87% 54%;
+    --primary: rgb(240, 80, 35);
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
@@ -49,7 +49,7 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 13 87% 54%;
+    --primary: rgb(240, 80, 35);
     --primary-foreground: 0 0% 9%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
@@ -74,9 +74,8 @@
   --color-border: hsl(var(--border));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  --color-primary: hsl(var(--primary));
-  --font-sans: var(--font-montserrat);
-  --font-heading: var(--font-funnel-display);
+  --color-primary: var(--primary);
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -92,7 +91,7 @@
 
 @layer {
   .container {
-    @apply max-w-7xl mx-auto px-4 py-8 md:px-10 lg:px-14 w-full;
+    @apply max-w-7xl mx-auto px-4 md:px-8 lg:px-12 w-full;
   }
 
   .font-funnel {

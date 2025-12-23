@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 // import { GeistSans } from 'geist/font/sans';
 import { Funnel_Display, Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Metadata } from "next";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -21,6 +22,20 @@ const funnelDisplay = Funnel_Display({
   display: "swap",
   variable: "--font-funnel-display",
 });
+
+export const metadata: Metadata = {
+  title: "Crypto Threads",
+  description: "The latest news and insights from the crypto world",
+  icons: {
+    icon: "/logo.svg",
+  },
+  // Link share meta tags
+  openGraph: {
+    title: "Crypto Threads",
+    description: "The latest news and insights from the crypto world",
+    images: "/logo-orange.svg",
+  },
+};
 
 export default async function Layout({ children }: { children: ReactNode }) {
   return (

@@ -1,11 +1,27 @@
 import { Post, POST_STATUS, PostListParams, PostListResponse } from "@/types";
 import { get } from "./api";
 
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://crypto-threads-be-production.up.railway.app/api/v1";
+
+// Type guards
+const isPostListResponse = (obj: unknown): obj is PostListResponse => {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    "data" in obj &&
+    "pagination" in obj &&
+    Array.isArray((obj as { data: unknown }).data)
+  );
+};
+
 const cacheConfig = {
   featured: { next: { revalidate: 300 } },
   latest: { next: { revalidate: 600 } },
   detail: { next: { revalidate: 3600 } },
   category: { next: { revalidate: 900 } },
+  search: { next: { revalidate: 300 } },
 };
 
 export const postService = {
@@ -191,14 +207,47 @@ export const postService = {
   },
 
   searchPosts: async (query: string, limit: number = 10): Promise<Post[]> => {
-    const response = await get<PostListResponse>(
-      `/content-management/articles?search=${encodeURIComponent(
-        query
-      )}&page=1&pageSize=${limit}&status=${POST_STATUS.PUBLISHED}`,
-      { next: { revalidate: 300 } }
-    );
+    try {
+      const trimmedQuery = query.trim();
+      if (!trimmedQuery || trimmedQuery.length < 2) {
+        return [];
+      }
 
-    return response.data?.data || [];
+      const url = `${API_BASE_URL}content-management/articles?search=${encodeURIComponent(
+        trimmedQuery
+      )}&page=1&pageSize=${limit}&status=${POST_STATUS.PUBLISHED}`;
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        return [];
+      }
+
+      const data = await response.json();
+
+      if (data.data) {
+        if (Array.isArray(data.data)) {
+          return data.data;
+        }
+        if (data.data.data && Array.isArray(data.data.data)) {
+          return data.data.data;
+        }
+      }
+
+      if (Array.isArray((data as unknown as PostListResponse).data)) {
+        return (data as unknown as PostListResponse).data;
+      }
+
+      return [];
+    } catch (error) {
+      console.error("Search posts error:", error);
+      return [];
+    }
   },
 
   getRelatedPosts: async (post: Post, limit: number = 4): Promise<Post[]> => {
