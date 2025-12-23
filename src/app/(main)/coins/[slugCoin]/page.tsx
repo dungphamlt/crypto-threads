@@ -14,7 +14,7 @@ export default async function CoinPage({
     const { slugCoin } = await params;
 
     const coin = await fetchCoinDetail(slugCoin);
-    const chartData = await fetchCoinMarketChart(slugCoin, 7);
+    const chartData = await fetchCoinMarketChart(slugCoin);
     const posts = await postService.getLatestPosts(10);
 
     if (!coin) {
@@ -31,12 +31,12 @@ export default async function CoinPage({
         );
     }
 
-    const description = coin.description?.en || "No description available.";
+    const description = coin.about || "No description available.";
 
     return (
-        <div className="container">
+        <div>
             <Header />
-            <main className="flex-1">
+            <main className="flex-1 container mx-auto px-4 py-8 space-y-12">
                 <CoinSlider />
                 <div className="mx-auto py-8">
                     <div className="max-w-7xl mx-auto">

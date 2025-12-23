@@ -9,17 +9,17 @@ interface CoinDetailHeaderProps {
 }
 
 export function CoinDetailHeader({ coin }: CoinDetailHeaderProps) {
-  const priceChange = coin.market_data?.price_change_percentage_24h || 0;
+  const priceChange = coin.price_change_percentage_24h || 0;
   const isPositive = priceChange >= 0;
-  const currentPrice = coin.market_data?.current_price?.usd || 0;
+  const currentPrice = coin.price ?? coin.keyMetrics?.openPrice24h ?? 0;
 
   return (
     <div className="flex items-center gap-4 mb-6">
       {/* Logo */}
       <div className="relative w-16 h-16 flex-shrink-0 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
-        {coin.image?.large ? (
+        {coin.logoUrl ? (
           <Image
-            src={coin.image.large}
+            src={coin.logoUrl}
             alt={coin.name}
             fill
             className="object-cover"

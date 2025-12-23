@@ -46,9 +46,8 @@ function MiniChart({
   const pathData = `M ${points.join(" L ")}`;
 
   // Create area path for fill
-  const areaPath = `${pathData} L ${
-    width - padding
-  },${height} L ${padding},${height} Z`;
+  const areaPath = `${pathData} L ${width - padding
+    },${height} L ${padding},${height} Z`;
 
   const lineColor = isPositive ? "#4ade80" : "#f87171";
   const fillColor = isPositive
@@ -91,12 +90,7 @@ export default function CoinSlider() {
     isError,
     error,
   } = useCoins({
-    vs_currency: "usd",
-    order: "market_cap_desc",
     per_page: 15,
-    page: 1,
-    sparkline: true,
-    price_change_percentage: "24h",
   });
 
   const sliderSettings = useMemo(
@@ -207,17 +201,10 @@ export default function CoinSlider() {
                 onClick={() => router.push(`/coins/${coin.id}`)}
                 className={`
                   relative rounded-xl px-4 py-2 overflow-hidden border cursor-pointer transition-all hover:shadow-lg hover:scale-[1.02]
-                  ${
-                    isPositive
-                      ? `
-                      dark:bg-gradient-to-b dark:from-green-900/40 dark:via-green-900/30 dark:to-gray-900 dark:border-green-800/50
-                      bg-gradient-to-b from-green-200 via-green-100 to-white border-green-300
-                    `
-                      : `
-                      dark:bg-gradient-to-b dark:from-red-900/40 dark:via-red-900/30 dark:to-gray-900 dark:border-red-800/50
-                      bg-gradient-to-b from-red-200 via-red-100 to-white border-red-300
-                    `
-                  }
+                  ${isPositive
+                    ? "border-green-300 dark:border-green-700"
+                    : "border-red-300 dark:border-red-700"
+                  } bg-transparent
                 `}
                 style={{
                   minHeight: "80px",
@@ -225,16 +212,14 @@ export default function CoinSlider() {
               >
                 {/* Header: Icon + Symbol */}
                 <div className="flex items-center gap-2 mb-1">
-                  <div className="flex items-center justify-center w-6 h-6  rounded-full bg-gray-500">
-                    <Image
-                      src={coin.image}
-                      alt={coin.name}
-                      width={16}
-                      height={16}
-                      className="w-4 h-4 rounded-full"
-                    />
-                  </div>
-                  <span className="text-sm font-semibold text-gray-900 dark:text-white uppercase">
+                  <Image
+                    src={coin.image}
+                    alt={coin.name}
+                    width={24}
+                    height={24}
+                    className="w-7 h-7 rounded-full"
+                  />
+                  <span className="text-base font-semibold text-gray-900 dark:text-white uppercase">
                     {coin.symbol}
                   </span>
                 </div>
@@ -251,9 +236,8 @@ export default function CoinSlider() {
                       <ArrowDown className="w-3 h-3 text-red-400" />
                     )}
                     <span
-                      className={`text-xs sm:text-sm font-medium ${
-                        isPositive ? "text-green-400" : "text-red-400"
-                      }`}
+                      className={`text-xs sm:text-sm font-medium ${isPositive ? "text-green-400" : "text-red-400"
+                        }`}
                     >
                       {isPositive ? "+" : ""}
                       {priceChange.toFixed(2)}%
@@ -263,7 +247,13 @@ export default function CoinSlider() {
 
                 {/* Mini Chart */}
                 {sparklinePrices.length > 0 && (
-                  <div className="relative h-8 w-full">
+                  <div
+                    className={`relative h-8 w-full ${
+                      isPositive
+                        ? "drop-shadow-[0_2px_6px_rgba(34,197,94,0.35)]"
+                        : "drop-shadow-[0_2px_6px_rgba(239,68,68,0.35)]"
+                    }`}
+                  >
                     <MiniChart
                       prices={sparklinePrices}
                       isPositive={isPositive}

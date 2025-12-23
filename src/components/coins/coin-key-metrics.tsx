@@ -8,20 +8,20 @@ interface CoinKeyMetricsProps {
 }
 
 export function CoinKeyMetrics({ coin }: CoinKeyMetricsProps) {
-  const marketData = coin.market_data;
+  const metrics = coin.keyMetrics || ({} as CoinDetail["keyMetrics"]);
 
   const formatNumber = (num: number): string => {
     if (num >= 1e12) return `${(num / 1e12).toFixed(2)}T`;
     if (num >= 1e9) return `${(num / 1e9).toFixed(2)}B`;
     if (num >= 1e6) return `${(num / 1e6).toFixed(2)}M`;
     if (num >= 1e3) return `${(num / 1e3).toFixed(2)}K`;
-    return num.toFixed(2);
+    return num?.toFixed(2) ?? "0";
   };
 
   const formatSupply = (num: number): string => {
     return new Intl.NumberFormat("en-US", {
       maximumFractionDigits: 2,
-    }).format(num);
+    }).format(num || 0);
   };
 
   return (
@@ -39,13 +39,13 @@ export function CoinKeyMetrics({ coin }: CoinKeyMetricsProps) {
             <div className="flex justify-between items-center py-1">
               <span className="text-sm text-muted-foreground">Market Cap:</span>
               <span className="text-sm font-semibold text-foreground">
-                ${formatNumber(marketData?.market_cap?.usd || 0)}
+                ${formatNumber(metrics?.marketCap || 0)}
               </span>
             </div>
             <div className="flex justify-between items-center py-1">
               <span className="text-sm text-muted-foreground">Volume (24h):</span>
               <span className="text-sm font-semibold text-foreground">
-                ${formatNumber(marketData?.total_volume?.usd || 0)}
+                ${formatNumber(metrics?.volume24h || 0)}
               </span>
             </div>
           </div>
@@ -58,13 +58,13 @@ export function CoinKeyMetrics({ coin }: CoinKeyMetricsProps) {
             <div className="flex justify-between items-center py-1">
               <span className="text-sm text-muted-foreground">Circulating Supply:</span>
               <span className="text-sm font-semibold text-foreground">
-                {formatSupply(marketData?.circulating_supply || 0)} {coin.symbol?.toUpperCase()}
+                {formatSupply(metrics?.circulatingSupply || 0)} {coin.symbol?.toUpperCase()}
               </span>
             </div>
             <div className="flex justify-between items-center py-1">
               <span className="text-sm text-muted-foreground">Total Supply:</span>
               <span className="text-sm font-semibold text-foreground">
-                {formatSupply(marketData?.total_supply || 0)} {coin.symbol?.toUpperCase()}
+                {formatSupply(metrics?.totalSupply || 0)} {coin.symbol?.toUpperCase()}
               </span>
             </div>
           </div>
@@ -77,12 +77,12 @@ export function CoinKeyMetrics({ coin }: CoinKeyMetricsProps) {
             <div className="flex justify-between items-center py-1">
               <span className="text-sm text-muted-foreground">YTD Return:</span>
               <span className="text-sm font-semibold text-foreground">
-                {marketData?.price_change_percentage_24h?.toFixed(1) || "0.0"}%
+                {(metrics?.ytdRetrun ?? 0).toFixed(2)}%
               </span>
             </div>
           </div>
 
-          {/* Bitcoin Price */}
+          {/* Price */}
           <div className="space-y-2 pt-2 border-t border-gray-200 dark:border-gray-800">
             <div className="text-sm font-semibold text-muted-foreground uppercase mb-2">
               {coin.name} Price
@@ -90,37 +90,25 @@ export function CoinKeyMetrics({ coin }: CoinKeyMetricsProps) {
             <div className="flex justify-between items-center py-1">
               <span className="text-sm text-muted-foreground">Open Price (24h):</span>
               <span className="text-sm font-semibold text-foreground">
-                {formatCoinPrice(marketData?.current_price?.usd || 0)}
+                {formatCoinPrice(metrics?.openPrice24h || 0)}
               </span>
             </div>
             <div className="flex justify-between items-center py-1">
               <span className="text-sm text-muted-foreground">High (24h):</span>
               <span className="text-sm font-semibold text-foreground">
-                {formatCoinPrice(marketData?.high_24h?.usd || 0)}
+                {formatCoinPrice(metrics?.high24h || 0)}
               </span>
             </div>
             <div className="flex justify-between items-center py-1">
               <span className="text-sm text-muted-foreground">Low (24h):</span>
               <span className="text-sm font-semibold text-foreground">
-                {formatCoinPrice(marketData?.low_24h?.usd || 0)}
-              </span>
-            </div>
-            <div className="flex justify-between items-center py-1">
-              <span className="text-sm text-muted-foreground">High (52w):</span>
-              <span className="text-sm font-semibold text-foreground">
-                {formatCoinPrice(marketData?.high_52w?.usd || 0)}
-              </span>
-            </div>
-            <div className="flex justify-between items-center py-1">
-              <span className="text-sm text-muted-foreground">Low (52w):</span>
-              <span className="text-sm font-semibold text-foreground">
-                {formatCoinPrice(marketData?.low_52w?.usd || 0)}
+                {formatCoinPrice(metrics?.low24h || 0)}
               </span>
             </div>
             <div className="flex justify-between items-center py-1">
               <span className="text-sm text-muted-foreground">All-Time High:</span>
               <span className="text-sm font-semibold text-foreground">
-                {formatCoinPrice(marketData?.ath?.usd || 0)}
+                {formatCoinPrice(metrics?.ath || 0)}
               </span>
             </div>
           </div>
