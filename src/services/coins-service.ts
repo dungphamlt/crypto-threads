@@ -11,161 +11,126 @@ export interface Coin {
 }
 
 export interface CoinsQueryParams {
-  vs_currency?: string;
-  order?: string;
   per_page?: number;
-  page?: number;
-  sparkline?: boolean;
-  price_change_percentage?: string;
-  ids?: string[];
-  category?: "trending" | "top_grow" | "new" | string;
+}
+
+interface ApiCoin {
+  id: string;
+  name: string;
+  symbol: string;
+  iconUrl: string;
+  price: number;
+  price_change_percentage_24h: number;
+  chart?: {
+    price: number[];
+  };
+}
+
+interface ApiCoinsResponse {
+  trending: ApiCoin[];
+  topGrowing: ApiCoin[];
+  new: ApiCoin[];
+}
+
+export interface CoinDetail {
+  id?: string;
+  symbol: string;
+  name: string;
+  logoUrl: string;
+  price?: number;
+  price_change_percentage_24h?: number;
+  keyMetrics: {
+    marketCap: number;
+    volume24h: number;
+    circulatingSupply: number;
+    totalSupply: number;
+    ytdRetrun: number;
+    openPrice24h: number;
+    high24h: number;
+    low24h: number;
+    ath: number;
+  };
+  about?: string;
+}
+
+export interface MarketChartData {
+  prices: [number, number][];
+}
+
+const API_BASE =
+  process.env.NEXT_PUBLIC_COIN_API_BASE_URL ||
+  "https://crypto-threads-be-production.up.railway.app";
+
+function mapApiCoinToCoin(apiCoin: ApiCoin): Coin {
+  return {
+    id: apiCoin.id,
+    name: apiCoin.name,
+    symbol: apiCoin.symbol,
+    image: apiCoin.iconUrl,
+    current_price: apiCoin.price,
+    price_change_percentage_24h: apiCoin.price_change_percentage_24h,
+    sparkline_in_7d: apiCoin.chart ? { price: apiCoin.chart.price } : undefined,
+  };
 }
 
 export async function fetchCoins(
   params: CoinsQueryParams = {}
 ): Promise<Coin[]> {
-  const {
-    vs_currency = "usd",
-    order = "market_cap_desc",
-    per_page = 15,
-    page = 1,
-    sparkline = true,
-    price_change_percentage = "24h",
-    ids,
-    category,
-  } = params;
-
-  const queryParams = new URLSearchParams({
-    vs_currency,
-    order,
-    per_page: per_page.toString(),
-    page: page.toString(),
-    sparkline: sparkline.toString(),
-    price_change_percentage,
-  });
-
-  if (ids && ids.length > 0) {
-    queryParams.set("ids", ids.join(","));
-  }
-
-  if (category) {
-    queryParams.set("category", category);
-  }
-
-  const response = await fetch(`/api/coins?${queryParams.toString()}`);
+  const { per_page = 15 } = params;
+  const response = await fetch(
+    `${API_BASE}/api/v1/stats/coin-list?limit=${per_page}`,
+    { cache: "no-store" }
+  );
 
   if (!response.ok) {
     throw new Error(`Failed to fetch coins: ${response.statusText}`);
   }
 
-  const data: Coin[] = await response.json();
-  return data;
+  const data: ApiCoin[] = await response.json();
+  return data.map(mapApiCoinToCoin);
 }
 
 export async function fetchTrendingCoins(limit: number = 5): Promise<Coin[]> {
-  const response = await fetch(`/api/coins?category=trending&per_page=${limit}`);
+  const response = await fetch(`${API_BASE}/api/v1/stats/coins?limit=${limit}`, {
+    cache: "no-store",
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to fetch trending coins: ${response.statusText}`);
   }
 
-  const data: Coin[] = await response.json();
-  return data;
+  const data: ApiCoinsResponse = await response.json();
+  return (data.trending || []).map(mapApiCoinToCoin);
 }
 
 export async function fetchTopGrowCoins(limit: number = 5): Promise<Coin[]> {
-  return fetchCoins({
-    vs_currency: "usd",
-    per_page: limit,
-    page: 1,
-    sparkline: false,
-    price_change_percentage: "24h",
-    category: "top_grow",
+  const response = await fetch(`${API_BASE}/api/v1/stats/coins?limit=${limit}`, {
+    cache: "no-store",
   });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch top grow coins: ${response.statusText}`);
+  }
+
+  const data: ApiCoinsResponse = await response.json();
+  return (data.topGrowing || []).map(mapApiCoinToCoin);
 }
 
 export async function fetchNewCoins(limit: number = 5): Promise<Coin[]> {
-  return fetchCoins({
-    vs_currency: "usd",
-    per_page: limit,
-    page: 1,
-    sparkline: false,
-    price_change_percentage: "24h",
-    category: "new",
+  const response = await fetch(`${API_BASE}/api/v1/stats/coins?limit=${limit}`, {
+    cache: "no-store",
   });
-}
 
-export interface CoinDetail {
-  id: string;
-  symbol: string;
-  name: string;
-  image: {
-    large: string;
-    small: string;
-    thumb: string;
-  };
-  description: {
-    en: string;
-  };
-  market_data: {
-    current_price: {
-      usd: number;
-    };
-    price_change_percentage_24h: number;
-    market_cap: {
-      usd: number;
-    };
-    total_volume: {
-      usd: number;
-    };
-    circulating_supply: number;
-    total_supply: number;
-    high_24h: {
-      usd: number;
-    };
-    low_24h: {
-      usd: number;
-    };
-    high_52w: {
-      usd: number;
-    };
-    low_52w: {
-      usd: number;
-    };
-    ath: {
-      usd: number;
-    };
-    ath_date: {
-      usd: string;
-    };
-  };
-}
+  if (!response.ok) {
+    throw new Error(`Failed to fetch new coins: ${response.statusText}`);
+  }
 
-export interface MarketChartData {
-  prices: [number, number][];
-  market_caps: [number, number][];
-  total_volumes: [number, number][];
-}
-
-// Helper function to get base URL for API calls
-function getApiBaseUrl(): string {
-  if (typeof window !== "undefined") {
-    // Client-side: use current origin
-    return window.location.origin;
-  }
-  // Server-side: use environment variable or default
-  if (process.env.NEXT_PUBLIC_BASE_URL) {
-    return process.env.NEXT_PUBLIC_BASE_URL;
-  }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  return "http://localhost:3000";
+  const data: ApiCoinsResponse = await response.json();
+  return (data.new || []).map(mapApiCoinToCoin);
 }
 
 export async function fetchCoinDetail(id: string): Promise<CoinDetail> {
-  const baseUrl = getApiBaseUrl();
-  const response = await fetch(`${baseUrl}/api/coins/${id}?market_data=true`, {
+  const response = await fetch(`${API_BASE}/api/v1/stats/coin/${id}`, {
     cache: "no-store",
   });
 
@@ -173,28 +138,44 @@ export async function fetchCoinDetail(id: string): Promise<CoinDetail> {
     throw new Error(`Failed to fetch coin detail: ${response.statusText}`);
   }
 
-  const data: CoinDetail = await response.json();
-  return data;
+  const data = await response.json();
+
+  return {
+    id,
+    name: data.name,
+    symbol: data.symbol,
+    logoUrl: data.logoUrl,
+    price: data.keyMetrics?.openPrice24h ?? data.keyMetrics?.price,
+    price_change_percentage_24h: data.keyMetrics?.price_change_percentage_24h,
+    keyMetrics: data.keyMetrics,
+    about: data.about,
+  };
 }
 
-export async function fetchCoinMarketChart(
-  id: string,
-  days: number = 7,
-  vs_currency: string = "usd"
-): Promise<MarketChartData> {
-  const baseUrl = getApiBaseUrl();
-  const response = await fetch(
-    `${baseUrl}/api/coins/${id}/market-chart?days=${days}&vs_currency=${vs_currency}`,
-    {
-      cache: "no-store",
-    }
-  );
+export async function fetchCoinMarketChart(id: string): Promise<MarketChartData | null> {
+  // The new API does not expose a dedicated chart endpoint per coin.
+  // We approximate using the coin-list data if available.
+  const response = await fetch(`${API_BASE}/api/v1/stats/coin-list?limit=50`, {
+    cache: "no-store",
+  });
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch market chart: ${response.statusText}`);
+    return null;
   }
 
-  const data: MarketChartData = await response.json();
-  return data;
+  const data: ApiCoin[] = await response.json();
+  const match = data.find((c) => c.id === id);
+  if (!match?.chart?.price?.length) {
+    return null;
+  }
+
+  const now = Date.now();
+  const intervalMs = 60 * 60 * 1000; // 1h spacing for synthetic timestamps
+  const prices: [number, number][] = match.chart.price.map((p, idx, arr) => [
+    now - (arr.length - 1 - idx) * intervalMs,
+    p,
+  ]);
+
+  return { prices };
 }
 
