@@ -42,7 +42,7 @@ export function HotTopicSlider({ posts }: HotTopicSliderProps) {
         },
       ],
     }),
-    [posts.length]
+    []
   );
 
   if (!posts || posts.length === 0) return null;
@@ -61,4 +61,3 @@ export function HotTopicSlider({ posts }: HotTopicSliderProps) {
     </div>
   );
 }
-

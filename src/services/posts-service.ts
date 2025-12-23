@@ -6,15 +6,15 @@ const API_BASE_URL =
   "https://crypto-threads-be-production.up.railway.app/api/v1";
 
 // Type guards
-const isPostListResponse = (obj: unknown): obj is PostListResponse => {
-  return (
-    typeof obj === "object" &&
-    obj !== null &&
-    "data" in obj &&
-    "pagination" in obj &&
-    Array.isArray((obj as { data: unknown }).data)
-  );
-};
+// const isPostListResponse = (obj: unknown): obj is PostListResponse => {
+//   return (
+//     typeof obj === "object" &&
+//     obj !== null &&
+//     "data" in obj &&
+//     "pagination" in obj &&
+//     Array.isArray((obj as { data: unknown }).data)
+//   );
+// };
 
 const cacheConfig = {
   featured: { next: { revalidate: 300 } },

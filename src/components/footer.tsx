@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Logo } from "./logo";
 import { Collaboration } from "./subscription";
 import LogoIcon from "@/assets/icons/logo-white.svg";
 import Image from "next/image";

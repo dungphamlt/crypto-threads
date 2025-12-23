@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { Search as SearchIcon, Loader2, X } from "lucide-react";
+import { Search as SearchIcon, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Post } from "@/types";
 import { postService } from "@/services/posts-service";
@@ -66,6 +66,7 @@ export function Search({
         const results = await postService.searchPosts(trimmedQuery, 10);
         setPosts(results);
       } catch (error) {
+        console.error("Error searching posts:", error);
         setPosts([]);
       } finally {
         setIsLoading(false);
@@ -94,11 +95,11 @@ export function Search({
     }, 0);
   };
 
-  const handleCloseInput = () => {
-    setIsInputOpen(false);
-    setQuery("");
-    setIsOpen(false);
-  };
+  //   const handleCloseInput = () => {
+  //     setIsInputOpen(false);
+  //     setQuery("");
+  //     setIsOpen(false);
+  //   };
 
   const showDropdown = isOpen && query.trim().length >= 2;
 
