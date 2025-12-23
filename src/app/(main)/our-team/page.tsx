@@ -33,6 +33,8 @@ const teamIntroImages = [
 export default async function OurTeamPage() {
   const authors = await authorService.getListAuthors();
 
+  console.log('Authors:', authors);
+
   const displayAuthors = [...authors];
   const email = getAuthor('The20 Team').email;
 
@@ -46,7 +48,7 @@ export default async function OurTeamPage() {
         </section>
 
         {/* OUR TEAM / AUTHOR Section */}
-        <section className="mx-auto px-4 pt-6 border-t">
+        {/* <section className="mx-auto px-4 pt-6 border-t">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <h1 className="text-1xl sm:text-2xl md:text-3xl font-bold uppercase text-foreground">
               OUR TEAM
@@ -63,16 +65,16 @@ export default async function OurTeamPage() {
               AUTHOR
             </h2>
           </div>
-        </section>
+        </section> */}
 
         {/* Team Members Grid */}
-        <section className=" mx-auto px-4 pb-4 sm:py-12">
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <section className=" mx-auto pb-4 sm:py-12">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 justify-items-center">
             {displayAuthors.map((member) => (
               <Link
                 key={member.id}
                 href={member.name === 'COMING SOON' ? '#' : `/author/${member.id}`}
-                className="flex flex-col items-center gap-4 group"
+                className="flex flex-col gap-4 group"
               >
                 <div className="w-32 h-32 sm:w-64 sm:h-64 rounded-xl bg-muted overflow-hidden flex items-center justify-center">
                   {member.avatarUrl ? (
@@ -99,15 +101,15 @@ export default async function OurTeamPage() {
 
         {/* WORK WITH US Section */}
         <section className="container mx-auto px-4 py-12 border-t border-border">
-          <div className="max-w-2xl mx-auto text-center space-y-6">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase text-foreground">
-              WORK WITH US
+          <div className="max-w-2xl mx-auto text-center space-y-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground font-funnel">
+              Work with us
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-medium">
               For all inquiries regarding partnerships, advertisements, or questions, please email to{' '}
               <Link
                 href={`mailto:${email}`}
-                className="text-foreground hover:underline font-medium"
+                className="text-foreground hover:underline font-semibold"
               >
                 {email}
               </Link>
