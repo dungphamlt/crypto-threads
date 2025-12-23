@@ -1,9 +1,9 @@
 import React from "react";
 import { authorService } from "@/services/authors-service";
 import Image from "next/image";
-import TelegramIcon from "@/assets/icons/Telegram.svg";
-import XIcon from "@/assets/icons/X.svg";
-import FacebookIcon from "@/assets/icons/Facebook.svg";
+import Telegram from "@/assets/icons/Telegram.svg";
+import X from "@/assets/icons/X.svg";
+import Facebook from "@/assets/icons/Facebook.svg";
 import InstagramIcon from "@/assets/icons/instagram.svg";
 import Link from "next/link";
 
@@ -14,13 +14,9 @@ export async function AuthorFollow({ author_id }: { author_id: string }) {
   }
 
   const SOCIAL_ICONS: Record<string, React.ReactNode> = {
-    telegram: (
-      <Image src={TelegramIcon} alt="Telegram" width={24} height={24} />
-    ),
-    x: <Image src={XIcon} alt="X" width={24} height={24} />,
-    facebook: (
-      <Image src={FacebookIcon} alt="Facebook" width={24} height={24} />
-    ),
+    telegram: <Image src={Telegram} alt="Telegram" width={24} height={24} />,
+    x: <Image src={X} alt="X" width={24} height={24} />,
+    facebook: <Image src={Facebook} alt="Facebook" width={24} height={24} />,
     instagram: (
       <Image src={InstagramIcon} alt="Instagram" width={24} height={24} />
     ),
