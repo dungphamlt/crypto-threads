@@ -93,9 +93,9 @@ const partners = [
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div>
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 container mx-auto px-4 py-8">
         {/* HERO: About Crypto Threads */}
         <section className="mx-auto py-6">
           <h1 className="text-center text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-[0.18em] my-12 font-funnel">

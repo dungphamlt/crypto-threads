@@ -60,9 +60,9 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div>
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 container mx-auto px-4 py-8">
         <section className="mx-auto px-4 pt-12 sm:pt-20 lg:pt-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Contact Form & FAQ */}

@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function DisclaimerPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div>
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 container mx-auto px-4 py-8">
         <section className="mx-auto px-4 pt-12 sm:pt-20 lg:pt-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-30 mb-12">
             <div className="space-y-6">

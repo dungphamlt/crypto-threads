@@ -39,9 +39,9 @@ export default async function OurTeamPage() {
   const email = getAuthor('The20 Team').email;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div>
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 container mx-auto px-4 py-8">
         {/* Hero Slider */}
         <section className="w-full mb-8 mt-16">
           <TeamIntroSlider images={teamIntroImages} />
