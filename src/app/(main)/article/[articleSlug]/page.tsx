@@ -2,14 +2,16 @@ import Header from "@/components/header";
 import { Footer } from "@/components/footer";
 import { postService } from "@/services/posts-service";
 import { notFound } from "next/navigation";
-// import Script from "next/script";
 import Image from "next/image";
 import { BtnGoToTop } from "@/components/btn-go-to-top";
 import { ArticleSidebar } from "@/components/articles/server-components/article-sidebar";
 import { AuthorFollow } from "@/components/authors/author-follow";
 import { ArticleAuthor } from "@/components/articles/article-author";
 import { ArticleListMore } from "@/components/articles/server-components/article-list-more";
+import { ShareSocials } from "@/components/articles/share-socials";
 import Head from "next/head";
+import CoinSlider from "@/components/coins/coin-slider";
+import { TableContent } from "@/components/articles/table-content";
 
 export default async function Page({
   params,
@@ -28,7 +30,6 @@ export default async function Page({
     description: post.metaDescription,
     images: post.coverUrl,
   };
-
   return (
     <>
       <Head>
@@ -37,15 +38,18 @@ export default async function Page({
         <meta property="og:image" content={metadata.images} />
       </Head>
       <Header />
-      <main className="container">
+
+      <main className="container relative">
+        <CoinSlider />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8">
-          <article className="md:col-span-2">
-            <h3 className="font-semibold text-primary/70 uppercase mb-4">
+          <article className="md:col-span-2 relative">
+            <h3 className="font-semibold text-primary mb-4">
               {post.category.key}
             </h3>
-            <h1 className="text-4xl font-semibold text-foreground mb-8">
+            <h1 className="text-4xl font-semibold text-foreground mb-4">
               {post.title}
             </h1>
+            <p className="text-muted-foreground mb-4">{post.excerpt}.</p>
             <div className="flex gap-3 mb-8">
               {post.creator.avatarUrl ? (
                 <Image
@@ -53,7 +57,7 @@ export default async function Page({
                   alt={post.creator.penName}
                   width={32}
                   height={32}
-                  className="rounded-full object-cover w-12 h-12 flex-shrink-0 shadow-sm"
+                  className="rounded-full object-cover w-12 h-12 shrink-0 shadow-sm"
                 />
               ) : (
                 <span className="text-lg font-bold text-muted-foreground uppercase bg-gray-200 dark:bg-gray-500 rounded-full  w-12 h-12 flex items-center justify-center">
@@ -81,22 +85,37 @@ export default async function Page({
                 </div>
               )}
             </div>
-            <div className="flex-col-reverse col md:row gap-8">
+            {/* image cover */}
+            {post.coverUrl && (
+              <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+                <Image
+                  src={post.coverUrl}
+                  alt={post.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            )}
+            <div className="flex-col-reverse col md:row gap-8 mt-8">
               <div dangerouslySetInnerHTML={{ __html: post.content }} />
             </div>
             <div className="flex items-center flex-wrap gap-4 mt-8">
               {post.tags.map((tag) => (
                 <div
                   key={tag}
-                  className="text-sm font-medium text-muted-foreground bg-gray-200 dark:bg-gray-700 rounded-full px-4 py-2"
+                  className="text-sm font-medium text-primary bg-primary/20 dark:bg-gray-700 rounded-full px-6 py-1.5"
                 >
                   {tag}
                 </div>
               ))}
             </div>
+            <ShareSocials />
           </article>
           <div className="md:col-span-1 hidden md:block">
-            <ArticleSidebar />
+            <div className="sticky top-20 space-y-10">
+              <TableContent content={post.content} />
+              <ArticleSidebar />
+            </div>
           </div>
         </div>
         <AuthorFollow author_id={post.creator.id} />
