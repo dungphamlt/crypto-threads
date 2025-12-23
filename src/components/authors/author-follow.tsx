@@ -35,7 +35,7 @@ export async function AuthorFollow({ author_id }: { author_id: string }) {
       !Array.isArray(author.author.socials)
     ) {
       return Object.entries(author.author.socials as Record<string, string>)
-        .filter(([_, url]) => url && url !== "#")
+        .filter(([, url]) => url && url !== "#")
         .map(([platform, url]) => ({
           platform: platform.toLowerCase(),
           url,
