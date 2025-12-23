@@ -27,7 +27,7 @@ export interface PrivacyPolicyData {
 
 export const privacyPolicyData = {
   header: {
-    title: "PRIVACY POLICY",
+    title: "Privacy Policy",
     effectiveDate: "March 31, 2025",
   },
   introduction: [
@@ -36,7 +36,7 @@ export const privacyPolicyData = {
   ],
   sections: [
     {
-      title: "TYPES OF INFORMATION WE OBTAIN",
+      title: "Types of information we obtain",
       subsections: [
         {
           title: "1.1. Non-personal Information",
@@ -91,7 +91,7 @@ export const privacyPolicyData = {
       ],
     },
     {
-      title: "HOW WE USE THE INFORMATION WE OBTAIN?",
+      title: "How we use the information we obtain?",
       subsections: [
         {
           title: "1.1. We use non-personal information for the following purposes:",
@@ -129,7 +129,7 @@ export const privacyPolicyData = {
       ],
     },
     {
-      title: "COOKIES",
+      title: "Cookies",
       subsections: [
         {
           title:
@@ -150,7 +150,7 @@ export const privacyPolicyData = {
       ],
     },
     {
-      title: "HOW WE PROTECT PERSONAL INFORMATION",
+      title: "How we protect personal Information",
       subsections: [
         {
           title:
@@ -168,17 +168,17 @@ export const privacyPolicyData = {
       ],
     },
     {
-      title: "THIRD-PARTY LINKS",
+      title: "Third-party links",
       content:
         "Our website may include third-party products or services with separate privacy policies. We have no responsibility or liability for these linked services but seek to protect the integrity of our site and welcome feedback.",
     },
     {
-      title: "CHANGES TO THE PRIVACY POLICY",
+      title: "Changes to the Privacy Policy",
       content:
         "We may update this Privacy Policy periodically without prior notice. For significant changes, we will notify you by a prominent privacy policy posting on our website, indicating the most recent update date at the top.",
     },
     {
-      title: "YOUR RIGHTS",
+      title: "Your Rights",
       items: [
         "You have the right to obtain information on how your personal data is handled, view copies of your data, and request amendments, corrections, or deletions.",
         "You can also limit, restrict, or object to data processing.",
@@ -188,12 +188,12 @@ export const privacyPolicyData = {
       ],
     },
     {
-      title: "RIGHTS OF USE",
+      title: "Rights of use",
       content:
         "By accessing and using our website, you agree to download content (text, pictures, graphics, video, audio, software) only for personal non-commercial use. You may not copy, reproduce, duplicate, broadcast, download, store, transmit, resell, show, play in public, adapt, or modify content for any other purpose without written permission from \"Crypto Threads.\" All intellectual property rights, including copyright, belong to \"Crypto Threads,\" and all rights are reserved.",
     },
     {
-      title: "DISCLAIMER",
+      title: "Disclaimer",
       items: [
         '"Crypto Threads" is provided "as is" without any warranty. We disclaim all warranties, express or implied, including merchantability, fitness for a particular purpose, and non-infringement of proprietary rights.',
         "You are solely responsible for any damage to your computer or mobile device, loss of use, or loss of user content.",
