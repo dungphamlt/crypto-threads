@@ -28,10 +28,10 @@ export function ArticleSidebarClient({
                 alt={post.title}
                 width={80}
                 height={80}
-                className="w-20 h-20 object-cover rounded-lg dark:shadow-sm flex-shrink-0"
+                className="w-20 h-20 object-cover rounded-lg dark:shadow-sm shrink-0"
               />
             ) : (
-              <div className="w-20 h-20 rounded-lg bg-gray-200 dark:bg-gray-700 flex-shrink-0 flex items-center justify-center text-xs text-gray-400">
+              <div className="w-20 h-20 rounded-lg bg-gray-200 dark:bg-gray-700 shrink-0 flex items-center justify-center text-xs text-gray-400">
                 No Image
               </div>
             )}
@@ -52,13 +52,13 @@ export function ArticleSidebarClient({
   };
 
   return (
-    <div className="sticky top-14">
+    <>
       <div className="flex items-center justify-between gap-4 mb-6">
         <button
           onClick={() => setIsLatest(true)}
-          className={`flex-1 py-2 px-4 rounded-xl font-bold border transition-all duration-300 ${
+          className={`flex-1 py-2 px-4 rounded-xl font-bold border transition-all duration-300 cursor-pointer hover:opacity-80 ${
             isLatest
-              ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white"
+              ? "bg-primary dark:bg-white text-white dark:text-black border-primary dark:border-white"
               : "bg-white dark:bg-gray-800 text-black dark:text-white border-gray-300 dark:border-gray-600"
           }`}
         >
@@ -66,9 +66,9 @@ export function ArticleSidebarClient({
         </button>
         <button
           onClick={() => setIsLatest(false)}
-          className={`flex-1 py-2 px-4 rounded-xl font-bold border transition-all duration-300 ${
+          className={`flex-1 py-2 px-4 rounded-xl font-bold border transition-all duration-300 cursor-pointer hover:opacity-80 ${
             !isLatest
-              ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white"
+              ? "bg-primary dark:bg-white text-white dark:text-black border-primary dark:border-white"
               : "bg-white dark:bg-gray-800 text-black dark:text-white border-gray-300 dark:border-gray-600"
           }`}
         >
@@ -90,6 +90,6 @@ export function ArticleSidebarClient({
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }

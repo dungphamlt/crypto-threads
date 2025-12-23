@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { MailIcon } from 'lucide-react';
+import { useEffect, useState } from "react";
 
 interface SubscriptionCardProps {
   className?: string;
@@ -27,17 +26,26 @@ export function SubscriptionCard({ className }: SubscriptionCardProps) {
   };
 
   return (
-    <div className={`rounded-2xl border border-border/60 bg-white dark:bg-gray-950/50 p-6 shadow-sm ${className || ""}`}>
+    <div
+      className={`rounded-2xl border border-border/60 bg-white dark:bg-gray-950/50 p-6 shadow-sm ${
+        className || ""
+      }`}
+    >
       <h3 className="text-lg font-bold uppercase text-foreground mb-4">
         EXCLUSIVE READ FROM CRYPTO THREADS
       </h3>
       <p className="text-sm text-muted-foreground mb-6">
-        Weekly, insightful analysis of hot trends in Web3 markets, exclusive interviews, and deep dives into the crypto ecosystem. Stay ahead with Crypto Threads.
+        Weekly, insightful analysis of hot trends in Web3 markets, exclusive
+        interviews, and deep dives into the crypto ecosystem. Stay ahead with
+        Crypto Threads.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-foreground mb-2"
+          >
             Email Address
           </label>
           <input
@@ -68,39 +76,59 @@ export function SubscriptionCard({ className }: SubscriptionCardProps) {
 }
 
 export function Collaboration() {
-  return <div className="container mx-auto px-4 sm:px-6 relative mb-16 sm:mb-20 z-10">
-    <div className="rounded-3xl border border-foreground/10 bg-gradient-to-br from-background-light/90 to-background-dark/30 px-5 py-8 sm:px-8 sm:py-12 shadow-lg flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-      <div className="text-center md:text-left flex-1">
-        <p className="text-3xl md:text-4xl font-semibold text-foreground leading-tight">
-          Don’t be shy!
-          <br /> Let’s collaborate
-        </p>
-        <p className="text-sm text-muted-foreground mt-3 max-w-xl mx-auto md:mx-0">
-          Share your email and we’ll reach out with partnership opportunities, product updates, and ways we can help grow your crypto community.
-        </p>
-      </div>
-      <form className="w-full md:w-auto">
-        <label htmlFor="footer-collab-email" className="sr-only">
-          Enter your email
-        </label>
-        <div className="flex flex-col sm:flex-row items-stretch gap-3">
-          <div className="relative flex-1 min-w-[220px]">
-            <MailIcon className="w-4 h-4 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2" />
-            <input
-              id="footer-collab-email"
-              type="email"
-              placeholder="Enter your email"
-              className="w-full rounded-2xl border border-foreground/10 bg-background-light/80 py-3 pl-11 pr-4 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition"
-            />
-          </div>
-          <button
-            type="button"
-            className="rounded-2xl bg-foreground text-background px-6 py-3 text-sm font-medium hover:opacity-85 transition w-full sm:w-auto"
-          >
-            Let’s talk
-          </button>
+  const [email, setEmail] = useState("");
+  const [emailValid, setEmailValid] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    verifyEmail(email);
+  }, [email]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || isSubmitting) return;
+    try {
+      console.log("Submitting:", email);
+      setEmail("");
+    } catch (error) {
+      console.error("Submission error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  const verifyEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = email.length > 0 && emailRegex.test(email);
+    setEmailValid(isValid);
+  };
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-3xl md:text-4xl font-semibold text-white">
+        Subscribe to receive the latest updates
+      </p>
+
+      <form className="w-full md:w-auto" onSubmit={handleSubmit}>
+        <div className="flex justify-between items-center gap-2">
+          <input
+            required
+            id="footer-collab-email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="flex-1 rounded-full bg-white py-2 px-3 text-sm text-primary font-semibold focus:ring-1 focus:ring-black focus:outline-none transition"
+          />
+          {email.trim().length > 0 && (
+            <button
+              type="submit"
+              disabled={isSubmitting || !email || !emailValid}
+              className="px-3 py-2 bg-white text-primary rounded-full dark:text-black font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer hover:bg-white/80"
+            >
+              {isSubmitting ? "SUBMITTING..." : "SUBMIT"}
+            </button>
+          )}
         </div>
       </form>
     </div>
-  </div>
+  );
 }

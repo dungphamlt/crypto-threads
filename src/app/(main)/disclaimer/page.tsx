@@ -1,13 +1,12 @@
-import Header from '@/components/header';
-import { Footer } from '@/components/footer';
-import type { Metadata } from 'next';
-import { Logo } from '@/components/logo';
-import Image from 'next/image';
-import banner from '@/assets/images/disclaimer-banner.jpg';
+import Header from "@/components/header";
+import { Footer } from "@/components/footer";
+import type { Metadata } from "next";
+import Image from "next/image";
+import banner from "@/assets/images/disclaimer-banner.jpg";
 
 export const metadata: Metadata = {
-  title: 'Disclaimer',
-  description: 'Disclaimer and terms of use for Crypto Threads',
+  title: "Disclaimer",
+  description: "Disclaimer and terms of use for Crypto Threads",
 };
 
 export default function DisclaimerPage() {
@@ -23,13 +22,25 @@ export default function DisclaimerPage() {
               </h1>
               <div className="space-y-4">
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  Crypto Threads is a news and media platform dedicated to providing information, analysis, and updates on cryptocurrency and blockchain technology. While we strive for accuracy and reliability, all content on our platform is provided for informational purposes only.
+                  Crypto Threads is a news and media platform dedicated to
+                  providing information, analysis, and updates on cryptocurrency
+                  and blockchain technology. While we strive for accuracy and
+                  reliability, all content on our platform is provided for
+                  informational purposes only.
                 </p>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  Crypto Threads does not guarantee the completeness, timeliness, or accuracy of the information published. Readers are advised to independently verify any data before making decisions based on our content. Crypto Threads is not responsible for any errors, omissions, or any actions taken based on the information provided on this platform. By accessing and using Crypto Threads, you acknowledge and agree to these disclaimers.
+                  Crypto Threads does not guarantee the completeness,
+                  timeliness, or accuracy of the information published. Readers
+                  are advised to independently verify any data before making
+                  decisions based on our content. Crypto Threads is not
+                  responsible for any errors, omissions, or any actions taken
+                  based on the information provided on this platform. By
+                  accessing and using Crypto Threads, you acknowledge and agree
+                  to these disclaimers.
                 </p>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  By accessing and using Crypto Threads, you acknowledge and agree to these disclaimers.
+                  By accessing and using Crypto Threads, you acknowledge and
+                  agree to these disclaimers.
                 </p>
               </div>
             </div>
@@ -40,13 +51,25 @@ export default function DisclaimerPage() {
               </h1>
               <div className="space-y-4">
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  Crypto Threads is a news and media platform dedicated to providing information, analysis, and updates on cryptocurrency and blockchain technology. While we strive for accuracy and reliability, all content on our platform is provided for informational purposes only.
+                  Crypto Threads is a news and media platform dedicated to
+                  providing information, analysis, and updates on cryptocurrency
+                  and blockchain technology. While we strive for accuracy and
+                  reliability, all content on our platform is provided for
+                  informational purposes only.
                 </p>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  Crypto Threads does not guarantee the completeness, timeliness, or accuracy of the information published. Readers are advised to independently verify any data before making decisions based on our content. Crypto Threads is not responsible for any errors, omissions, or any actions taken based on the information provided on this platform. By accessing and using Crypto Threads, you acknowledge and agree to these disclaimers.
+                  Crypto Threads does not guarantee the completeness,
+                  timeliness, or accuracy of the information published. Readers
+                  are advised to independently verify any data before making
+                  decisions based on our content. Crypto Threads is not
+                  responsible for any errors, omissions, or any actions taken
+                  based on the information provided on this platform. By
+                  accessing and using Crypto Threads, you acknowledge and agree
+                  to these disclaimers.
                 </p>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  By accessing and using Crypto Threads, you acknowledge and agree to these disclaimers.
+                  By accessing and using Crypto Threads, you acknowledge and
+                  agree to these disclaimers.
                 </p>
               </div>
             </div>

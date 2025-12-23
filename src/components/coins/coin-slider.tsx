@@ -50,9 +50,7 @@ function MiniChart({
     width - padding
   },${height} L ${padding},${height} Z`;
 
-  const lineColor = isPositive
-    ? "#4ade80"
-    : "#f87171";
+  const lineColor = isPositive ? "#4ade80" : "#f87171";
   const fillColor = isPositive
     ? "rgba(74, 222, 128, 0.2)"
     : "rgba(248, 113, 113, 0.2)";
@@ -197,7 +195,7 @@ export default function CoinSlider() {
     }
 
     return (
-      <Slider {...sliderSettings}>
+      <Slider {...sliderSettings} className="-mx-4">
         {coins.map((coin) => {
           const priceChange = coin.price_change_percentage_24h || 0;
           const isPositive = priceChange >= 0;
