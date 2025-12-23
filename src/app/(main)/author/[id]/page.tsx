@@ -17,9 +17,9 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   }
 
   return (
-    <div className="container">
+    <div>
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 container mx-auto px-4 py-8">
         <AuthorProfileHeader author={data.author} />
         <AuthorBlogsSection articles={data.articles} />
         <OtherAuthorsSection otherAuthors={data.otherAuthors} />

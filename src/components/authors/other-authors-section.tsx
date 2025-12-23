@@ -12,8 +12,8 @@ export function OtherAuthorsSection({ otherAuthors }: OtherAuthorsSectionProps) 
   }
 
   return (
-    <section className="container mx-auto px-4 py-12">
-      <h2 className="text-2xl md:text-3xl font-bold mb-8 text-foreground uppercase">
+    <section className="mx-auto py-12">
+      <h2 className="text-2xl md:text-3xl font-bold mb-8 text-foreground font-funnel">
         Others Authors
       </h2>
       <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
