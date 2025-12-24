@@ -10,6 +10,7 @@ import { getAuthor } from "@/app/layout.config";
 import Facebook from "@/assets/icons/Facebook1.svg";
 import Twitter from "@/assets/icons/X1.svg";
 import Instagram from "@/assets/icons/instagram.svg";
+import Image from "next/image";
 // import BgStripedGradient from "@/assets/images/bg-striped-gradient.jpg";
 
 const faqs = [
