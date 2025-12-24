@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import { Footer } from "@/components/footer";
 import CoinSlider from "@/components/coins/coin-slider";
-import { CoinAboutSection, CoinDetailHeader, CoinKeyMetrics, CoinListsSection, TradingViewChart, MarketTable, CoinFAQSection, CoinMarketNews } from "@/components/coins";
+import { CoinAboutSection, CoinDetailHeader, CoinKeyMetrics, TradingViewChart, MarketTable, CoinFAQSection, CoinMarketNews } from "@/components/coins";
 import { fetchCoinDetail } from "@/services/coins-service";
 import { postService } from "@/services/posts-service";
 

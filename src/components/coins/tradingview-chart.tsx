@@ -159,12 +159,13 @@ export const TradingViewChart = memo(function TradingViewChart({
       height: height,
     });
 
-    container.current.appendChild(script);
+    const currentContainer = container.current;
+    currentContainer.appendChild(script);
 
     return () => {
       // Cleanup on unmount
-      if (container.current) {
-        const scriptToRemove = container.current.querySelector("script");
+      if (currentContainer) {
+        const scriptToRemove = currentContainer.querySelector("script");
         if (scriptToRemove) {
           scriptToRemove.remove();
         }

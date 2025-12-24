@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import Header from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Logo } from "@/components/logo";
