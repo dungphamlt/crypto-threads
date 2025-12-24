@@ -4,8 +4,6 @@ const rawBaseUrl =
 
 const API_BASE_URL = rawBaseUrl.replace(/\/+$/, "");
 
-console.log("API_BASE_URL", API_BASE_URL);
-
 interface RequestOptions extends RequestInit {
   next?: {
     revalidate?: number | false;
@@ -18,6 +16,7 @@ export async function get<T>(
   options: RequestOptions = {}
 ): Promise<{ data?: T; success: boolean; message?: string }> {
   try {
+    console.log(`${API_BASE_URL}${url}`, "url");
     const response = await fetch(`${API_BASE_URL}${url}`, {
       method: "GET",
       headers: {

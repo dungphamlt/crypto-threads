@@ -48,14 +48,14 @@ export function ArticleMeta({
   const AuthorContent = () => (
     <div className="flex items-center gap-2 leading-none">
       {isShowAvatar && (
-        <div className="relative w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+        <div className="relative w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 flex-shrink-0 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
           {avatarUrl ? (
             <Image
               src={avatarUrl}
               alt={author || ""}
               fill
               className="object-cover"
-              sizes="24px"
+              sizes="32px"
             />
           ) : (
             <span className="text-[10px] sm:text-xs font-semibold text-gray-600 dark:text-gray-300">

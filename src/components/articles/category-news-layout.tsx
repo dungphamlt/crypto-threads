@@ -5,13 +5,11 @@ import { MainArticleCard } from "./main-article-card";
 import { CategoryArticleCard } from "./category-article-card";
 import { ArticleListItem } from "./article-list-item";
 import { CategoryCardsSlider } from "./category-cards-slider";
+import { Category } from "@/services/categories-service";
 
 interface CategoryNewsLayoutProps {
   featuredPost: Post | null;
-  category: {
-    title: string;
-    description: string;
-  };
+  category: Category;
   middlePosts?: Post[]; // 3 posts for middle row
   bottomPosts?: Post[]; // 2 posts for bottom row
   gridPosts?: Post[];
@@ -33,7 +31,10 @@ export function CategoryNewsLayout({
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <CategoryNewsHeroSection featuredPost={featuredPost} category={category} />
+      <CategoryNewsHeroSection
+        featuredPost={featuredPost}
+        category={category}
+      />
 
       {/* Articles */}
       {middlePosts.length > 0 && (
@@ -43,7 +44,10 @@ export function CategoryNewsLayout({
               <CategoryArticleCard key={post.id} post={post} />
             ))}
           </div>
-          <CategoryCardsSlider posts={middlePosts.slice(0, 3)} variant="category" />
+          <CategoryCardsSlider
+            posts={middlePosts.slice(0, 3)}
+            variant="category"
+          />
         </>
       )}
 
@@ -69,7 +73,10 @@ export function CategoryNewsLayout({
           </div>
           <div className="md:hidden rounded-2xl border bg-white dark:bg-gray-950/50 shadow-sm p-4 space-y-4">
             {gridPosts.map((post) => (
-              <div key={post.id} className="border-b border-border/60 pb-4 last:pb-0 last:border-b-0">
+              <div
+                key={post.id}
+                className="border-b border-border/60 pb-4 last:pb-0 last:border-b-0"
+              >
                 <ArticleListItem post={post} isShowExcerpt={false} />
               </div>
             ))}
@@ -101,4 +108,3 @@ export function CategoryNewsLayout({
     </div>
   );
 }
-
