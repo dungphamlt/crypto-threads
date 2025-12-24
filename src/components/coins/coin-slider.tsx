@@ -57,10 +57,10 @@ function MiniChart({
 
   return (
     <svg
-      width={width}
+      width="100%"
       height={height}
       viewBox={`0 0 ${width} ${height}`}
-      className="absolute bottom-0 left-0 right-0"
+      className="absolute bottom-0 left-0 right-0 w-full"
       preserveAspectRatio="none"
     >
       <defs>
@@ -196,7 +196,7 @@ export default function CoinSlider() {
           const sparklinePrices = coin.sparkline_in_7d?.price || [];
 
           return (
-            <div key={coin.id} className="px-1 sm:px-3">
+            <div key={coin.id} className="px-1 sm:px-3 py-2">
               <div
                 onClick={() => {
                   const params = new URLSearchParams({
@@ -206,7 +206,7 @@ export default function CoinSlider() {
                   router.push(`/coins/${coin.id}?${params.toString()}`);
                 }}
                 className={`
-                  relative rounded-xl px-4 py-2 overflow-hidden border cursor-pointer transition-all hover:shadow-lg hover:scale-[1.02]
+                  relative rounded-xl px-4 py-2 overflow-visible border cursor-pointer transition-all hover:shadow-lg hover:scale-[1.02] origin-center
                   ${isPositive
                     ? "border-green-300 dark:border-green-700"
                     : "border-red-300 dark:border-red-700"
@@ -217,22 +217,22 @@ export default function CoinSlider() {
                 }}
               >
                 {/* Header: Icon + Symbol */}
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-1 min-w-0">
                   <Image
                     src={coin.image}
                     alt={coin.name}
                     width={24}
                     height={24}
-                    className="w-7 h-7 rounded-full"
+                    className="w-7 h-7 rounded-full flex-shrink-0"
                   />
-                  <span className="text-base font-semibold text-gray-900 dark:text-white uppercase">
+                  <span className="text-base font-semibold text-gray-900 dark:text-white uppercase truncate min-w-0">
                     {coin.symbol}
                   </span>
                 </div>
 
                 {/* Price and Change: Vertical on mobile, Horizontal on desktop */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between gap-2 mb-4">
-                  <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                  <span className="text-xs font-semibold text-gray-900 dark:text-white">
                     {formatCoinPrice(coin.current_price)}
                   </span>
                   <div className="flex items-center gap-0.5">
@@ -242,7 +242,7 @@ export default function CoinSlider() {
                       <ArrowDown className="w-3 h-3 text-red-400" />
                     )}
                     <span
-                      className={`text-xs sm:text-sm font-medium ${isPositive ? "text-green-400" : "text-red-400"
+                      className={`text-xs font-medium ${isPositive ? "text-green-400" : "text-red-400"
                         }`}
                     >
                       {isPositive ? "+" : ""}
