@@ -129,7 +129,13 @@ export async function fetchNewCoins(limit: number = 5): Promise<Coin[]> {
   return (data.new || []).map(mapApiCoinToCoin);
 }
 
-export async function fetchCoinDetail(id: string): Promise<CoinDetail> {
+export async function fetchCoinDetail(
+  id: string,
+  options?: {
+    price?: number;
+    price_change_percentage_24h?: number;
+  }
+): Promise<CoinDetail> {
   const response = await fetch(`${API_BASE}/api/v1/stats/coin/${id}`, {
     cache: "no-store",
   });
@@ -140,13 +146,17 @@ export async function fetchCoinDetail(id: string): Promise<CoinDetail> {
 
   const data = await response.json();
 
+  // Use provided price and price change from options (passed from URL params or coin slider)
+  const finalPrice = options?.price ?? data.keyMetrics?.openPrice24h ?? data.keyMetrics?.price;
+  const finalPriceChange = options?.price_change_percentage_24h ?? data.keyMetrics?.price_change_percentage_24h;
+
   return {
     id,
     name: data.name,
     symbol: data.symbol,
     logoUrl: data.logoUrl,
-    price: data.keyMetrics?.openPrice24h ?? data.keyMetrics?.price,
-    price_change_percentage_24h: data.keyMetrics?.price_change_percentage_24h,
+    price: data.keyMetrics?.openPrice24h ?? data.keyMetrics?.price ?? finalPrice,
+    price_change_percentage_24h: data.keyMetrics?.price_change_percentage_24h ?? finalPriceChange,
     keyMetrics: data.keyMetrics,
     about: data.about,
   };
