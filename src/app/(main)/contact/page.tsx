@@ -65,14 +65,14 @@ export default function ContactPage() {
   return (
     <div>
       <Header />
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <section className="mx-auto px-4 pt-12 sm:pt-20 lg:pt-16">
+      <main className="flex-1 container mx-auto px-4 lg:py-8">
+        <section className="mx-auto lg:px-4 pt-8 sm:pt-10 lg:pt-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Contact Form & FAQ */}
-            <div className="space-y-12">
+            <div className="space-y-6 lg:space-y-12">
               {/* CONTACT */}
               <div className="space-y-6">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground font-funnel">
+                <h1 className="text-center lg:text-left text-3xl sm:text-4xl md:text-5xl font-bold text-foreground font-funnel">
                   Contact us
                 </h1>
 
@@ -94,7 +94,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Contact Form */}
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4 text-center lg:text-left">
                   <div>
                     <input
                       type="text"
@@ -172,10 +172,10 @@ export default function ContactPage() {
           </div>
 
           {/* FAQ and Social Media - Aligned horizontally */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 pt-24">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 pt-8 lg:pt-24">
             {/* FAQ Section */}
-            <div className="space-y-6">
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground font-funnel">
+            <div className="space-y-2 md:space-y-6">
+              <h2 className="text-xl sm:text-3xl font-bold text-foreground font-funnel">
                 Frequently Asked Questions
               </h2>
               <div className="space-y-6">
@@ -193,21 +193,21 @@ export default function ContactPage() {
             </div>
 
             {/* Social Media Section */}
-            <div className="space-y-6">
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground font-funnel">
+            <div className="space-y-2 lg:space-y-6 mb-20 lg:mb-0">
+              <h2 className="text-xl sm:text-3xl font-bold text-foreground font-funnel">
                 Follow Us On Social Media
               </h2>
               <div className="flex items-center gap-4">
                 <a
                   href="#"
-                  className="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-600 flex items-center justify-center hover:bg-blue-500 hover:border-blue-500 transition-colors group"
+                  className="w-12 h-12 rounded-lg bg-blue-500 dark:bg-blue-500 flex items-center justify-center hover:bg-blue-500 hover:border-blue-500 transition-colors group"
                   aria-label="Facebook"
                 >
                   <Image src={Facebook} alt="Facebook" width={24} height={24} />
                 </a>
                 <a
                   href="#"
-                  className="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-600 flex items-center justify-center hover:bg-blue-400 hover:border-blue-400 transition-colors group"
+                  className="w-12 h-12 rounded-lg bg-black dark:bg-black flex items-center justify-center hover:bg-blue-400 hover:border-blue-400 transition-colors group"
                   aria-label="Twitter"
                 >
                   <Image src={Twitter} alt="Twitter" width={24} height={24} />

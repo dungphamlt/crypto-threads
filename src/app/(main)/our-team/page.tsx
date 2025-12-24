@@ -33,8 +33,6 @@ const teamIntroImages = [
 export default async function OurTeamPage() {
   const authors = await authorService.getListAuthors();
 
-  console.log('Authors:', authors);
-
   const displayAuthors = [...authors];
   const email = getAuthor('The20 Team').email;
 
@@ -43,7 +41,7 @@ export default async function OurTeamPage() {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-8">
         {/* Hero Slider */}
-        <section className="w-full mb-8 mt-16">
+        <section className="w-full mb-8 mt-8 md:mt-16">
           <TeamIntroSlider images={teamIntroImages} />
         </section>
 
@@ -69,14 +67,14 @@ export default async function OurTeamPage() {
 
         {/* Team Members Grid */}
         <section className=" mx-auto pb-4 sm:py-12">
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 justify-items-center">
+          <div className="grid grid-cols-3 gap-8 md:gap-10 justify-items-center">
             {displayAuthors.map((member) => (
               <Link
                 key={member.id}
                 href={member.name === 'COMING SOON' ? '#' : `/author/${member.id}`}
                 className="flex flex-col gap-4 group"
               >
-                <div className="w-32 h-32 sm:w-64 sm:h-64 rounded-xl bg-muted overflow-hidden flex items-center justify-center">
+                <div className="w-24 h-24 md:w-48 md:h-48 lg:w-66 lg:h-66 rounded-xl bg-muted overflow-hidden flex items-center justify-center">
                   {member.avatarUrl ? (
                     <Image
                       src={member.avatarUrl}
@@ -91,7 +89,7 @@ export default async function OurTeamPage() {
                     </div>
                   )}
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold text-foreground text-center uppercase group-hover:text-primary transition-colors">
+                <h3 className="text-[10px] md:text-lg lg:text-xl font-semibold text-foreground text-center uppercase group-hover:text-primary transition-colors">
                   {member.name?.toUpperCase() || 'COMING SOON'}
                 </h3>
               </Link>
@@ -100,12 +98,12 @@ export default async function OurTeamPage() {
         </section>
 
         {/* WORK WITH US Section */}
-        <section className="container mx-auto px-4 py-12 border-t border-border">
+        <section className="container mx-auto px-4 py-6 md:py-12 border-t border-border">
           <div className="max-w-2xl mx-auto text-center space-y-2">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground font-funnel">
               Work with us
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-medium">
+            <p className="text-xs sm:text-base text-muted-foreground leading-relaxed font-medium">
               For all inquiries regarding partnerships, advertisements, or questions, please email to{' '}
               <Link
                 href={`mailto:${email}`}

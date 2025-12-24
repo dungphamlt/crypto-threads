@@ -29,7 +29,7 @@ export function TeamIntroSlider({
   }
 
   return (
-    <div className="relative w-full h-64 md:h-80 lg:h-96 overflow-hidden bg-muted rounded-4xl">
+    <div className="relative w-full h-46 md:h-80 lg:h-96 overflow-hidden bg-muted rounded-xl md:rounded-4xl">
       {images.map((image, index) => (
         <div
           key={image.src}
