@@ -1,20 +1,24 @@
 import Header from "@/components/header";
 import { Footer } from "@/components/footer";
 import CoinSlider from "@/components/coins/coin-slider";
-import { CoinAboutSection, CoinDetailHeader, CoinKeyMetrics, CoinListsSection, CoinPriceChart, MarketTable } from "@/components/coins";
-import { fetchCoinDetail, fetchCoinMarketChart } from "@/services/coins-service";
-import { ArticleListWithViewAll } from "@/components/articles/article-list-with-view-all";
+import { CoinAboutSection, CoinDetailHeader, CoinKeyMetrics, TradingViewChart, MarketTable, CoinFAQSection, CoinMarketNews } from "@/components/coins";
+import { fetchCoinDetail } from "@/services/coins-service";
 import { postService } from "@/services/posts-service";
 
 export default async function CoinPage({
     params,
+    searchParams,
 }: {
     params: Promise<{ slugCoin: string }>;
+    searchParams: Promise<{ price?: string; change?: string }>;
 }) {
     const { slugCoin } = await params;
+    const { price, change } = await searchParams;
 
-    const coin = await fetchCoinDetail(slugCoin);
-    const chartData = await fetchCoinMarketChart(slugCoin, 7);
+    const coin = await fetchCoinDetail(slugCoin, {
+        price: price ? parseFloat(price) : undefined,
+        price_change_percentage_24h: change ? parseFloat(change) : undefined,
+    });
     const posts = await postService.getLatestPosts(10);
 
     if (!coin) {
@@ -31,15 +35,15 @@ export default async function CoinPage({
         );
     }
 
-    const description = coin.description?.en || "No description available.";
+    const description = coin.about || "No description available.";
 
     return (
-        <div className="container">
+        <div>
             <Header />
-            <main className="flex-1">
+            <main className="flex-1 container mx-auto px-4 py-8 space-y-2">
                 <CoinSlider />
                 <div className="mx-auto py-8">
-                    <div className="max-w-7xl mx-auto">
+                    <div className="mx-auto">
                         {/* Header */}
                         <CoinDetailHeader coin={coin} />
 
@@ -48,19 +52,21 @@ export default async function CoinPage({
                             {/* Left Column - Main Content */}
                             <div className="lg:col-span-2 space-y-6">
                                 {/* Price Chart */}
-                                {chartData ? (
-                                    <CoinPriceChart data={chartData} />
-                                ) : (
-                                    <div className="w-full h-96 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-center">
-                                        <p className="text-muted-foreground">Chart data not available</p>
-                                    </div>
-                                )}
+                                <TradingViewChart
+                                    symbol={coin.symbol || slugCoin}
+                                    coinName={coin.name || slugCoin}
+                                    height={570}
+                                />
 
                                 {/* About Section */}
                                 <CoinAboutSection description={description} />
 
-                                {/* List article */}
-                                <ArticleListWithViewAll posts={posts} layout="list" />
+                                {/* Coin Market News */}
+                                <CoinMarketNews
+                                    coinName={coin.name}
+                                    coinSymbol={coin.symbol}
+                                    posts={posts}
+                                />
                             </div>
 
                             {/* Sidebar */}
@@ -75,7 +81,10 @@ export default async function CoinPage({
                 <MarketTable />
 
                 {/* Section */}
-                <CoinListsSection />
+                {/* <CoinListsSection /> */}
+
+                {/* FAQ Section */}
+                <CoinFAQSection />
             </main>
             <Footer />
         </div>

@@ -23,9 +23,12 @@ export function useCoinDetail(id: string) {
 }
 
 export function useCoinMarketChart(id: string, days: number = 7) {
-  return useQuery<MarketChartData, Error>({
+  return useQuery<MarketChartData | null, Error>({
     queryKey: coinDetailQueryKeys.marketChart(id, days),
-    queryFn: () => fetchCoinMarketChart(id, days),
+    queryFn: async () => {
+      const result = await fetchCoinMarketChart(id);
+      return result || { prices: [], market_caps: [], total_volumes: [] };
+    },
     enabled: !!id,
     staleTime: 30 * 1000,
     gcTime: 5 * 60 * 1000,

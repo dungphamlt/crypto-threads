@@ -13,10 +13,7 @@ interface MarketTableProps {
 
 export function MarketTable({ limit = 6 }: MarketTableProps) {
   const { data: coins, isLoading, isError } = useCoins({
-    vs_currency: "usd",
     per_page: limit,
-    sparkline: true,
-    price_change_percentage: "24h",
   });
 
   if (isLoading) {
@@ -46,23 +43,23 @@ export function MarketTable({ limit = 6 }: MarketTableProps) {
   return (
     <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm my-10">
       {/* Title */}
-      <h2 className="text-xl font-bold text-foreground mb-6 uppercase">MARKET</h2>
+      <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-6 font-funnel">Market</h2>
 
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-200 dark:border-gray-800">
-              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground uppercase">
+              <th className="text-left py-3 px-4 text-sm md:text-lg font-normal text-foreground">
                 Currency
               </th>
-              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground uppercase">
+              <th className="text-left py-3 px-4 text-sm md:text-lg font-normal text-foreground">
                 Price
               </th>
-              <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground uppercase">
+              <th className="text-left py-3 px-4 text-sm md:text-lg font-normal text-foreground">
                 7 Days Market
               </th>
-              <th className="text-right py-3 px-4 text-sm font-semibold text-muted-foreground uppercase">
+              <th className="text-right py-3 px-4 text-sm md:text-lg font-normal text-foreground">
                 24H Change
               </th>
             </tr>
@@ -96,18 +93,18 @@ export function MarketTable({ limit = 6 }: MarketTableProps) {
                             sizes="32px"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+                          <div className="w-full h-full flex items-center justify-center font-medium text-xs md:text-base text-foreground">
                             {coin.symbol?.[0]?.toUpperCase() || "?"}
                           </div>
                         )}
                       </div>
-                      <span className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
+                      <span className="font-medium text-sm md:text-base text-foreground group-hover:text-primary transition-colors">
                         {coin.symbol?.toUpperCase() || coin.name}
                       </span>
                     </Link>
                   </td>
                   <td className="py-4 px-4">
-                    <span className="text-sm font-medium text-foreground">
+                    <span className="text-sm md:text-base font-medium text-foreground">
                       {formatCoinPrice(coin.current_price)}
                     </span>
                   </td>
@@ -153,7 +150,7 @@ export function MarketTable({ limit = 6 }: MarketTableProps) {
                         </svg>
                       )}
                       <span
-                        className={`text-sm font-medium ${
+                        className={`text-sm md:text-base font-medium ${
                           isPositive ? "text-green-500" : "text-red-500"
                         }`}
                       >
