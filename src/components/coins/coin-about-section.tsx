@@ -23,11 +23,11 @@ export function CoinAboutSection({ description }: CoinAboutSectionProps) {
 
   return (
     <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6">
-      <h2 className="text-2xl font-bold text-foreground mb-4 uppercase">
-        ABOUT
+      <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-4 font-funnel">
+        About
       </h2>
       <div className="prose prose-sm dark:prose-invert max-w-none">
-        <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+        <p className="text-muted-foreground font-medium text-sm md:text-base leading-relaxed whitespace-pre-line">
           {displayText}
         </p>
         {shouldTruncate && (

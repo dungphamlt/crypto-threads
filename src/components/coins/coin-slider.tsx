@@ -198,7 +198,13 @@ export default function CoinSlider() {
           return (
             <div key={coin.id} className="px-1 sm:px-3">
               <div
-                onClick={() => router.push(`/coins/${coin.id}`)}
+                onClick={() => {
+                  const params = new URLSearchParams({
+                    price: coin.current_price.toString(),
+                    change: coin.price_change_percentage_24h.toString(),
+                  });
+                  router.push(`/coins/${coin.id}?${params.toString()}`);
+                }}
                 className={`
                   relative rounded-xl px-4 py-2 overflow-hidden border cursor-pointer transition-all hover:shadow-lg hover:scale-[1.02]
                   ${isPositive

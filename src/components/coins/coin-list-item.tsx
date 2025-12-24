@@ -15,7 +15,7 @@ export function CoinListItem({ coin }: CoinListItemProps) {
 
   return (
     <Link
-      href={`/coins/${coin.id}`}
+      href={`/coin/${coin.id}`}
       className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer group"
     >
       {/* Icon */}

@@ -34,10 +34,10 @@ export function CoinDetailHeader({ coin }: CoinDetailHeaderProps) {
 
       {/* Name and Symbol */}
       <div className="flex-1">
-        <h1 className="text-3xl font-bold text-foreground mb-1">
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-1 font-funnel">
           {coin.name}
         </h1>
-        <p className="text-lg text-muted-foreground uppercase">
+        <p className="text-sm md:text-base lg:text-lg text-muted-foreground uppercase">
           {coin.symbol}
         </p>
       </div>
