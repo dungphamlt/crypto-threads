@@ -37,7 +37,7 @@ export function BtnGoToTop() {
       size="icon"
       onClick={scrollToTop}
       className={cn(
-        "fixed bottom-10 right-6 z-50 rounded-full shadow-lg transition-all duration-300 cursor-pointer hover:bg-primary/10 hover:text-primary",
+        "fixed bottom-10 right-6 z-50 rounded-full shadow-lg transition-all duration-300 cursor-pointer bg-primary/50 hover:bg-primary hover:text-white",
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-2 pointer-events-none"

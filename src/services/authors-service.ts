@@ -30,8 +30,8 @@ export interface AuthorResponse {
 }
 
 const cacheConfig = {
-  author: { next: { revalidate: 3600 } },
-  listAuthors: { next: { revalidate: 3600 } },
+  author: { next: { revalidate: 10000 } },
+  listAuthors: { next: { revalidate: 10000 } },
 };
 
 export interface AuthorsListResponse {

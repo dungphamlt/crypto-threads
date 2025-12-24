@@ -4,9 +4,13 @@ import Link from "next/link";
 import Header from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Logo } from "@/components/logo";
-import { Facebook, Twitter, Instagram, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { useState } from "react";
 import { getAuthor } from "@/app/layout.config";
+import Facebook from "@/assets/icons/Facebook1.svg";
+import Twitter from "@/assets/icons/X1.svg";
+import Instagram from "@/assets/icons/instagram.svg";
+import Image from "next/image";
 // import BgStripedGradient from "@/assets/images/bg-striped-gradient.jpg";
 
 const faqs = [
@@ -199,21 +203,26 @@ export default function ContactPage() {
                   className="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-600 flex items-center justify-center hover:bg-blue-500 hover:border-blue-500 transition-colors group"
                   aria-label="Facebook"
                 >
-                  <Facebook className="w-5 h-5 text-foreground group-hover:text-white transition-colors" />
+                  <Image src={Facebook} alt="Facebook" width={24} height={24} />
                 </a>
                 <a
                   href="#"
                   className="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-600 flex items-center justify-center hover:bg-blue-400 hover:border-blue-400 transition-colors group"
                   aria-label="Twitter"
                 >
-                  <Twitter className="w-5 h-5 text-foreground group-hover:text-white transition-colors" />
+                  <Image src={Twitter} alt="Twitter" width={24} height={24} />
                 </a>
                 <a
                   href="#"
                   className="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-600 flex items-center justify-center hover:bg-pink-500 hover:border-pink-500 transition-colors group"
                   aria-label="Instagram"
                 >
-                  <Instagram className="w-5 h-5 text-foreground group-hover:text-white transition-colors" />
+                  <Image
+                    src={Instagram}
+                    alt="Instagram"
+                    width={24}
+                    height={24}
+                  />
                 </a>
                 <a
                   href="#"
