@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import TwitterIcon from "@/assets/icons/X1.svg";
-import FacebookIcon from "@/assets/icons/Facebook1.svg";
-import TelegramIcon from "@/assets/icons/Telegram1.svg";
-import DiscordIcon from "@/assets/icons/Discord.svg";
-import ThreadIcon from "@/assets/icons/Threads.svg";
-import MessengerIcon from "@/assets/icons/Messenger.svg";
+import TwitterIcon from "@/assets/icons/x-logo.svg";
+import FacebookIcon from "@/assets/icons/facebook-logo.svg";
+import TelegramIcon from "@/assets/icons/telegram-logo.svg";
+import DiscordIcon from "@/assets/icons/discord-logo.svg";
+import ThreadIcon from "@/assets/icons/threads-logo.svg";
+import MessengerIcon from "@/assets/icons/messenger-logo.svg";
 
 interface ShareSocialsProps {
   url?: string;
@@ -24,28 +24,28 @@ export function ShareSocials({ url }: ShareSocialsProps) {
   const socials = [
     {
       name: "X",
-      icon: <Image src={TwitterIcon} alt="X" width={20} height={20} />,
+      icon: <Image src={TwitterIcon} alt="X" width={32} height={32} />,
     },
     {
       name: "Telegram",
-      icon: <Image src={TelegramIcon} alt="Telegram" width={20} height={20} />,
+      icon: <Image src={TelegramIcon} alt="Telegram" width={32} height={32} />,
     },
     {
       name: "Facebook",
-      icon: <Image src={FacebookIcon} alt="Facebook" width={20} height={20} />,
+      icon: <Image src={FacebookIcon} alt="Facebook" width={32} height={32} />,
     },
     {
       name: "Threads",
-      icon: <Image src={ThreadIcon} alt="Thread" width={20} height={20} />,
+      icon: <Image src={ThreadIcon} alt="Thread" width={32} height={32} />,
     },
     {
       name: "Discord",
-      icon: <Image src={DiscordIcon} alt="Discord" width={20} height={20} />,
+      icon: <Image src={DiscordIcon} alt="Discord" width={32} height={32} />,
     },
     {
       name: "Messenger",
       icon: (
-        <Image src={MessengerIcon} alt="Messenger" width={20} height={20} />
+        <Image src={MessengerIcon} alt="Messenger" width={32} height={32} />
       ),
     },
   ];
@@ -110,7 +110,7 @@ export function ShareSocials({ url }: ShareSocialsProps) {
           <button
             key={social.name}
             onClick={() => handleShare(social.name)}
-            className="bg-gray-400 dark:bg-gray-700 rounded-lg p-2 cursor-pointer hover:bg-primary transition-all duration-300"
+            className="cursor-pointer hover:scale-110 transition-all duration-300"
             aria-label={`Share on ${social.name}`}
           >
             {social.icon}

@@ -13,6 +13,7 @@ interface ArticleMetaProps {
   date?: Date | string;
   orientation?: "row" | "column";
   className?: string;
+  isHotTopic?: boolean;
 }
 
 export function ArticleMeta({
@@ -23,6 +24,7 @@ export function ArticleMeta({
   date,
   orientation = "row",
   className,
+  isHotTopic = false,
 }: ArticleMetaProps) {
   const router = useRouter();
   const dateValue =
@@ -68,7 +70,11 @@ export function ArticleMeta({
         <span className="uppercase tracking-wide text-[10px] sm:text-[11px] leading-none">
           By{" "}
         </span>
-        <span className="text-[10px] sm:text-[11px] font-semibold text-foreground leading-none">
+        <span
+          className={`text-[10px] sm:text-[11px] font-semibold ${
+            isHotTopic ? "text-white" : "text-foreground"
+          } leading-none`}
+        >
           {author}
         </span>
       </span>

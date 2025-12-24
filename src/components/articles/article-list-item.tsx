@@ -6,9 +6,14 @@ import { ArticleMeta } from "./article-meta";
 interface ArticleListItemProps {
   post: Post;
   isShowExcerpt?: boolean;
+  isHotTopic?: boolean;
 }
 
-export function ArticleListItem({ post, isShowExcerpt = false }: ArticleListItemProps) {
+export function ArticleListItem({
+  post,
+  isShowExcerpt = false,
+  isHotTopic = false,
+}: ArticleListItemProps) {
   const publishDate = post.publishTime
     ? new Date(post.publishTime)
     : new Date(post.createdAt);
@@ -21,7 +26,11 @@ export function ArticleListItem({ post, isShowExcerpt = false }: ArticleListItem
         className="flex gap-3 sm:gap-4 hover:opacity-80 transition-opacity"
       >
         {/* Image */}
-        <div className="relative w-28 h-20 sm:w-36 sm:h-24 md:w-48 md:h-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+        <div
+          className={`relative w-5/12 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800 ${
+            isHotTopic ? "aspect-[3/2] w-5/12" : "aspect-video w-1/3"
+          }`}
+        >
           {post.coverUrl ? (
             <Image
               src={post.coverUrl}
@@ -40,13 +49,15 @@ export function ArticleListItem({ post, isShowExcerpt = false }: ArticleListItem
         {/* Content */}
         <div className="flex-1 min-w-0">
           {/* Title */}
-          <h3 className="text-sm sm:text-base md:text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+          <h3 className="text-sm sm:text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
             {post.title}
           </h3>
 
-          {isShowExcerpt && <p className="text-[10px] sm:text-sm text-muted-foreground mb-2 line-clamp-2">
-            {excerpt}
-          </p>}
+          {isShowExcerpt && (
+            <p className="text-[10px] sm:text-sm text-muted-foreground mb-2 line-clamp-2">
+              {excerpt}
+            </p>
+          )}
 
           <ArticleMeta
             author={post.creator?.penName}
@@ -60,4 +71,3 @@ export function ArticleListItem({ post, isShowExcerpt = false }: ArticleListItem
     </article>
   );
 }
-

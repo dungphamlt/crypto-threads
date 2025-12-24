@@ -48,7 +48,7 @@ export function ArticleListWithViewAll({
   }
 
   return (
-    <div className="space-y-6 rounded-2xl border bg-white dark:bg-gray-950/50 p-6 shadow-sm">
+    <div className="space-y-6">
       {displayPosts.map((post) => (
         <ArticleListItem key={post.id} post={post} isShowExcerpt={true} />
       ))}
@@ -65,4 +65,3 @@ export function ArticleListWithViewAll({
     </div>
   );
 }
-

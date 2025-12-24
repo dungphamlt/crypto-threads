@@ -14,17 +14,18 @@ export async function HotTopicSection({ limit = 3 }: HotTopicSectionProps) {
   }
 
   return (
-    <section className="space-y-6 my-20">
-      <h2 className="text-2xl font-bold uppercase text-foreground">
-        HOT TOPIC
-      </h2>
-      <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section className="space-y-6 my-20 p-8 bg-primary text-white rounded-2xl">
+      <h2 className="text-2xl font-bold uppercase text-white">HOT TOPIC</h2>
+      <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post) => (
-          <MainArticleCard key={post._id || post.id} post={post} />
+          <MainArticleCard
+            key={post._id || post.id}
+            post={post}
+            isHotTopic={true}
+          />
         ))}
       </div>
       <HotTopicSlider posts={posts} />
     </section>
   );
 }
-

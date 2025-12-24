@@ -5,16 +5,24 @@ import { ArticleMeta } from "./article-meta";
 
 interface MainArticleCardProps {
   post: Post;
+  isHotTopic?: boolean;
 }
 
-export function MainArticleCard({ post }: MainArticleCardProps) {
+export function MainArticleCard({
+  post,
+  isHotTopic = false,
+}: MainArticleCardProps) {
   const publishDate = post.publishTime || post.createdAt;
 
   return (
     <article className="group">
       <Link href={`/article/${post.slug}`} className="block">
         {/* Image */}
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-4 bg-gray-200 dark:bg-gray-800">
+        <div
+          className={`relative w-full  rounded-lg overflow-hidden mb-4 ${
+            isHotTopic ? "aspect-[3/2]" : "aspect-video"
+          }`}
+        >
           {post.coverUrl ? (
             <Image
               src={post.coverUrl}
@@ -33,7 +41,13 @@ export function MainArticleCard({ post }: MainArticleCardProps) {
         {/* Content */}
         <div className="relative">
           {/* Title */}
-          <h2 className="text-2xl sm:text-xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors line-clamp-2">
+          <h2
+            className={`text-base md:text-lg font-bold min-h-[56px] ${
+              isHotTopic
+                ? "text-white group-hover:text-black"
+                : "text-foreground group-hover:text-primary"
+            } mb-4  transition-colors line-clamp-2`}
+          >
             {post.title}
           </h2>
 
@@ -44,6 +58,7 @@ export function MainArticleCard({ post }: MainArticleCardProps) {
             authorId={post.creator?.id}
             date={publishDate}
             isShowAvatar={true}
+            isHotTopic={isHotTopic}
           />
         </div>
       </Link>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import LogoOg from "@/assets/icons/logo-og-white.svg";
 
 interface SubscriptionCardProps {
   className?: string;
@@ -27,50 +29,60 @@ export function SubscriptionCard({ className }: SubscriptionCardProps) {
 
   return (
     <div
-      className={`rounded-2xl border border-border/60 bg-white dark:bg-gray-950/50 p-6 shadow-sm ${
+      className={`rounded-xl bg-primary p-6 shadow-sm overflow-hidden relative ${
         className || ""
       }`}
     >
-      <h3 className="text-lg font-bold uppercase text-foreground mb-4">
-        EXCLUSIVE READ FROM CRYPTO THREADS
-      </h3>
-      <p className="text-sm text-muted-foreground mb-6">
-        Weekly, insightful analysis of hot trends in Web3 markets, exclusive
-        interviews, and deep dives into the crypto ecosystem. Stay ahead with
-        Crypto Threads.
-      </p>
+      <div className="w-8/12 block md:flex md:h-full md:flex-col md:justify-between">
+        <div className="flex-1">
+          <h3 className="text-base font-bold uppercase text-[#F2F2F7]">
+            Exclusive read from
+          </h3>
+          <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
+            Crypto Threads
+          </h2>
+          <p className="text-sm text-[#F2F2F7] mb-2">
+            Weekly snapshot of key trends in Web3 markets to serve your
+            interests. Fill the form to gain breaking news and valuable insights
+            to navigate and spot can&apos;t -miss opportunities.
+          </p>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-foreground mb-2"
-          >
-            Email Address
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            required
-            className="w-full px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-          />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+                className="w-full px-4 py-1 rounded-full border border-border bg-white text-primary  focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting || !email}
+              className="px-6 py-1 bg-white text-primary font-semibold rounded-full hover:bg-white/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </button>
+          </form>
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting || !email}
-          className="w-full px-4 py-2 bg-primary text-white dark:text-black font-semibold rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? "SUBSCRIBING..." : "SUBSCRIBE"}
-        </button>
-      </form>
-
-      <p className="text-xs text-muted-foreground mt-4 text-center">
-        By subscribing, you agree to our Terms of Service and Privacy Policy.
-      </p>
+        <p className="text-xs text-[#F2F2F7] mt-4 ">
+          By subscribing, you agree to our Terms of Service and Privacy Policy.
+        </p>
+      </div>
+      <div className="absolute bottom-[-10%] right-[-15%] w-1/2 aspect-square">
+        <Image
+          src={LogoOg}
+          alt="Logo"
+          width={128}
+          height={128}
+          className="w-full h-full object-contain"
+        />
+      </div>
     </div>
   );
 }
