@@ -13,22 +13,22 @@ export default function DisclaimerPage() {
   return (
     <div>
       <Header />
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <section className="mx-auto px-4 pt-12 sm:pt-20 lg:pt-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-30 mb-12">
-            <div className="space-y-6">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground font-funnel">
+      <main className="flex-1 container mx-auto px-4 lg:py-8">
+        <section className="mx-auto px-4 pt-6 sm:pt-20 lg:pt-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-30 mb-4 lg:mb-12">
+            <div className="space-y-2 lg:space-y-6">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground font-funnel">
                 Disclaimer
               </h1>
-              <div className="space-y-4">
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              <div className="space-y-2 lg:space-y-4">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-medium">
                   Crypto Threads is a news and media platform dedicated to
                   providing information, analysis, and updates on cryptocurrency
                   and blockchain technology. While we strive for accuracy and
                   reliability, all content on our platform is provided for
                   informational purposes only.
                 </p>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-medium">
                   Crypto Threads does not guarantee the completeness,
                   timeliness, or accuracy of the information published. Readers
                   are advised to independently verify any data before making
@@ -38,26 +38,26 @@ export default function DisclaimerPage() {
                   accessing and using Crypto Threads, you acknowledge and agree
                   to these disclaimers.
                 </p>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-medium">
                   By accessing and using Crypto Threads, you acknowledge and
                   agree to these disclaimers.
                 </p>
               </div>
             </div>
 
-            <div className="space-y-6">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground font-funnel">
+            <div className="space-y-2 lg:space-y-6">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground font-funnel">
                 Disclosure
               </h1>
               <div className="space-y-4">
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-medium">
                   Crypto Threads is a news and media platform dedicated to
                   providing information, analysis, and updates on cryptocurrency
                   and blockchain technology. While we strive for accuracy and
                   reliability, all content on our platform is provided for
                   informational purposes only.
                 </p>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-medium">
                   Crypto Threads does not guarantee the completeness,
                   timeliness, or accuracy of the information published. Readers
                   are advised to independently verify any data before making
@@ -67,7 +67,7 @@ export default function DisclaimerPage() {
                   accessing and using Crypto Threads, you acknowledge and agree
                   to these disclaimers.
                 </p>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-medium">
                   By accessing and using Crypto Threads, you acknowledge and
                   agree to these disclaimers.
                 </p>
