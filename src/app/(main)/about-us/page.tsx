@@ -133,7 +133,7 @@ export default function AboutPage() {
           </h1>
 
           <div className="grid gap-10 lg:grid-cols-2 items-center">
-            <div className="flex items-center h-full">
+            <div className="flex items-center h-full md:order-2 lg:order-none md:justify-center">
               <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden bg-primary">
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white gap-5">
                   <Logo className="w-40 h-40 md:h-48 md:w-48 text-white" />
@@ -141,7 +141,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="space-y-5">
+            <div className="space-y-5 md:order-1 lg:order-none">
               <div>
                 <p className="text-xl font-bold font-funnel">
                   About us
