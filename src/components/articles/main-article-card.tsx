@@ -42,7 +42,7 @@ export function MainArticleCard({
         <div className="relative">
           {/* Title */}
           <h2
-            className={`text-base md:text-lg font-bold min-h-[56px] ${
+            className={`text-base md:text-lg font-bold min-h-[48px] md:min-h-[56px] ${
               isHotTopic
                 ? "text-white group-hover:text-black"
                 : "text-foreground group-hover:text-primary"

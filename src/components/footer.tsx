@@ -5,12 +5,64 @@ import Image from "next/image";
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const categories = [
+    {
+      name: "News",
+      href: "/news",
+    },
+    {
+      name: "Learn",
+      href: "/learn",
+    },
+    {
+      name: "Insights",
+      href: "/insights",
+    },
+    {
+      name: "Trading",
+      href: "/trading",
+    },
+  ];
+  const company = [
+    {
+      name: "About us",
+      href: "/about-us",
+    },
+    {
+      name: "Contact",
+      href: "/contact",
+    },
+    {
+      name: "Disclaimer",
+      href: "/disclaimer",
+    },
+    {
+      name: "Privacy Policy",
+      href: "/privacy-policy",
+    },
+  ];
+  const resources = [
+    {
+      name: "Authors",
+      href: "/resources/authors",
+    },
+    {
+      name: "Studio",
+      href: "/resources/studio",
+    },
+  ];
+  const careers = [
+    {
+      name: "Work with us",
+      href: "/careers/work-with-us",
+    },
+  ];
 
   return (
     <div className="mt-8 bg-primary text-white">
-      <footer className="py-16 text-sm relative overflow-hidden">
+      <footer className="py-12 md:py-16 relative overflow-hidden px-2 md:px-0">
         <div className="container">
-          <div className="flex items-end justify-between mb-10 pb-6 border-b border-white">
+          <div className="flex items-end justify-between mb-6 md:mb-10 md:pb-6 md:border-b border-white">
             {/* Logo / Brand */}
             <Link
               href="/"
@@ -24,101 +76,94 @@ export function Footer() {
                 height={64}
               />
             </Link>
-            <div className="text-center md:text-left">
+            <div className="hidden md:block text-sm font-medium">
               Copyright © {year} THE20. All rights reserved.
             </div>
           </div>
           <div className="flex flex-col md:flex-row md:justify-between">
-            <div className="w-full md:w-1/3">
+            <div className="w-full md:w-1/3 order-2 md:order-1 py-6 md:py-0">
               <Collaboration />
             </div>
-            <div className="flex justify-between flex-wrap gap-4 w-full md:w-1/2">
+            <div className="order-1 text-base md:text-sm md:order-2 flex flex-col md:flex-row justify-between flex-wrap gap-4 w-full md:w-1/2">
               {/* Useful links */}
-              <div className="flex flex-col gap-3">
-                <h3 className="font-medium">Categories</h3>
+              <div className="flex flex-col gap-2 md:gap-3">
+                <h3 className="font-semibold text-lg md:text-base border-b-[0.5px] border-white pb-2 md:border-b-0">
+                  Categories
+                </h3>
                 <ul className="flex flex-col gap-2 text-muted-foreground">
-                  <li>
-                    <Link href="/news" className="hover:underline">
-                      News
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/learn" className="hover:underline">
-                      Learn
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/insights" className="hover:underline">
-                      Insights
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/trading" className="hover:underline">
-                      Trading
-                    </Link>
-                  </li>
+                  {categories.map((category) => (
+                    <li key={category.name}>
+                      <Link
+                        href={category.href}
+                        className="hover:underline block border-b-[0.5px] border-white pb-2 md:border-b-0"
+                      >
+                        {category.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
               {/* Useful links */}
-              <div className="flex flex-col gap-3">
-                <h3 className="font-medium">Company</h3>
+              <div className="flex flex-col gap-2 md:gap-3">
+                <h3 className="font-semibold text-lg md:text-base border-b-[0.5px] border-white pb-2 md:border-b-0">
+                  Company
+                </h3>
                 <ul className="flex flex-col gap-2">
-                  <li>
-                    <Link href="/about-us" className="hover:underline">
-                      About us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/contact" className="hover:underline">
-                      Contact
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/disclaimer" className="hover:underline">
-                      Disclaimer
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/privacy-policy" className="hover:underline">
-                      Privacy Policy
-                    </Link>
-                  </li>
+                  {company.map((company) => (
+                    <li key={company.name}>
+                      <Link
+                        href={company.href}
+                        className="hover:underline block border-b-[0.5px] border-white pb-2 md:border-b-0"
+                      >
+                        {company.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
               {/* Articles */}
-              <div className="flex flex-col gap-3">
-                <h3 className="font-medium">Resources</h3>
+              <div className="flex flex-col gap-2 md:gap-3">
+                <h3 className="font-semibold text-lg md:text-base border-b-[0.5px] border-white pb-2 md:border-b-0">
+                  Resources
+                </h3>
                 <ul className="flex flex-col gap-2 text-muted-foreground">
-                  <li>
-                    <Link href="/resources/authors" className="hover:underline">
-                      Authors
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/resources/studio" className="hover:underline">
-                      Studio
-                    </Link>
-                  </li>
+                  {resources.map((resource) => (
+                    <li key={resource.name}>
+                      <Link
+                        href={resource.href}
+                        className="hover:underline block border-b-[0.5px] border-white pb-2 md:border-b-0"
+                      >
+                        {resource.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
               {/* Articles */}
-              <div className="flex flex-col gap-3">
-                <h3 className="font-medium">Careers</h3>
+              <div className="flex flex-col gap-2 md:gap-3">
+                <h3 className="font-semibold text-lg md:text-base border-b-[0.5px] border-white pb-2 md:border-b-0">
+                  Careers
+                </h3>
                 <ul className="flex flex-col gap-2 text-muted-foreground">
-                  <li>
-                    <Link
-                      href="/careers/work-with-us"
-                      className="hover:underline"
-                    >
-                      Work with us
-                    </Link>
-                  </li>
+                  {careers.map((career) => (
+                    <li key={career.name}>
+                      <Link
+                        href={career.href}
+                        className="hover:underline block border-b-[0.5px] border-white pb-2 md:border-b-0"
+                      >
+                        {career.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
+          </div>
+          <div className="text-center md:text-left block md:hidden text-sm md:text-base">
+            Copyright © {year} THE20. All rights reserved.
           </div>
         </div>
       </footer>

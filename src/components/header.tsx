@@ -4,12 +4,16 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   TextAlignJustify as MenuIcon,
-  Sun,
+  SunMedium,
   Moon,
   ChevronDown,
   Globe,
   Settings,
   Play,
+  LogOut,
+  User,
+  LogIn,
+  UserPlus,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -18,6 +22,7 @@ import LogoWhite from "@/assets/icons/logo-white.svg";
 import LogoOg from "@/assets/icons/logo-og-white.svg";
 import Image from "next/image";
 import { Search } from "./search";
+import { useIsLogin } from "@/hooks/use-is-login";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -35,8 +40,15 @@ const Navbar = () => {
     {}
   );
   const dropdownPanelRefs = useRef<Record<string, HTMLDivElement | null>>({});
-
   const pathname = usePathname();
+
+  const { isLoggedIn, user, refresh } = useIsLogin();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    refresh();
+  };
 
   // Outside click / mousedown handler (uses specific refs)
   useEffect(() => {
@@ -205,6 +217,12 @@ const Navbar = () => {
                     : "translate-x-1"
                 )}
               />
+              <SunMedium
+                className={cn(
+                  "absolute right-1.5 top-1/2 -translate-y-1/2 w-5 h-5 text-yellow-300 transition-opacity duration-300",
+                  theme === "light" ? "opacity-0" : "opacity-100"
+                )}
+              />
             </button>
           </div>
 
@@ -354,6 +372,13 @@ const Navbar = () => {
                   : "translate-x-1"
               )}
             />
+            {/* Sun icon on the right */}
+            <SunMedium
+              className={cn(
+                "absolute right-1.5 top-1/2 -translate-y-1/2 w-5 h-5 text-yellow-300 transition-opacity duration-300",
+                theme === "light" ? "opacity-0" : "opacity-100"
+              )}
+            />
           </button>
           {/* Language Toggle English - vietnamese */}
 
@@ -374,26 +399,58 @@ const Navbar = () => {
             aria-label="Settings"
             aria-expanded={isLoginDropdownOpen}
           >
-            <Settings className="w-8 h-8 text-white transition-transform duration-300" />
+            {isLoggedIn ? (
+              <div className="text-3xl w-20 h-20 flex items-center justify-center  font-bold text-white">
+                {user?.username.charAt(0).toUpperCase()}
+              </div>
+            ) : (
+              <div className="text-3xl w-20 h-20 flex items-center justify-center">
+                <Settings className="w-10 h-10 text-white transition-transform duration-300" />
+              </div>
+            )}
           </button>
 
           {/* login/register dropdown */}
           {isLoginDropdownOpen && (
-            <div className="absolute top-full right-0 mt-2 z-50 w-[200px] bg-background border border-foreground/10 rounded-lg shadow-lg py-2">
-              <Link
-                href="/auth"
-                className="block px-4 py-2 text-sm text-foreground hover:underline transition-colors"
-                onClick={() => setIsLoginDropdownOpen(false)}
-              >
-                Login
-              </Link>
-              <Link
-                href="/auth?type=register"
-                className="block px-4 py-2 text-sm text-foreground hover:underline transition-colors"
-                onClick={() => setIsLoginDropdownOpen(false)}
-              >
-                Register
-              </Link>
+            <div className="absolute top-full right-0 mt-2 z-50 w-[200px] bg-background border border-foreground/10 rounded-lg shadow-lg p-2">
+              {isLoggedIn ? (
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 py-2 text-sm text-foreground hover:text-primary cursor-pointer transition-colors flex items-center gap-2 rounded-md"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Logout</span>
+                  </button>
+                  {/* Profile */}
+                  <Link
+                    href="/profile"
+                    className="px-4 py-2 text-sm text-foreground hover:text-primary cursor-pointer transition-colors flex items-center gap-2 rounded-md"
+                  >
+                    <User className="w-4 h-4" />
+                    <span>Profile</span>
+                  </Link>
+                </div>
+              ) : (
+                <>
+                  <Link
+                    href="/auth"
+                    className="px-4 py-2 text-sm text-foreground hover:text-primary cursor-pointer transition-colors flex items-center gap-2 rounded-md"
+                    onClick={() => setIsLoginDropdownOpen(false)}
+                  >
+                    <LogIn className="w-4 h-4" />
+                    <span>Login</span>
+                  </Link>
+                  <Link
+                    href="/auth?type=register"
+                    className="px-4 py-2 text-sm text-foreground hover:text-primary cursor-pointer transition-colors flex items-center gap-2 rounded-md"
+                    onClick={() => setIsLoginDropdownOpen(false)}
+                  >
+                    <UserPlus className="w-4 h-4" />
+                    <span>Register</span>
+                  </Link>
+                </>
+              )}
             </div>
           )}
         </div>
@@ -528,23 +585,32 @@ const Navbar = () => {
                     );
                   })}
                 </div>
-
-                {/* Theme Toggle */}
-                <div className="pt-3 border-t border-foreground/10 flex items-center justify-between">
-                  <span className="text-sm text-foreground/70 font-medium">
-                    Theme
-                  </span>
-                  <button
-                    onClick={toggleTheme}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-foreground/10 hover:bg-background-dark transition-colors"
-                  >
-                    {theme === "light" ? (
-                      <Sun className="w-4 h-4" />
-                    ) : (
-                      <Moon className="w-4 h-4" />
-                    )}
-                    <span className="text-sm capitalize">{theme}</span>
-                  </button>
+                <div className="py-3 border-t border-foreground/10">
+                  {isLoggedIn ? (
+                    <div className="space-y-1">
+                      <button
+                        onClick={handleLogout}
+                        className="block text-base font-medium p-3 rounded-lg transition-colors"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-1">
+                      <Link
+                        href="/auth"
+                        className="block text-base font-medium p-3 rounded-lg transition-colors"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        href="/auth?type=register"
+                        className="block text-base font-medium p-3 rounded-lg transition-colors"
+                      >
+                        Register
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

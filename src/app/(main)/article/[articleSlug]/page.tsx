@@ -6,12 +6,13 @@ import Image from "next/image";
 import { BtnGoToTop } from "@/components/btn-go-to-top";
 import { ArticleSidebar } from "@/components/articles/server-components/article-sidebar";
 import { AuthorFollow } from "@/components/authors/author-follow";
-import { ArticleAuthor } from "@/components/articles/article-author";
-import { ArticleListMore } from "@/components/articles/server-components/article-list-more";
+import { ArticleAuthor } from "@/components/articles/client-components/article-author";
 import { ShareSocials } from "@/components/articles/share-socials";
 import Head from "next/head";
 import CoinSlider from "@/components/coins/coin-slider";
 import { TableContent } from "@/components/articles/table-content";
+import { HotTopicSection } from "@/components/articles/hot-topic-section";
+import { ArticleListWithSidebar } from "@/components/articles/article-list-with-sidebar";
 
 export default async function Page({
   params,
@@ -41,15 +42,17 @@ export default async function Page({
 
       <main className="container relative">
         <CoinSlider />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4 md:py-8">
           <article className="md:col-span-2 relative">
-            <h3 className="font-semibold text-primary mb-4">
+            <h3 className="font-bold text-primary mb-2 md:mb-4">
               {post.category.key}
             </h3>
-            <h1 className="text-4xl font-semibold text-foreground mb-4">
+            <h1 className="text-xl md:text-4xl font-bold text-foreground mb-4">
               {post.title}
             </h1>
-            <p className="text-muted-foreground mb-4">{post.excerpt}.</p>
+            <p className="text-muted-foreground mb-4 hidden md:block">
+              {post.excerpt}.
+            </p>
             <div className="flex gap-3 mb-8">
               {post.creator.avatarUrl ? (
                 <Image
@@ -96,7 +99,7 @@ export default async function Page({
                 />
               </div>
             )}
-            <div className="flex-col-reverse col md:row gap-8 mt-8">
+            <div className="content-post mt-8">
               <div dangerouslySetInnerHTML={{ __html: post.content }} />
             </div>
             <div className="flex items-center flex-wrap gap-4 mt-8">
@@ -121,15 +124,17 @@ export default async function Page({
         <AuthorFollow author_id={post.creator.id} />
         <div className="py-8">
           <div className="flex items-center gap-4">
-            <h2 className="text-lg uppercase font-semibold text-gray-600 dark:text-gray-400">
+            <h2 className="text-lg font-bold text-gray-600 dark:text-gray-400">
               More articles by
             </h2>
-            <h2 className="text-lg font-semibold text-foreground uppercase">
+            <h2 className="text-lg font-bold text-foreground uppercase">
               {post.creator.penName}
             </h2>
           </div>
           <ArticleAuthor author_id={post.creator.id} />
-          <ArticleListMore />
+          {/* <ArticleListMore /> */}
+          <HotTopicSection limit={3} />
+          <ArticleListWithSidebar limit={10} />
         </div>
       </main>
       <Footer />

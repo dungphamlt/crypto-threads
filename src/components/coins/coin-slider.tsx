@@ -46,8 +46,9 @@ function MiniChart({
   const pathData = `M ${points.join(" L ")}`;
 
   // Create area path for fill
-  const areaPath = `${pathData} L ${width - padding
-    },${height} L ${padding},${height} Z`;
+  const areaPath = `${pathData} L ${
+    width - padding
+  },${height} L ${padding},${height} Z`;
 
   const lineColor = isPositive ? "#4ade80" : "#f87171";
   const fillColor = isPositive
@@ -189,7 +190,10 @@ export default function CoinSlider() {
     }
 
     return (
-      <Slider {...sliderSettings} className="-mx-4">
+      <Slider
+        {...sliderSettings}
+        className="mx-0 md:-mx-4 border-b border-[#C4C4C4] md:border-none mb-6 md:mb-0"
+      >
         {coins.map((coin) => {
           const priceChange = coin.price_change_percentage_24h || 0;
           const isPositive = priceChange >= 0;
@@ -206,15 +210,13 @@ export default function CoinSlider() {
                   router.push(`/coins/${coin.id}?${params.toString()}`);
                 }}
                 className={`
-                  relative rounded-xl px-4 py-2 overflow-visible border cursor-pointer transition-all hover:shadow-lg hover:scale-[1.02] origin-center
-                  ${isPositive
-                    ? "border-green-300 dark:border-green-700"
-                    : "border-red-300 dark:border-red-700"
+                  relative md:min-h-20 rounded-xl px-3 md:px-4 py-2 overflow-visible md:border cursor-pointer transition-all hover:shadow-lg hover:scale-[1.02] origin-center
+                  ${
+                    isPositive
+                      ? "border-green-300 dark:border-green-700"
+                      : "border-red-300 dark:border-red-700"
                   } bg-transparent
                 `}
-                style={{
-                  minHeight: "80px",
-                }}
               >
                 {/* Header: Icon + Symbol */}
                 <div className="flex items-center gap-2 mb-1 min-w-0">
@@ -231,7 +233,7 @@ export default function CoinSlider() {
                 </div>
 
                 {/* Price and Change: Vertical on mobile, Horizontal on desktop */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between gap-2 mb-4">
+                <div className="flex items-start sm:items-center justify-start sm:justify-between gap-2 md:mb-4">
                   <span className="text-xs font-semibold text-gray-900 dark:text-white">
                     {formatCoinPrice(coin.current_price)}
                   </span>
@@ -242,8 +244,9 @@ export default function CoinSlider() {
                       <ArrowDown className="w-3 h-3 text-red-400" />
                     )}
                     <span
-                      className={`text-xs font-medium ${isPositive ? "text-green-400" : "text-red-400"
-                        }`}
+                      className={`text-xs font-medium ${
+                        isPositive ? "text-green-400" : "text-red-400"
+                      }`}
                     >
                       {isPositive ? "+" : ""}
                       {priceChange.toFixed(2)}%
@@ -254,7 +257,7 @@ export default function CoinSlider() {
                 {/* Mini Chart */}
                 {sparklinePrices.length > 0 && (
                   <div
-                    className={`relative h-8 w-full ${
+                    className={`relative h-8 w-full hidden md:block ${
                       isPositive
                         ? "drop-shadow-[0_2px_6px_rgba(34,197,94,0.35)]"
                         : "drop-shadow-[0_2px_6px_rgba(239,68,68,0.35)]"
@@ -275,5 +278,5 @@ export default function CoinSlider() {
     );
   };
 
-  return <div className="mt-18">{renderContent()}</div>;
+  return <div className="mt-2 md:mt-18">{renderContent()}</div>;
 }

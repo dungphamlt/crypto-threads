@@ -3,7 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
-import { useTrendingCoins, useTopGrowCoins, useNewCoins } from "@/hooks/use-coins";
+import {
+  useTrendingCoins,
+  useTopGrowCoins,
+  useNewCoins,
+} from "@/hooks/use-coins";
 import { CoinListCard } from "./coin-list-card";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -93,7 +97,7 @@ export function CoinListsSection(props: CoinListsSectionProps = {}) {
       </div>
 
       {/* Tablet + mobile slider */}
-      <div className="lg:hidden">
+      <div className="lg:hidden py-10">
         {isMounted && (
           <Slider {...sliderSettings}>
             {cards.map((card, idx) => (
@@ -124,4 +128,3 @@ export function CoinListsSection(props: CoinListsSectionProps = {}) {
     </>
   );
 }
-

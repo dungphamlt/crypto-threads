@@ -29,7 +29,7 @@ export function SubscriptionCard({ className }: SubscriptionCardProps) {
 
   return (
     <div
-      className={`rounded-xl bg-primary p-6 shadow-sm overflow-hidden relative ${
+      className={`rounded-xl bg-primary p-4 md:p-6 shadow-sm overflow-hidden relative ${
         className || ""
       }`}
     >
@@ -56,14 +56,14 @@ export function SubscriptionCard({ className }: SubscriptionCardProps) {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
-                className="w-full px-4 py-1 rounded-full border border-border bg-white text-primary  focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full rounded-full bg-white py-2 px-3 text-sm text-primary font-medium focus:ring-1 focus:ring-black focus:outline-none transition"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting || !email}
-              className="px-6 py-1 bg-white text-primary font-semibold rounded-full hover:bg-white/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-1 text-sm md:text-base bg-white text-primary font-medium  rounded-full hover:bg-white/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? "Submitting..." : "Submit"}
             </button>
@@ -120,7 +120,7 @@ export function Collaboration() {
       </p>
 
       <form className="w-full md:w-auto" onSubmit={handleSubmit}>
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex flex-col items-start gap-2">
           <input
             required
             id="footer-collab-email"
@@ -128,15 +128,15 @@ export function Collaboration() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            className="flex-1 rounded-full bg-white py-2 px-3 text-sm text-primary font-semibold focus:ring-1 focus:ring-black focus:outline-none transition"
+            className="w-full rounded-full bg-white py-2 px-3 text-sm text-primary font-medium focus:ring-1 focus:ring-black focus:outline-none transition"
           />
           {email.trim().length > 0 && (
             <button
               type="submit"
               disabled={isSubmitting || !email || !emailValid}
-              className="px-3 py-2 bg-white text-primary rounded-full dark:text-black font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer hover:bg-white/80"
+              className="px-6 py-1.5 bg-white text-primary rounded-full dark:text-black font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer hover:bg-white/80"
             >
-              {isSubmitting ? "SUBMITTING..." : "SUBMIT"}
+              {isSubmitting ? "Submitting..." : "Submit"}
             </button>
           )}
         </div>

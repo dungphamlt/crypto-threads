@@ -249,3 +249,8 @@ h5 code,
 h6 code {
   font-size: inherit !important;
 }
+
+.content-post figure[class*="image"] {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}

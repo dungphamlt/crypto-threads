@@ -14,7 +14,7 @@ export async function HotTopicSection({ limit = 3 }: HotTopicSectionProps) {
   }
 
   return (
-    <section className="space-y-6 my-20 p-8 bg-primary text-white rounded-2xl">
+    <section className="space-y-6 my-10 md:my-20 p-4 md:p-8 bg-primary text-white rounded-2xl">
       <h2 className="text-2xl font-bold uppercase text-white">HOT TOPIC</h2>
       <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post) => (

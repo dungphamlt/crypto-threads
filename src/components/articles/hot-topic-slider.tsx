@@ -22,7 +22,7 @@ export function HotTopicSlider({ posts }: HotTopicSliderProps) {
       arrows: false,
       infinite: false,
       speed: 450,
-      slidesToShow: 1.15,
+      slidesToShow: 1.4,
       slidesToScroll: 1,
       swipe: true,
       centerMode: false,
@@ -37,7 +37,7 @@ export function HotTopicSlider({ posts }: HotTopicSliderProps) {
         {
           breakpoint: 640,
           settings: {
-            slidesToShow: 1.05,
+            slidesToShow: 1.4,
           },
         },
       ],
@@ -53,7 +53,7 @@ export function HotTopicSlider({ posts }: HotTopicSliderProps) {
         <Slider {...sliderSettings}>
           {posts.map((post) => (
             <div key={post._id || post.id} className="px-2 pb-2">
-              <MainArticleCard post={post} />
+              <MainArticleCard post={post} isHotTopic={true} />
             </div>
           ))}
         </Slider>
