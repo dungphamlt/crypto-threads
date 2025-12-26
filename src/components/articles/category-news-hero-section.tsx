@@ -17,7 +17,7 @@ export function CategoryNewsHeroSection({
   console.log(category, "category");
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-      <div className="relative w-full aspect-[1/1]">
+      <div className="relative w-full aspect-[4/3] md:aspect-[1/1]">
         <Image
           src={category.imageUrl || "/default.jpg"}
           alt={category.key}
@@ -37,14 +37,13 @@ export function CategoryNewsHeroSection({
             className="flex flex-col gap-4 h-full"
           >
             {/* Image */}
-            <div className="flex-1 w-full rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+            <div className="md:flex-1 w-full relative aspect-video md:aspect-auto rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
               {featuredPost.coverUrl ? (
                 <Image
                   src={featuredPost.coverUrl}
                   alt={featuredPost.title}
-                  width={500}
-                  height={500}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 800px"
                 />
               ) : (
@@ -57,7 +56,7 @@ export function CategoryNewsHeroSection({
             {/* Content */}
             <div className="">
               {/* Title */}
-              <h2 className="text-2xl sm:text-xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors line-clamp-2">
+              <h2 className="text-lg sm:text-xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors line-clamp-2">
                 {featuredPost.title}
               </h2>
 

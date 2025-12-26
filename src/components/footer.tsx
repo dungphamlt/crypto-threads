@@ -44,7 +44,7 @@ export function Footer() {
   const resources = [
     {
       name: "Authors",
-      href: "/resources/authors",
+      href: "/our-team",
     },
     {
       name: "Studio",

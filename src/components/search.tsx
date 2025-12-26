@@ -120,7 +120,7 @@ export function Search({
       {isMobile && isInputOpen && (
         <>
           {/* Input container */}
-          <div className="fixed top-[78px] bg-white left-4 right-4 z-50 border-2 mt-2 border-primary rounded-full">
+          <div className="fixed top-[78px] bg-background left-4 right-4 z-50 border-2 mt-2 border-primary rounded-full">
             <div className="relative">
               {isLoading && (
                 <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/60 animate-spin" />
@@ -133,13 +133,13 @@ export function Search({
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => query.trim().length >= 2 && setIsOpen(true)}
                 placeholder={placeholder}
-                className="w-full px-3 text-sm text-primary rounded-full py-2 bg-background focus:outline-none"
+                className="w-full px-3 text-sm text-primary font-semibold rounded-full py-2 bg-background focus:outline-none placeholder:text-gray-600"
               />
             </div>
 
             {/* Dropdown Results for Mobile */}
             {showDropdown && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-foreground/10 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-primary/80 rounded-2xl shadow-lg max-h-96 overflow-y-auto z-50">
                 {isLoading ? (
                   <div className="p-4 text-center text-sm text-muted-foreground">
                     Searching...
@@ -158,7 +158,7 @@ export function Search({
                           alt={post.title}
                           width={100}
                           height={100}
-                          className="w-20 h-auto object-cover rounded-md"
+                          className="w-20 aspect-video object-cover rounded-md shadow-sm"
                         />
 
                         <div className="pt-1">
@@ -199,33 +199,36 @@ export function Search({
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => query.trim().length >= 2 && setIsOpen(true)}
             placeholder={placeholder}
-            className="w-full px-4 text-sm rounded-full py-1.5 bg-white border border-foreground/10 focus:outline-none focus:ring-1 focus:ring-foreground/20"
+            className="w-full px-4 text-sm rounded-full py-1.5 bg-white text-primary font-semibold placeholder:font-medium placeholder:text-gray-400 border border-foreground/10 focus:outline-none focus:ring-1 focus:ring-foreground/20"
           />
         </div>
       )}
 
       {/* Dropdown Results for Desktop */}
       {!isMobile && showDropdown && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-foreground/10 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-primary/80 rounded-2xl shadow-lg z-50 max-h-96 overflow-y-auto">
           {isLoading ? (
             <div className="p-4 text-center text-sm text-muted-foreground">
               Searching...
             </div>
           ) : posts.length > 0 ? (
-            <div className="py-2">
-              {posts.map((post) => (
+            <div className="py-2 px-4">
+              {posts.map((post, index) => (
                 <Link
                   key={post.id}
                   href={`/article/${post.slug}`}
                   onClick={handleSelectPost}
-                  className="flex gap-2 px-4 py-2 text-foreground hover:text-primary transition-colors cursor-pointer"
+                  className={cn(
+                    "flex gap-2 py-4 border-b-[0.5px] border-foreground/10 text-foreground hover:text-primary transition-colors cursor-pointer",
+                    index === posts.length - 1 && "border-b-0"
+                  )}
                 >
                   <Image
                     src={post.coverUrl ?? ""}
                     alt={post.title}
                     width={100}
                     height={100}
-                    className="w-32 h-auto object-cover rounded-md"
+                    className="w-32 aspect-video object-cover rounded-md shadow-sm"
                   />
 
                   <div className="pt-1">

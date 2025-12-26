@@ -28,7 +28,7 @@ export function MainArticleCard({
               src={post.coverUrl}
               alt={post.title}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              className="object-cover group-hover:scale-105 transition-transform duration-300 shadow-sm"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 800px"
             />
           ) : (
@@ -46,7 +46,7 @@ export function MainArticleCard({
               isHotTopic
                 ? "text-white group-hover:text-black"
                 : "text-foreground group-hover:text-primary"
-            } mb-4  transition-colors line-clamp-2`}
+            } mb-1 md:mb-4  transition-colors line-clamp-2`}
           >
             {post.title}
           </h2>

@@ -278,5 +278,5 @@ export default function CoinSlider() {
     );
   };
 
-  return <div className="mt-2 md:mt-18">{renderContent()}</div>;
+  return <div className="mt-2 md:mt-16">{renderContent()}</div>;
 }

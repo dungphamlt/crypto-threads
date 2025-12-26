@@ -7,10 +7,12 @@ import type { Post } from "@/types";
 
 interface ArticleListWithSidebarClientProps {
   posts: Post[];
+  categoryPosts?: Post[];
 }
 
 export function ArticleListWithSidebarClient({
   posts,
+  categoryPosts = [],
 }: ArticleListWithSidebarClientProps) {
   const [visibleCountMobile, setVisibleCountMobile] = useState(6);
   const [visibleCountDesktop, setVisibleCountDesktop] = useState(6);
@@ -19,16 +21,22 @@ export function ArticleListWithSidebarClient({
     return null;
   }
 
+  const isCategoryPage = categoryPosts.length > 0;
+
   // Mobile: posts from index 0
-  const mobilePosts = posts.slice(0, visibleCountMobile);
+  const mobilePosts = isCategoryPage
+    ? categoryPosts.slice(0, visibleCountMobile)
+    : posts.slice(0, visibleCountMobile);
   const canLoadMoreMobile = visibleCountMobile < posts.length;
 
   // Desktop: posts from index 2
   const desktopStartIndex = 2;
-  const desktopPosts = posts.slice(
-    desktopStartIndex,
-    desktopStartIndex + visibleCountDesktop
-  );
+  const desktopPosts = isCategoryPage
+    ? categoryPosts.slice(
+        desktopStartIndex,
+        desktopStartIndex + visibleCountDesktop
+      )
+    : posts.slice(desktopStartIndex, desktopStartIndex + visibleCountDesktop);
   const canLoadMoreDesktop =
     desktopStartIndex + visibleCountDesktop < posts.length;
 
@@ -44,14 +52,27 @@ export function ArticleListWithSidebarClient({
     <section className="my-12">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
         <div className="space-y-6 hidden md:block">
-          {posts.slice(0, 2).map((post) => (
-            <ArticleListItem
-              key={post.id}
-              post={post}
-              isShowExcerpt={true}
-              isHotTopic={true}
-            />
-          ))}
+          {isCategoryPage
+            ? categoryPosts
+                .slice(0, 2)
+                .map((post) => (
+                  <ArticleListItem
+                    key={post.id}
+                    post={post}
+                    isShowExcerpt={true}
+                    isHotTopic={true}
+                  />
+                ))
+            : posts
+                .slice(0, 2)
+                .map((post) => (
+                  <ArticleListItem
+                    key={post.id}
+                    post={post}
+                    isShowExcerpt={true}
+                    isHotTopic={true}
+                  />
+                ))}
         </div>
         <SubscriptionCard />
       </div>
