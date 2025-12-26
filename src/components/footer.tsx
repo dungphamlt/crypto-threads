@@ -77,7 +77,7 @@ export function Footer() {
               />
             </Link>
             <div className="hidden md:block text-sm font-medium">
-              Copyright © {year} THE20. All rights reserved.
+              © {year} by Crypto Threads.
             </div>
           </div>
           <div className="flex flex-col md:flex-row md:justify-between">
@@ -163,7 +163,7 @@ export function Footer() {
             </div>
           </div>
           <div className="text-center md:text-left block md:hidden text-sm md:text-base">
-            Copyright © {year} THE20. All rights reserved.
+            © {year} by Crypto Threads.
           </div>
         </div>
       </footer>

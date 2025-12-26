@@ -17,10 +17,7 @@ export function CategoryArticleCard({
   const publishDate = post.publishTime || post.createdAt;
 
   return (
-    <Link
-      href={href}
-      className="flex flex-col gap-4 group overflow-hidden"
-    >
+    <Link href={href} className="flex flex-col gap-4 group overflow-hidden">
       <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800">
         {post.coverUrl ? (
           <Image
@@ -38,14 +35,14 @@ export function CategoryArticleCard({
       </div>
 
       <div className="space-y-2">
-        <h3 className="text-base font-semibold mb-4 text-foreground group-hover:text-primary line-clamp-2">
+        <h3 className="text-base font-semibold mb-2 text-foreground group-hover:text-primary line-clamp-2 min-h-[42px] md:min-h-[48px]">
           {post.title}
         </h3>
-        <ArticleMeta 
-          author={post.creator?.penName} 
+        <ArticleMeta
+          author={post.creator?.penName}
           avatarUrl={post.creator?.avatarUrl}
           authorId={post.creator?.id}
-          date={publishDate} 
+          date={publishDate}
         />
       </div>
     </Link>
@@ -81,5 +78,3 @@ export function CategoryArticleListItem({
     </Link>
   );
 }
-
-

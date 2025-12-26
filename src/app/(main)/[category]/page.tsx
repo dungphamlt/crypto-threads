@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { categoryService, Category } from "@/services/categories-service";
 import { Post } from "@/types";
 import { ArticleListWithSidebar } from "@/components/articles/article-list-with-sidebar";
+import { BtnGoToTop } from "@/components/btn-go-to-top";
 // import Image from "next/image";
 
 export default async function CategoryPage({
@@ -53,6 +54,7 @@ export default async function CategoryPage({
         </section>
       </main>
       <Footer />
+      <BtnGoToTop />
     </>
   );
 }

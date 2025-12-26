@@ -119,7 +119,7 @@ export function TableContent({ content, className }: TableContentProps) {
         </h3>
         <ul
           role="list"
-          className="list-disc space-y-1 max-h-[60vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent"
+          className="list-disc space-y-1 max-h-[35vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent"
         >
           {toc.map((item) => (
             <li key={item.id} className="ml-4 py-1">

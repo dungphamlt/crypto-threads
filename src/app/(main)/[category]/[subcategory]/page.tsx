@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { categoryService, SubCategory } from "@/services/categories-service";
 import { Post } from "@/types";
 import { ArticleListWithSidebar } from "@/components/articles/article-list-with-sidebar";
+import { BtnGoToTop } from "@/components/btn-go-to-top";
 
 export default async function SubcategoryPage({
   params,
@@ -66,6 +67,7 @@ export default async function SubcategoryPage({
         </section>
       </main>
       <Footer />
+      <BtnGoToTop />
     </>
   );
 }

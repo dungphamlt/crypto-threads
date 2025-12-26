@@ -205,7 +205,7 @@ const Navbar = () => {
 
   return (
     <nav className="container mt-4" ref={navbarRef}>
-      <div className="flex gap-4 justify-between items-center bg-primary py-3 px-4 md:px-6 rounded-full">
+      <div className="flex gap-4 justify-between items-center bg-primary py-3 px-4 rounded-full">
         {/* Mobile menu button */}
         <button
           className="md:hidden cursor-pointer hover:scale-105 transition-transform duration-300 pr-8"
@@ -220,7 +220,7 @@ const Navbar = () => {
           <Image
             src={LogoWhite}
             alt="Logo"
-            className="w-28 md:w-32 h-auto"
+            className="w-28 md:w-36 h-auto object-contain"
             width={128}
             height={64}
           />
@@ -521,7 +521,7 @@ const Navbar = () => {
         <div className="hidden md:flex relative" ref={loginDropdownRef}>
           <button
             onClick={toggleLoginDropdown}
-            className="flex items-center justify-center rounded-full p-2 bg-primary transition-transform duration-300 cursor-pointer hover:scale-105"
+            className="flex items-center justify-center rounded-full bg-primary transition-transform duration-300 cursor-pointer hover:scale-105"
             aria-label="Settings"
             aria-expanded={isLoginDropdownOpen}
           >

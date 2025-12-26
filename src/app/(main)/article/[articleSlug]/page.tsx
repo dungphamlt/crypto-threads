@@ -115,7 +115,7 @@ export default async function Page({
             <ShareSocials />
           </article>
           <div className="md:col-span-1 hidden md:block">
-            <div className="sticky top-20 space-y-10">
+            <div className="sticky top-8 space-y-6">
               <TableContent content={post.content} />
               <ArticleSidebar />
             </div>

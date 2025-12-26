@@ -104,8 +104,8 @@ export function ShareSocials({ url }: ShareSocialsProps) {
   };
 
   return (
-    <div className="absolute top-60 bottom-0 left-[-60px]">
-      <div className="flex flex-col items-center gap-2 sticky top-20">
+    <div className="absolute top-40 bottom-0 left-[-60px]">
+      <div className="flex flex-col items-center gap-2 sticky top-8">
         {socials.map((social) => (
           <button
             key={social.name}

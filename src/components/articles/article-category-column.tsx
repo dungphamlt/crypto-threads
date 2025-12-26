@@ -32,7 +32,7 @@ export function ArticleCategoryColumnContent({
           <h3 className="text-lg font-bold">{title}</h3>
           <Link
             href={viewMoreHref}
-            className="text-xs font-medium text-blue-500 hover:underline"
+            className="text-xs font-medium text-primary hover:underline"
           >
             View more
           </Link>
@@ -52,14 +52,17 @@ export function ArticleCategoryColumnContent({
         <h3 className="text-lg font-bold">{title}</h3>
         <Link
           href={viewMoreHref}
-          className="text-xs font-medium text-blue-500 hover:underline"
+          className="text-xs font-semibold text-primary hover:underline"
         >
           View more
         </Link>
       </div>
 
       {featured && (
-        <CategoryArticleCard post={featured as Post} href={`/article/${featured.slug}`} />
+        <CategoryArticleCard
+          post={featured as Post}
+          href={`/article/${featured.slug}`}
+        />
       )}
 
       {featured && rest.length > 0 && <SimpleLine />}
@@ -92,4 +95,3 @@ export async function ArticleCategoryColumn({
     />
   );
 }
-
