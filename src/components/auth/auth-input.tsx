@@ -35,7 +35,9 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
           <input
             ref={ref}
             {...props}
-            className={`block w-full rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:border-transparent py-3 ${leftIcon ? "pl-10" : "pl-3"} ${rightElement ? "pr-10" : "pr-3"} ${className}`}
+            className={`block w-full rounded-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:border-transparent py-2 ${
+              leftIcon ? "pl-10" : "pl-3"
+            } ${rightElement ? "pr-10" : "pr-3"} ${className}`}
           />
           {rightElement && (
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -49,4 +51,3 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
 );
 
 AuthInput.displayName = "AuthInput";
-

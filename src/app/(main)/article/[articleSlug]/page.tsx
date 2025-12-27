@@ -30,6 +30,11 @@ export default async function Page({
     title: `${post.title} - Crypto Threads`,
     description: post.metaDescription,
     images: post.coverUrl,
+    openGraph: {
+      title: `${post.title} - Crypto Threads`,
+      description: post.metaDescription,
+      images: post.coverUrl,
+    },
   };
   return (
     <>

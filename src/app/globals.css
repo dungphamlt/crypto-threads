@@ -113,6 +113,9 @@
   .center-center {
     @apply flex items-center justify-center text-center;
   }
+  button {
+    @apply cursor-pointer;
+  }
 }
 
 strong {

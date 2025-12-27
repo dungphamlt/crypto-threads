@@ -2,11 +2,11 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-// import Header from "@/components/header";
-// import { Footer } from "@/components/footer";
 import { OTPInput } from "@/components/auth";
 import authService from "@/services/auth-service";
 import Link from "next/link";
+import Image from "next/image";
+import bgLogin from "@/assets/images/bg-login.svg";
 
 function VerifyOTPContent() {
   const router = useRouter();
@@ -91,98 +91,138 @@ function VerifyOTPContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
-      <main className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                Create Account
-              </h1>
-              <p className="text-gray-600 dark:text-gray-400">
-                Please input the OTP sent to your email
-              </p>
+    <div className="relative">
+      <div className="absolute top-0 bottom-0 left-0 w-1/2 z-0 bg-primary"></div>
+      <main className="container min-h-screen flex items-center justify-center">
+        <div className="grid grid-cols-2 w-full">
+          <div className="flex justify-center">
+            <div className="w-2/3 aspect-square relative">
+              <Image
+                src={bgLogin}
+                alt="Background Login"
+                fill
+                className="w-full h-full object-top"
+              />
             </div>
+          </div>
 
-            <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 text-left">
-                  Enter your OTP
-                </label>
-                <OTPInput
-                  length={6}
-                  onComplete={(value) => {
-                    // nếu component OTPInput gọi onComplete khi đầy
-                    handleOTPComplete(value);
-                  }}
-                />
-              </div>
-
-              {error && (
-                <div className="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg">
-                  {error}
-                </div>
-              )}
-
-              {verifiedSuccess && (
-                <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-900/20 dark:text-green-400 rounded-lg">
-                  Account created successfully! Redirecting...
-                </div>
-              )}
-
-              {resendSuccess && !verifiedSuccess && (
-                <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-900/20 dark:text-green-400 rounded-lg">
-                  OTP sent successfully!
-                </div>
-              )}
-
-              <div className="text-left">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Didn&apos;t receive the email?{" "}
-                  <button
-                    onClick={handleResend}
-                    disabled={isResending}
-                    className="text-gray-900 dark:text-gray-200 font-medium hover:underline disabled:opacity-50"
-                  >
-                    {isResending ? "Sending..." : "Click to resend code"}
-                  </button>
+          <div className="flex items-center justify-center px-4">
+            <div className="relative w-2/3">
+              <div className="text-center mb-6">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  Create Account
+                </h1>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Please input the OTP sent to your email
                 </p>
               </div>
 
-              <button
-                onClick={() => handleOTPComplete(otp)}
-                disabled={otp.length !== 6 || isLoading}
-                className="w-full py-3 px-4 bg-gray-900 dark:bg-gray-700 text-white rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {isLoading ? "Verifying..." : "Create Account"}
-              </button>
-
-              <div className="text-center">
-                <Link
-                  href="/auth?type=register"
-                  className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-                >
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              <div className="mt-6 max-h-[70vh] overflow-visible">
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 text-left">
+                      Enter your OTP
+                    </label>
+                    <OTPInput
+                      length={6}
+                      onComplete={(value) => {
+                        handleOTPComplete(value);
+                      }}
                     />
-                  </svg>
-                  Back
-                </Link>
+                  </div>
+
+                  {error && (
+                    <div className="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg">
+                      {error}
+                    </div>
+                  )}
+
+                  {verifiedSuccess && (
+                    <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-900/20 dark:text-green-400 rounded-lg">
+                      Account created successfully! Redirecting...
+                    </div>
+                  )}
+
+                  {resendSuccess && !verifiedSuccess && (
+                    <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-900/20 dark:text-green-400 rounded-lg">
+                      OTP sent successfully!
+                    </div>
+                  )}
+
+                  <div className="text-left">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Didn&apos;t receive the email?{" "}
+                      <button
+                        onClick={handleResend}
+                        disabled={isResending}
+                        className="text-gray-900 dark:text-gray-200 font-medium hover:underline disabled:opacity-50"
+                      >
+                        {isResending ? "Sending..." : "Click to resend code"}
+                      </button>
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => handleOTPComplete(otp)}
+                    disabled={otp.length !== 6 || isLoading}
+                    className="w-full py-3 px-4 bg-gray-900 dark:bg-gray-700 text-white rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {isLoading ? "Verifying..." : "Create Account"}
+                  </button>
+
+                  <div className="text-center">
+                    <Link
+                      href="/auth?type=register"
+                      className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                    >
+                      <svg
+                        className="w-4 h-4 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                        />
+                      </svg>
+                      Back
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div className="fixed top-4 w-full z-50">
+          <div className="container">
+            <Link
+              href="/auth?type=register"
+              className="inline-flex items-center justify-center gap-2 text-sm font-medium text-white dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+              aria-label="Back to register"
+            >
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 dark:border-gray-700 bg-white/70 dark:bg-gray-800/70 shadow-sm">
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </span>
+              <span className="hidden md:inline">Back to register</span>
+            </Link>
+          </div>
+        </div>
       </main>
-      {/* <Footer /> */}
     </div>
   );
 }
